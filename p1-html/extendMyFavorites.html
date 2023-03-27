@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Easy Chef Favorites</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm justify-content-between shadow-sm fixed-top bg-white">
+            <div class="container">
+                <a href="index.html"><img class="img-fluid logo-img" src="images/logo-easy-chef.jpg" alt="logo"></a>
+            
+                <div class="d-flex">
+                    <ul class="nav">
+                        <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="myRecipe.html">My recipes</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="addRecipe.html">Add recipe</a>
+                        </li>
+                        <li>
+                            <form class="d-flex ms-3 me-3" action="https://ibs.utm.utoronto.ca/csc309/a1/submit" method="get" target="_self">
+                                <input class="form-control me-2" type="text" placeholder="Search">
+                                <button class="btn btn-brown" type="button">Search</button>
+                            </form>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-circle-user"></i></a>
+                            <ul class="dropdown-menu position-absolute ">
+                            <li><a class="dropdown-item" href="editProfile.html">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="shoppingList.html">Shopping List</a></li>
+                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>                
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container container-1400 container-min-1000 mt-8">
+        <div class="extendheader mb-3">
+            <h1>My Favorites</h1>
+        </div>
+
+        <div class="d-flex flex-row">
+            <div class="sidebar card justify-content-center shadow-sm">
+                <form class="form-horizontal">
+                    <div class="mt-5 ms-4">
+                        <h2><b>Diet Options</b></h2>
+                        <input class="form-control" type="text" list="dietOptions" id="diet" placeholder="Find a diet">
+                        <datalist id="dietOptions">
+                            <option>Vegan</option>
+                            <option>Vegetarian</option>
+                            <option>Gluten-Free</option>
+                            <option>Low-Carb</option>
+                            <option>Keto</option>
+                            <option>Low-Fat</option>
+                            <option>Reduced Sugar</option>
+                            <option>Lactose-Free</option>
+                        </datalist>
+                    </div>
+                    
+                    <div class="mt-3 ms-4">
+                        <h2><b>Cuisine Options</b></h2>
+                        <input class="form-control" type="text" list="cuisineOptions" id="cuisine" placeholder="Pick a cuisine">
+                        <datalist id="cuisineOptions">
+                            <option>Chinese</option>
+                            <option>Creole</option>
+                            <option>Filipino</option>
+                            <option>French</option>
+                            <option>Indian</option>
+                            <option>Japanese</option>
+                            <option>Korean</option>
+                            <option>Thai</option>
+                            <option>Viet</option>
+                            <option>Western</option>
+                        </datalist>
+                    </div>
+                    
+                    <div class="mt-3 ms-4">
+                        <h2><b>Cooking Time</b></h2>
+                        <select class="form-select-sm">
+                            <option selected>Select a cooking time</option>
+                            <option>15 minutes or less</option>
+                            <option>15-30 minutes</option>
+                            <option>30-60 minutes</option>
+                            <option>Over 60 minutes</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-3 ms-4">
+                        <h2><b>Search Recipe</b></h2>
+                        <input type="text" class="form-control" name="searchBar" id="searchBar" placeholder="Search...">
+                    </div>
+                    <div class="text-center mt-5">
+                        <button class="btn btn-blue" formaction="extendMyFavorites.html">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="d-flex flex-row flex-wrap gap-3">
+                <div class="card infocard bg-white text-black">
+                    <img class="card-img" src="images/fajita.png" alt="fajita">
+                    <div class="card-body hidedetails">
+                        <div class="card-title">Chicken Fajita Rice Casserole</div>
+                        <div class="d-flex mb-2">
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-regular fa-star me-1"></i>
+                            <p class="mt-auto mb-auto">4.5</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="button" class="btn-sm btn-outline-brown px-3" onclick="window.location='recipe2.html'">View</button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn-sm btn-outline-brown px-3">Edit</button>
+                                <button type="button" class="btn-sm btn-outline-brown">Delete</button>
+                            </div>
+                        </div>
+                        <div class="card recipecard mt-2 p-3 bg-light-brown">
+                            <ul class="list-unstyled mb-0 lh-lg">
+                                <li><span class="fw-bold">Diet:</span> N/A</li>
+                                <li><span class="fw-bold">Cuisine:</span> Mexican</li>
+                                <li><span class="fw-bold">Cooking time:</span> 45 minutes</li>
+                                <li><span class="fw-bold">Servings: </span>8</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card infocard bg-white text-black">
+                    <img class="card-img" src="images/kebab.png" alt="kebab">
+                    <div class="card-body hidedetails">
+                        <div class="card-title">Indian-Style Seekh Kebab</div>
+                        <div class="d-flex mb-2">
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-solid fa-star"></i>
+                            <i class="mt-auto mb-auto fa-regular fa-star me-1"></i>
+                            <p class="mt-auto mb-auto">4.5</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="button" class="btn-sm btn-outline-brown px-3">View</button>
+                            </div>
+                        </div>
+                        <div class="card recipecard mt-2 p-3 bg-light-brown">
+                            <ul class="list-unstyled mb-0 lh-lg">
+                                <li><span class="fw-bold">Diet:</span> N/A</li>
+                                <li><span class="fw-bold">Cuisine:</span> Indian</li>
+                                <li><span class="fw-bold">Cooking time:</span> 10 minutes</li>
+                                <li><span class="fw-bold">Servings: </span>8</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- added div for spacing -->
+    <div class="mt-3 p-5"></div>
+
+    <footer class="mt-5 p-2 d-flex flex-column-reverse" id="homepageFooter">
+        <p class="container m-0">copyrights@ UTM CSC309 Group 196</p>
+    </footer>
+
+    <!-- script links -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/4e36e43021.js" crossorigin="anonymous"></script>
+</body>
+
+
+
+</html>

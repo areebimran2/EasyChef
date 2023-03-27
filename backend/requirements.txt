@@ -1,0 +1,11 @@
+Django==4.1.7
+djangorestframework==3.14.0
+pytz==2022.7.1
+sqlparse==0.4.3
+Pillow==9.4.0
+django-filter==22.1
+django-ckeditor==6.5.1
+djangorestframework-simplejwt==5.2.2
+django-phonenumber-field==7.0.2
+django-phonenumbers==1.0.1
+django-multiselectfield==0.1.12

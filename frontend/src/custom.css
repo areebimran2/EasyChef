@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500&display=swap');
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+/*     
+color:#6E3C1C; #C86F34*/
+
+*{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.container-1000{
+    max-width: 1000px;
+}
+
+.container-1400{
+    max-width: 1400px;
+}
+
+.container-min-1000 {
+    min-width: 1000px;
+}
+
+footer{
+    background-color: #6E3C1C;
+    height: 4rem;
+    color: white;
+    align-items:flex-end;
+    font-size: 0.8rem;
+}
+.mt-8{
+    margin-top: 8rem;
+}
+.bg-light-brown{
+    background-color: #C86F3430;
+}
+/* <a> */
+a{
+    color: #6E3C1C;
+    text-decoration: none;
+}
+a:hover{
+    color: #C86F34;
+}
+/* button brown */
+.btn-brown{
+    background-color: #6E3C1C;
+    color: white;
+}
+.btn-brown:hover{
+    background-color: #A06026;
+    color: white;
+}
+.btn-outline-brown{
+    background-color: white;
+    color: #6E3C1C;
+    border-color: #6E3C1C;
+}
+.btn-outline-brown:hover{
+    color: white;
+    background-color: #6E3C1C;
+}
+
+/*My recipes, favorites, and recipe history carousel scrolling*/
+.carousel-control-prev, .carousel-control-next {
+    background-color: #6E3C1C;
+    width: 6%;
+    height: 18%;
+    top: calc(50% - 25px);
+    border-radius: 50%
+}
+
+.card.infocard {
+    width: 19.6rem;
+    max-height: 19.6rem;
+    overflow: hidden;
+}
+
+.card.listcard {
+    width: 19.6rem;
+}
+
+.carousel-item .card.recipecard {
+    width: auto;
+}
+
+.hidedetails.card-body {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.card.infocard .btn-sm {
+    opacity: 0;
+}
+
+.card.infocard:hover .card-body{
+    bottom: 65%;
+    background-color: white;
+}
+
+.card.infocard:hover .btn-sm {
+    opacity: 1;
+}
+
+.carousel-control-prev {
+    left: 2%;
+}
+
+.carousel-control-next {
+    right: 2%;
+}
+
+.card.infocard .card-img, .card.listcard .card-img {
+    max-height: 14rem;
+}
+
+
+/* NAVIGATION BAR */
+.logo-img{
+    width: 10rem;
+}
+
+a.nav-link.active, a.nav-link.active:visited{
+    color: #C86F34;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+.nav .nav-item a.nav-link:hover{
+    color: #C86F34;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+
+nav ul li a.nav-link:link, a.nav-link:visited{
+    color:#6E3C1C;
+}
+nav .form-control{
+    width: 100%; 
+}
+ul.dropdown-menu[data-bs-popper]{
+    top: initial;
+    left: initial;
+}
+.fa-circle-user{
+    font-size: 1.5rem;
+}
+/*-------------------------- */
+/* form control- for input box */
+.form-control{
+    width: initial;
+}
+
+.w-80px{
+    width: 80px;
+}
+
+/* ratings icon */
+.fa-star{
+    color: #ffde06;
+}
+.fa-star.fa-solid{
+    color:#ffde06;
+}
+
+/*------------------------- */
+/*Custom Edit Profile styles*/
+.btn-blue{
+    background-color: teal;
+    color: whitesmoke;
+}
+
+.btn-blue:hover{
+    background-color: lightskyblue;
+    color: white;
+}
+
+
+.container-800{
+    max-width: 800px;
+}
+
+/*Form-making tutorial: https://www.youtube.com/watch?v=okbByPWS1Xc*/
+.container-800 .user-edit{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.input{
+    width: calc(100% / 2 - 40px);
+}
+
+.user-edit input{
+    width: 100%;
+}
+
+.avatar > .fa-circle-user{
+    font-size: 8rem;
+}
+
+/* Shopping list carousel */
+.sizeinput {
+    height: 2rem;
+    width: 4.5rem;
+}
+
+.fa-solid.fa-xmark {
+    color: #6E3C1C;
+}
+
+.btn.closebtn:hover .fa-solid.fa-xmark {
+    color: white;
+}
+
+.btn.closebtn {
+    border-radius: 50%;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.shoppingcarousel {
+    top: calc(50% - 35px);
+}
+
+/*SEARCH Styles*/
+
+.sidebar{
+    position: sticky;
+    min-width: 300px;
+    top: 4.5rem;
+    left: auto;
+    height: 78%;
+    width: 300px;
+    background-color: lightblue;
+    
+    z-index: 0;
+    margin-right: 5rem;
+    padding-bottom: 3rem;
+}
+
+.extendheader {
+    margin-left: 23.7rem;
+}
+
+/*Home Page Styles*/
+
+/*Slides at top of homepage made with help
+from tutorial: https://www.youtube.com/watch?v=ku_97a6Bgkg*/
+#hs > .carousel-item{
+    height: 85vh;
+    background: #deb887;
+    color: white;
+}
+
+#hs > .carousel-item > .container{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 75px;
+}
+
+.overlay-image{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.55;
+}
+a.header-link{
+    color: #6E3C1C;
+    text-decoration: none;
+}
+.card-custom .card-body{
+    color: initial;
+    text-decoration: none !important;
+}
+
+.card-custom:hover{
+    box-sizing: border-box;
+    text-decoration: underline;
+    box-shadow: 0 0 5px 5px #efefef;
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Easy Chef Shopping List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm justify-content-between shadow-sm fixed-top bg-white">
+            <div class="container">
+                <a href="index.html"><img class="img-fluid logo-img" src="images/logo-easy-chef.jpg" alt="logo"></a>
+            
+                <div class="d-flex">
+                    <ul class="nav">
+                        <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="myRecipe.html">My recipes</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="addRecipe.html">Add recipe</a>
+                        </li>
+                        <li>
+                            <form class="d-flex ms-3 me-3" action="https://ibs.utm.utoronto.ca/csc309/a1/submit" method="get" target="_self">
+                                <input class="form-control me-2" type="text" placeholder="Search">
+                                <button class="btn btn-brown" type="button">Search</button>
+                            </form>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-circle-user"></i></a>
+                            <ul class="dropdown-menu position-absolute ">
+                            <li><a class="dropdown-item" href="editProfile.html">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="shoppingList.html">Shopping List</a></li>
+                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>                
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container container-1000 container-min-1000 mt-8">
+        <div class="d-flex justify-content-between mb-2">
+            <h1>My Shopping List</h1>
+        </div>
+        <div id="shoppinglist" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="d-flex flex-row flex-nowrap justify-content-start gap-3">
+                        <div class="card listcard bg-white text-black">
+                            <button type="button" class="closebtn btn btn-lg btn-outline-brown">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <img class="card-img" src="images/pancake.jpg" alt="pancake">
+                            <div class="card-body">
+                                <div class="card-title">Vegan Pumpkin Pancake</div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="recipe.html"><button type="button"
+                                                class="btn-sm btn-outline-brown px-3">View</button></a>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <label for="servings" class="mx-2">Servings</label>
+                                        <input class="form-control sizeinput" type="text" id="servings" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card listcard bg-white text-black">
+                            <button type="button" class="closebtn btn btn-lg btn-outline-brown">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <img class="card-img" src="images/fajita.png" alt="fajita">
+                            <div class="card-body">
+                                <div class="card-title">Chicken Fajita Rice Casserole</div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="recipe2.html"><button type="button"
+                                                class="btn-sm btn-outline-brown px-3">View</button></a>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <label for="servings" class="mx-2">Servings</label>
+                                        <input class="form-control sizeinput" type="text" id="servings" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card listcard bg-white text-black">
+                            <button type="button" class="closebtn btn btn-lg btn-outline-brown">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <img class="card-img" src="images/lasagna.png" alt="lasagna">
+                            <div class="card-body">
+                                <div class="card-title">Keto Lasagna</div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="recipe3.html"><button type="button"
+                                                class="btn-sm btn-outline-brown px-3">View</button></a>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <label for="servings" class="mx-2">Servings</label>
+                                        <input class="form-control sizeinput" type="text" id="servings" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex flex-row flex-nowrap justify-content-md-start gap-3">
+                        <div class="card listcard bg-white text-black">
+                            <button type="button" class="closebtn btn btn-lg btn-outline-brown">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <img class="card-img" src="images/kebab.png" alt="kebab">
+                            <div class="card-body">
+                                <div class="card-title">Indian-Style Seekh Kebab</div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="recipe.html"><button type="button"
+                                                class="btn-sm btn-outline-brown px-3">View</button></a>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <label for="servings" class="mx-2">Servings</label>
+                                        <input class="form-control sizeinput" type="text" id="servings" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev shoppingcarousel" type="button" data-bs-target="#shoppinglist" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next shoppingcarousel" type="button" data-bs-target="#shoppinglist" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="mt-5">
+            <h2 class="mb-4">To buy:</h2>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 cups of almond milk
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons distilled white vinegar
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons flaxseed meal
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 cups all-purpose flour
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons coconut sugar
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 tablespoon baking powder
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 tablespoon ground cinnamon
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 teaspoons baking soda
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ teaspoon salt
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 cup pumpkin puree
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons coconut oil
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ¼ cup toasted chopped pecans
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 pound lean ground beef
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ teaspoon ground black pepper
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 tablespoon avocado oil
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ cup minced onion
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 teaspoon minced garlic
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ cups marinara sauce
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ cup ricotta cheese, drained
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ cup shredded Parmesan cheese
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ cups shredded mozzarella cheese
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 large egg
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ¼ cups long-grain white rice
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ cup fresh cilantro leaves
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 limes
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ pounds boneless, skinless chicken breasts
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 small bell peppers
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 large red onion
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons fajita seasoning
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    2 tablespoons olive oil
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ teaspoons kosher salt
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    ½ teaspoon ground black pepper
+                </div>
+                <div class="d-flex col-4">
+                    <button type="button" class="btn-close mx-2" aria-label="Close"></button>
+                    1 ½ cups chicken broth
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 p-2 d-flex flex-column-reverse" id="homepageFooter">
+        <p class="container m-0">copyrights@ UTM CSC309 Group 196</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/4e36e43021.js" crossorigin="anonymous"></script>
+</body>
+</html>
