@@ -3,7 +3,7 @@ import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './logo-easy-chef.jpg';
 import Search from '../search';
-import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class Navbar extends React.Component {
   render (){
@@ -15,14 +15,13 @@ class Navbar extends React.Component {
             <div className="d-flex">
                 <ul className="nav">
                     <li className="nav-item">
-                    <a className="nav-link" href="index.html">Home</a>
+                    <Link to="/" className='nav-link'>Home</Link>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link" href="myRecipe.html">My recipes</a>
+                    <Link to="/myRecipes" className='nav-link'>My Recipes</Link>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link" href="/addRecipe">Add recipe</a>
-                    {/* <Link to="/addRecipe">Add Recipe</Link> */}
+                    <Link to="/addRecipe" className='nav-link'>Add Recipe</Link>
                     </li>
                     <li>
                         <Search/>
@@ -31,9 +30,9 @@ class Navbar extends React.Component {
                     <li className="nav-item">
                         <a className="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown"><i className="fa-solid fa-circle-user"></i></a>
                         <ul className="dropdown-menu position-absolute ">
-                        <li><a className="dropdown-item" href="editProfile.html">Edit Profile</a></li>
-                        <li><a className="dropdown-item" href="shoppingList.html">Shopping List</a></li>
-                        <li><a className="dropdown-item" href="#">Log out</a></li>
+                          <li><Link to="/profile" className='dropdown-item'>Profile</Link></li>
+                          <li><Link to="/shoppinglist" className='dropdown-item'>Shopping List</Link></li>
+                          <li><Link to="/logout" className='dropdown-item'>Log out</Link></li>
                         </ul>
                     </li>
                 </ul>                
