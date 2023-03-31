@@ -1,12 +1,12 @@
-import '../custom.css'
+import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 
-function AddRecipe() {
+function MyRecipes() {
     return (
       <>
       </>   
     );
   }
   
-  export default AddRecipe;
+  export default MyRecipes;
   

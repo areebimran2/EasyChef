@@ -40,7 +40,7 @@ class Recipe(models.Model):
         CHINESE = 'CN', _('Chinese')
         CREOLE = 'CR', _('Creole')
         FRENCH = 'FR', _('French')
-        INDIAN = 'GR', _('Indian')
+        INDIAN = 'IN', _('Indian')
         ITALIAN = 'IT', _('Italian')
         JAPANESE = 'JP', _('Japanese')
         KOREAN = 'KO', _('Korean')

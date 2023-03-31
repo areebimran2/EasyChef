@@ -4,13 +4,14 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import './logo-easy-chef.jpg';
 import Search from '../search';
 import { Link } from "react-router-dom";
+import logo from './logo-easy-chef.jpg'; 
 
 class Navbar extends React.Component {
   render (){
     return (
       <nav className="navbar navbar-expand-sm justify-content-between shadow-sm fixed-top bg-white">
         <div className="container">
-            <a href="index.html"><img className="img-fluid logo-img" src='./logo-easy-chef.jpg' alt="logo"/></a>
+          <Link to="/"><img className="img-fluid logo-img" src={logo} alt="logo"/></Link>
         
             <div className="d-flex">
                 <ul className="nav">

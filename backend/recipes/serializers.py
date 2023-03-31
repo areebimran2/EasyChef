@@ -47,7 +47,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time', 'prep_time', 'serving_size', 'ingredients_list',
-                  'base_recipe', 'creator', 'picture']
+                  'base_recipe', 'creator', 'picture', 'num_likes', 'num_fav', 'ave_rating']
 
     def create(self, validated_data):
         """
@@ -100,7 +100,7 @@ class EditRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time',
+        fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time','prep_time',
                   'serving_size', 'ingredients', 'ingredients_list', 'picture']
 
     def update(self, instance, validated_data):

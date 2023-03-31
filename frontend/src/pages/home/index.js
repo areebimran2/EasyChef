@@ -1,12 +1,11 @@
-import '../custom.css'
+import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 
-function ShoppingList() {
+function Home() {
     return (
       <>
       </>   
     );
   }
   
-  export default ShoppingList;
-  
+  export default Home;
