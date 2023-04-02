@@ -6,8 +6,8 @@ const Layout = () => {
         <>
             <Navbar/>
             <Outlet/>
-            <footer class="mt-5 p-2 d-flex flex-column-reverse" id="homepageFooter">
-                <p class="container m-0">copyrights@ UTM CSC309 Group 196</p>
+            <footer className="mt-5 p-2 d-flex flex-column-reverse" id="homepageFooter">
+                <p className="container m-0">copyrights@ UTM CSC309 Group 196</p>
             </footer>
         </>
     )

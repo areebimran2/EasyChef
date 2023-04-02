@@ -19,10 +19,10 @@ class Navbar extends React.Component {
                     <Link to="/" className='nav-link'>Home</Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/myRecipes" className='nav-link'>My Recipes</Link>
+                    <Link to="/my-recipes" className='nav-link'>My Recipes</Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/addRecipe" className='nav-link'>Add Recipe</Link>
+                    <Link to="/recipes/add" className='nav-link'>Add Recipe</Link>
                     </li>
                     <li>
                         <Search/>

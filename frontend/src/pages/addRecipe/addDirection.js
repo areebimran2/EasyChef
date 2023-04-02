@@ -1,18 +1,18 @@
-/* eslint-disable no-restricted-globals */
 import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import RecipeForm from '../../components/form/recipe';
 import RecipeAPIContext, { useRecipeAPIContext } from '../../contexts/recipeAPIcontext';
+import AddDirectionForm from '../../components/form/recipe/addDirections';
 
 
-function AddRecipe() {
+function AddDirection() {
 
     return (
         <>
             <div className="container-1000 ms-auto me-auto">
-            <h1 className="mt-8">Create New Recipe</h1>
+            <h1 className="mt-8">Add directions</h1>
                 <RecipeAPIContext.Provider value={useRecipeAPIContext()}>
-                <RecipeForm/>
+                <AddDirectionForm/>
                 </RecipeAPIContext.Provider>
             </div>
             
@@ -21,5 +21,5 @@ function AddRecipe() {
    
   }
   
-  export default AddRecipe;
+  export default AddDirection;
   
