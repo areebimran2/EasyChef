@@ -1,5 +1,5 @@
 import './custom.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddRecipe from './pages/addRecipe';
 import MyRecipes from './pages/myRecipes';
 import Profile from './pages/profile';
@@ -11,8 +11,7 @@ import AddDirection from './pages/addRecipe/addDirection';
 
 function App() {
   return (
-      // browerrouter gives error
-      // <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout/>}>
             <Route index element={<Home/>}/>
@@ -21,10 +20,10 @@ function App() {
             <Route path="/my-recipes" element={<MyRecipes/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
-            <Route path='/recipe' element={<Recipe/>}/>
+            <Route path='/recipe/:id' element={<Recipe/>}/>
           </Route>
         </Routes>
-      // </BrowserRouter>
+      </BrowserRouter>
   );
 }
 
