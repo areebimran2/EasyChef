@@ -1,57 +1,7 @@
 import { createContext, useState } from "react";
 
 export const useRecipeAPIContext = () => {
-    const [data, setData] = useState({
-        id: null,
-        name: null,
-        diet: null,
-        cuisine: null,
-        serving_size: null,
-        cooking_time: null,
-        prep_time: null,
-        ingredients: null,
-        ingredients_list: null,
-        directions: null,
-        pictures: null,
-    });
-    
-    const onChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
-    const setValue = (name, val) => {
-        setData({ ...data, [name]: val });
-    };
-
-    const resetData = () => {
-        setData({ 
-            id: null,
-            name: null,
-            diet: null,
-            cuisine: null,
-            serving_size: null,
-            cooking_time: null,
-            prep_time: null,
-            ingredients: null,
-            ingredients_list: null,
-            directions: null,
-            pictures: null
-        });
-    };
-
-    return {
-        data, setData, onChange, resetData, setValue
-    }
-}
-  
-
-const RecipeAPIContext = createContext(
-    {data: null,
-    setValue: null}
-)
-
-export default RecipeAPIContext
-
-/*
+    const [id, setId] = useState(0);
     const [name, setName] = useState('');
     const [diet, setDiet] = useState('');
     const [cuisine, setCuisine] = useState('');
@@ -60,23 +10,19 @@ export default RecipeAPIContext
     const [ingredients_list, setIngredientsList] = useState('');
     const [pictures, setPictures] = useState('');
     const [directions, setDirections] = useState('');
+    const [num_fav, setNumFav] = useState(0);
+    const [num_likes, setNumLikes] = useState(0);
+    const [ave_ratings, setAveRatings] = useState(0);
 
     return {
-        id: null,
-        name: null,
-        diet: null,
-        cuisine: null,
-        serving_size: null,
-        cooking_time: null,
-        prep_time: null,
-        ingredients: null,
-        ingredients_list: null,
-        directions: null,
-        pictures: null,
+        id, name, diet, cuisine, cooking_time, prep_time, ingredients_list, pictures, directions, num_fav, num_likes, ave_ratings, setName, setDiet, setCookingTime, setCuisine, setPictures, setPrepTime, setId,
+        setIngredientsList, setDirections, setNumFav, setNumLikes, setAveRatings
     }
+}
+  
 
 const RecipeAPIContext = createContext(
-    {recipe: {
+    {
         id: null,
         name: null,
         diet: null,
@@ -88,7 +34,10 @@ const RecipeAPIContext = createContext(
         ingredients_list: null,
         directions: null,
         pictures: null,
-
+        num_fav: null,
+        num_likes: null,
+        ave_ratings: null,
+        setId: () => {},
         setName: () => {},
         setDiet: () => {},
         setCuisine: () => {},
@@ -98,8 +47,12 @@ const RecipeAPIContext = createContext(
         setIngredientsList: () => {},
         setPictures: () => {},
         setDirections: () => {},
-        }
+        setNumFav: () => {},
+        setNumLikes: () => {},
+        setAveRatings: () => {},
+
     
     }
 )
-*/ 
+
+export default RecipeAPIContext

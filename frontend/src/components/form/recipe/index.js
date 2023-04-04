@@ -1,39 +1,65 @@
-import {React, createContext, useContext, useState} from 'react'
+import {React, useContext, useState} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 import FormDiv from '../form input div';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import $ from 'jquery'
 
 const RecipeForm = () => {
-  
-  const {data, resetData, onChange, setValue} = useContext(RecipeAPIContext)
+  const {setId} = useContext(RecipeAPIContext)
   const navigate = useNavigate()
 
   const createRecipeSubmit = (event) =>{
     let id
     event.preventDefault()
-    console.log("form data---", data)
+    const data = {
+      name: $('#recipe-name').val(),
+      diet: $('#diet').val(),
+      cuisine: $('#cuisine').val(),
+      serving_size: parseInt($('#servings').val()) || 1,
+      cooking_time: parseInt($('#cooking-time').val()) || 0,
+      prep_time: parseInt($('#prep-time').val()) || 0,
+      ingredients_list: $('#ingredients-list').val(),
+      picture: $('#recipe-pic').val(),
+    }
+    let hasError = false
+    Object.entries(data).forEach(([key, value]) => {
+      if ((!value || value === '') && key !== 'pictures'){
+        console.log("misiing",value, key)
+        hasError = true
+      }
+    })
+
+    if (hasError){
+      $("#form-error").html("Please fill out all required fields!")
+    }
+    else{
+      console.log("form data---", data)
     
-    
-    fetch('http://localhost:8000/recipes/add/',
-      {
-          method: 'POST', 
-          headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => id = data.id)
-      .then(setValue('id', id))
-      .then(navigate('/recipe/add-direction')) // add id
+      const token = localStorage.getItem('token')
+      fetch('http://localhost:8000/recipes/add/',
+        {
+            method: 'POST', 
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+          if (!response.ok){
+            throw new Error(`HTTP error status: ${response.status}`)
+          }
+          return response.json()})
+        .then(data => id = data.id)
+        .then(setId(id))
+        // .then(navigate('/recipe/add-direction')) // add id
+        // add error catching for error response  
+        .catch(error => console.error(error))
+      }
       
   }
   
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  // };
-
   return(
     <>
     <form className="card bg-light-brown mt-3 p-5">
@@ -42,18 +68,16 @@ const RecipeForm = () => {
         label='Recipe name'
         type='text'
         name='name'
-        onChange={onChange}
       />
       <FormDiv
         id='recipe-pic'
         label='Add picture of dish'
         type='file'
         name='pictures'
-        onChange={onChange}
       />
       <div className="d-flex mb-4">
             <label className="form-label me-2">Type of Diet:</label>
-            <select className="form-select-sm" id='diet' name='diet' onChange={onChange}>
+            <select className="form-select-sm" id='diet' name='diet' multiple required>
                 <option value="NONE">None</option>
                 <option value="VEGAN">Vegan</option>
                 <option value="VEG">Vegetarian</option>
@@ -66,7 +90,7 @@ const RecipeForm = () => {
 
         <div className="d-flex mb-4">
             <label className="me-2 form-label">Type of Cuisine: </label>
-            <select className="form-select-sm" id='cuisine' name='cuisine' onChange={onChange}>
+            <select className="form-select-sm" id='cuisine' name='cuisine' required>
                 <option value="NONE">None</option>
                 <option value="CN">Chinese</option>
                 <option value="CR">Creole</option>
@@ -83,35 +107,28 @@ const RecipeForm = () => {
         label='Prep time'
         type='number'
         name='prep_time'
-        onChange={onChange}
       />
       <FormDiv
         id='cooking-time'
         label='Cooking time'
         type='number'
         name='cooking_time'
-        onChange={onChange}
       />
       <FormDiv
         id='servings'
         label='Servings'
         type='number'
         name='serving_size'
-        onChange={onChange}
       />
       <label className="form-label">Ingredients:</label>
-        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' onChange={onChange}></textarea>
+        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required></textarea>
       
         <div className='d-flex justify-content-end mt-5'>
-            <Link to='/addRecipe/add-direction/'>
             <button className="btn btn-brown ps-5 pe-5" onClick={createRecipeSubmit}>Next</button>
-            </Link>
             
         </div>
-      
-
-        
-    </form>    
+        <div className='d-flex flex-row-reverse mt-2'><p id="form-error"></p></div>        
+    </form>  
     </>
   )
     

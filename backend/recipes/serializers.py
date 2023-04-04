@@ -38,7 +38,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time', 'prep_time', 'serving_size', 'directions', 'ingredients',
-                  'base_recipe', 'creator', 'num_fav', "num_likes", "ave_rating"]
+                  'base_recipe', 'creator', 'num_fav', "num_likes", "ave_rating", "picture"]
 
 
 class AddRecipeSerializer(serializers.ModelSerializer):
@@ -80,7 +80,10 @@ class AddRecipeSerializer(serializers.ModelSerializer):
             recipe.cooking_time = validated_data['cooking_time']
 
         if validated_data.get('prep_time'):
-            recipe.cooking_time = validated_data['prep_time']
+            recipe.prep_time = validated_data['prep_time']
+        
+        if validated_data.get('picture'):
+            recipe.picture = validated_data['picture']
 
         if validated_data.get('serving_size'):
             recipe.serving_size = validated_data['serving_size']
@@ -117,7 +120,10 @@ class EditRecipeSerializer(serializers.ModelSerializer):
             instance.cooking_time = validated_data['cooking_time']
 
         if validated_data.get('prep_time'):
-            instance.cooking_time = validated_data['prep_time']
+            instance.prep_time = validated_data['prep_time']
+        
+        if validated_data.get('picture'):
+            instance.picture = validated_data['picture']
 
         if validated_data.get('serving_size'):
             instance.serving_size = validated_data['serving_size']

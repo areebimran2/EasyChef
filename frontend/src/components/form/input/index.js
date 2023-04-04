@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 
 const Input = (props) => {
-
+    
     const { type, id, name, func } = props;
     return (
         <>
@@ -11,6 +11,7 @@ const Input = (props) => {
                 id={id}
                 onChange={func}
                 name={name}
+                multiple
             />
         </>
     )

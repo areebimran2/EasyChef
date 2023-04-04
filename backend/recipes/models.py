@@ -71,7 +71,7 @@ class Recipe(models.Model):
     num_fav = models.PositiveIntegerField(default=0)
     num_likes = models.PositiveIntegerField(default=0)
     ave_rating = models.PositiveIntegerField(default=0)
-    picture = models.ImageField(upload_to='recipe_pictures/', null=True, blank=True)
+    picture = models.FileField(upload_to='recipe_pictures/', null=True, blank=True)
 
     def __str__(self):
         return self.name
