@@ -8,8 +8,15 @@ import Layout from './pages/layout';
 import Home from './pages/home';
 import Recipe from './pages/recipe';
 import AddDirection from './pages/addRecipe/addDirection';
-
+import RecipeAPIContext from './contexts/recipeAPIcontext';
+import { useRecipeAPIContext } from './contexts/recipeAPIcontext';
 function App() {
+
+  const recipe = (
+    <RecipeAPIContext.Provider value={useRecipeAPIContext()}>
+      <Recipe/>
+    </RecipeAPIContext.Provider> 
+  )
   return (
       <BrowserRouter>
         <Routes>
@@ -20,7 +27,7 @@ function App() {
             <Route path="/my-recipes" element={<MyRecipes/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
-            <Route path='/recipe/:id' element={<Recipe/>}/>
+            <Route path='/recipe/:id' element={recipe}/>
           </Route>
         </Routes>
       </BrowserRouter>

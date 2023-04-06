@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
 
 const RecipeForm = () => {
-  const {setId} = useContext(RecipeAPIContext)
+  const {data} = useContext(RecipeAPIContext)
   const navigate = useNavigate()
 
   const createRecipeSubmit = (event) =>{
-    let id
+    console.log($('#recipe-pic')[0].files)
     event.preventDefault()
     const data = {
       name: $('#recipe-name').val(),
@@ -19,12 +19,24 @@ const RecipeForm = () => {
       cooking_time: parseInt($('#cooking-time').val()) || 0,
       prep_time: parseInt($('#prep-time').val()) || 0,
       ingredients_list: $('#ingredients-list').val(),
-      picture: $('#recipe-pic').val(),
+      picture: $('#recipe-pic')[0].files[0]
     }
+    console.log(data.picture)
+    if (data.picture){
+      const reader = new FileReader();
+      reader.readAsDataURL($('#recipe-pic')[0].files[0]);
+      reader.onload = () => {
+        const base64data = reader.result.split(',')[1];
+        // const base64data = reader.result;
+        data.picture = base64data;
+        console.log("pic url", data.picture)
+      };
+    }   
+
     let hasError = false
     Object.entries(data).forEach(([key, value]) => {
-      if ((!value || value === '') && key !== 'pictures'){
-        console.log("misiing",value, key)
+      if ((!value || value === '') && key !== 'picture'){
+        console.log("missing",value, key)
         hasError = true
       }
     })
@@ -33,6 +45,7 @@ const RecipeForm = () => {
       $("#form-error").html("Please fill out all required fields!")
     }
     else{
+      $("#form-error").html("")
       console.log("form data---", data)
     
       const token = localStorage.getItem('token')
@@ -48,14 +61,22 @@ const RecipeForm = () => {
         })
         .then(response => {
           if (!response.ok){
+
+            if (response.status === 401){
+              // navigate('/profile')
+            }
             throw new Error(`HTTP error status: ${response.status}`)
           }
+          console.log("successful submission")
           return response.json()})
-        .then(data => id = data.id)
-        .then(setId(id))
-        // .then(navigate('/recipe/add-direction')) // add id
-        // add error catching for error response  
-        .catch(error => console.error(error))
+        .then(dat =>{ 
+          data.id = dat.id
+          navigate('/recipe/add-direction')
+        })
+        .catch(error => {
+          console.error(error)
+          $("#form-error").html(error)
+        })
       }
       
   }
