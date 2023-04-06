@@ -115,6 +115,8 @@ a:hover{
 
 .card.infocard .card-img, .card.listcard .card-img {
     max-height: 14rem;
+    height: 15vw;
+    object-fit: cover;
 }
 
 
