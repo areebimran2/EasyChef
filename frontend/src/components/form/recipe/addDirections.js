@@ -1,18 +1,21 @@
 import {React, useContext, useEffect, useState} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 import FormDiv from '../form input div';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import $, { error } from 'jquery'
 const AddDirectionForm = () => {
   const navigate = useNavigate()
-  const {data} = useContext(RecipeAPIContext)
+  const {id} = useParams()
+  const {data, useBase} = useContext(RecipeAPIContext)
   const [elements, setElements] = useState([]);
+  
+  // handle use base recipe
+
   const handleCreate = (e) => {
     e.preventDefault()
     console.log("elem",elements)
-    data.id = 1
     if (elements !== []){
-      navigate(`/recipe/${data.id}`)
+      navigate(`/recipe/${id}`)
     }
     else{
       alert('Please add directions!')
@@ -43,7 +46,7 @@ const AddDirectionForm = () => {
     console.log("data img",data.file)
     
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:8000/recipes/recipe/${data.id}/add-directions/`,
+    fetch(`http://localhost:8000/recipes/recipe/${id}/add-directions/`,
       {
           method: 'POST', 
           headers: {
@@ -63,7 +66,8 @@ const AddDirectionForm = () => {
         console.log("data:", data)
         let elem = showDirection(data.description, data.file)
         setElements([...elements, elem])
-      })
+        $('#description').val('')
+      })  
       .catch(error => {
         console.error(error)
         alert('An error occurred')

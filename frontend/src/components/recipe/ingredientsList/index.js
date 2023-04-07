@@ -5,12 +5,11 @@ import RecipeAPIContext from "../../../contexts/recipeAPIcontext"
 
 const IngredientsList = () => {
   const {data} = useContext(RecipeAPIContext)
-  console.log("data in ing list", data)
   return(
     <>
     <h2>Ingredients</h2>
-    <ul class="lh-lg">
-      {data.ingredients ? data.ingredients.map(ing => <li key={ing.id}>{ing.quantity + ' ' + ing.units + ' ' + ing.name}</li>) : <></>}
+    <ul className="lh-lg">
+      {data.ingredients ? data.ingredients.map((ing, index) => <li key={index}>{ing.quantity + ' ' + ing.units + ' ' + ing.name}</li>) : <></>}
     </ul>
     </>
   )

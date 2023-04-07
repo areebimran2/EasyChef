@@ -15,12 +15,21 @@ export const useRecipeAPIContext = () => {
         picture: null,
         num_fav: null,
         num_likes: null,
-        ave_ratings: null
+        ave_ratings: null,
+        
     });
-    
+    let useBase = false
+    let base_id = null
+
+    const setBase_id = (id)=>{
+        base_id = id
+    }
+    const setUseBase = () =>{
+        useBase = !useBase
+    }
 
     return {
-        data, setData
+        data, setData, useBase, base_id, setBase_id, setUseBase
     }
 }
   
@@ -40,9 +49,15 @@ const RecipeAPIContext = createContext(
         picture: null,
         num_fav: null,
         num_likes: null,
-        ave_ratings: null
+        ave_ratings: null,
+        
     },
-    setData: () => {}
+    setData: () => {},
+    useBase: false,
+    setUseBase: ()=>{},
+    base_id: null,
+    setBase_id: ()=>{},
+    
 
     
     }

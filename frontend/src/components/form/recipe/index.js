@@ -1,17 +1,32 @@
-import {React, useContext, useState} from 'react'
+import {React, useContext, useState, useEffect} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 import FormDiv from '../form input div';
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
 
 const RecipeForm = () => {
-  const {data} = useContext(RecipeAPIContext)
+  let {data, setData} = useContext(RecipeAPIContext)
+  const bid = localStorage.getItem('base_id')
+  
+  let useBase = false
+  if (bid) {useBase=true}
+
+  useEffect( ()=>{
+    fetch(`http://localhost:8000/recipes/recipe/${bid}/`)
+    .then(response => response.json())
+    .then(json => {
+      console.log(json)
+      setData(json)})
+  },[useBase]
+  )
+
+  console.log("in recipe form: baseid, usebase", data,useBase, bid)
   const navigate = useNavigate()
 
   const createRecipeSubmit = (event) =>{
     console.log($('#recipe-pic')[0].files)
     event.preventDefault()
-    const data = {
+    const formData = {
       name: $('#recipe-name').val(),
       diet: $('#diet').val(),
       cuisine: $('#cuisine').val(),
@@ -21,20 +36,20 @@ const RecipeForm = () => {
       ingredients_list: $('#ingredients-list').val(),
       picture: $('#recipe-pic')[0].files[0]
     }
-    console.log(data.picture)
-    if (data.picture){
+    console.log("data.picture: ",formData.picture)
+    if (formData.picture){
       const reader = new FileReader();
       reader.readAsDataURL($('#recipe-pic')[0].files[0]);
       reader.onload = () => {
         const base64data = reader.result.split(',')[1];
         // const base64data = reader.result;
-        data.picture = base64data;
-        console.log("pic url", data.picture)
+        formData.picture = base64data;
+        console.log("pic url", formData.picture)
       };
     }   
 
     let hasError = false
-    Object.entries(data).forEach(([key, value]) => {
+    Object.entries(formData).forEach(([key, value]) => {
       if ((!value || value === '') && key !== 'picture'){
         console.log("missing",value, key)
         hasError = true
@@ -46,10 +61,11 @@ const RecipeForm = () => {
     }
     else{
       $("#form-error").html("")
-      console.log("form data---", data)
-    
+      console.log("form data---", formData)
       const token = localStorage.getItem('token')
-      fetch('http://localhost:8000/recipes/add/',
+
+      if (!useBase){
+        fetch('http://localhost:8000/recipes/add/',
         {
             method: 'POST', 
             headers: {
@@ -57,11 +73,10 @@ const RecipeForm = () => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(formData)
         })
         .then(response => {
           if (!response.ok){
-
             if (response.status === 401){
               // navigate('/profile')
             }
@@ -70,15 +85,44 @@ const RecipeForm = () => {
           console.log("successful submission")
           return response.json()})
         .then(dat =>{ 
-          data.id = dat.id
-          navigate('/recipe/add-direction')
+          navigate(`/recipe/${dat.id}/add-direction`)
+        })
+        .catch(error => {
+          console.error(error)
+          $("#form-error").html(error)
+        })
+      }else{
+        fetch(`http://localhost:8000/recipes/recipe/${bid}/use-base-recipe/`,
+        {
+            method: 'POST', 
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+          if (!response.ok){
+            if (response.status === 401){
+              // navigate('/profile')
+            }
+            throw new Error(`HTTP error status: ${response.status}`)
+          }
+          console.log("successful submission")
+          localStorage.setItem('base_id', null)
+          return response.json()})
+        .then(dat =>{ 
+          setData({id: dat.id}) // not working
+          console.log("data id set",data.id)
+          navigate(`/recipe/${dat.id}/add-direction`)
         })
         .catch(error => {
           console.error(error)
           $("#form-error").html(error)
         })
       }
-      
+      }
   }
   
   return(
@@ -89,6 +133,7 @@ const RecipeForm = () => {
         label='Recipe name'
         type='text'
         name='name'
+        defaultValue={useBase? data.name: ''}
       />
       <FormDiv
         id='recipe-pic'
@@ -98,7 +143,7 @@ const RecipeForm = () => {
       />
       <div className="d-flex mb-4">
             <label className="form-label me-2">Type of Diet:</label>
-            <select className="form-select-sm" id='diet' name='diet' multiple required>
+            <select className="form-select-sm" id='diet' name='diet' multiple required defaultValue={useBase ? data.diet : []}>
                 <option value="NONE">None</option>
                 <option value="VEGAN">Vegan</option>
                 <option value="VEG">Vegetarian</option>
@@ -111,7 +156,7 @@ const RecipeForm = () => {
 
         <div className="d-flex mb-4">
             <label className="me-2 form-label">Type of Cuisine: </label>
-            <select className="form-select-sm" id='cuisine' name='cuisine' required>
+            <select className="form-select-sm" id='cuisine' name='cuisine' required defaultValue={useBase ? data.cuisine : ''}>
                 <option value="NONE">None</option>
                 <option value="CN">Chinese</option>
                 <option value="CR">Creole</option>
@@ -128,21 +173,24 @@ const RecipeForm = () => {
         label='Prep time'
         type='number'
         name='prep_time'
+        defaultValue={useBase? data.prep_time : null}
       />
       <FormDiv
         id='cooking-time'
         label='Cooking time'
         type='number'
         name='cooking_time'
+        defaultValue={useBase? data.cooking_time : null}
       />
       <FormDiv
         id='servings'
         label='Servings'
         type='number'
         name='serving_size'
+        defaultValue={useBase? data.serving_size : null}
       />
       <label className="form-label">Ingredients:</label>
-        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required></textarea>
+        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required defaultValue={useBase? data.ingredients_list : ''}></textarea>
       
         <div className='d-flex justify-content-end mt-5'>
             <button className="btn btn-brown ps-5 pe-5" onClick={createRecipeSubmit}>Next</button>
@@ -157,5 +205,3 @@ const RecipeForm = () => {
 
 
 export default RecipeForm;
-
-// need some validation in case serving size is empty then setServingSize should be set to 0, need frontend required validation
