@@ -56,9 +56,7 @@ function Home() {
             </button>
           </div>
         </div>
-
-        
-        <HomeComponent/>
+          <HomeComponent/>
       </>   
     );
   }

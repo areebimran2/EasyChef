@@ -1,10 +1,36 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 
+const Search = () => {
+    var [recipes, setRecipes] = useState([]);
 
+    useEffect(() => {
+        fetch('http://localhost:8000/recipes/search/',
+        {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => setRecipes(data))
+    }, [])
+
+    console.log(recipes)
+
+
+    return (
+        <>
+        
+
+        </>
+    )
+}
+
+
+/*
 class Search extends React.Component{
+
+    
     render(){
         return (
             <form 
@@ -17,6 +43,8 @@ class Search extends React.Component{
             </form>
         )
     }
+    
 }
+*/
 
-export default Search
+export default Search;

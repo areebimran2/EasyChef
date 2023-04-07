@@ -8,6 +8,7 @@ import Layout from './pages/layout';
 import Home from './pages/home';
 import Recipe from './pages/recipe';
 import AddDirection from './pages/addRecipe/addDirection';
+import Search from './pages/search';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
             <Route path='/recipe/:id' element={<Recipe/>}/>
+            <Route path='/recipes/search' element={<Search/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
