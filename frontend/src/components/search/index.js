@@ -1,33 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 
-const Search = () => {
-    var [recipes, setRecipes] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:8000/recipes/search/',
-        {
-            method: 'GET'
-        })
-            .then(response => response.json())
-            .then(data => setRecipes(data))
-    }, [])
-
-    console.log(recipes)
-
-
-    return (
-        <>
-        
-
-        </>
-    )
-}
-
-
-/*
 class Search extends React.Component{
 
     
@@ -45,6 +21,6 @@ class Search extends React.Component{
     }
     
 }
-*/
+
 
 export default Search;

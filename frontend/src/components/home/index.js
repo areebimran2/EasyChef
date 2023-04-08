@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../../custom.css';
 import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
+import { Link } from "react-router-dom";
 
 //class Home extends React.Component{
 //    render(){
@@ -18,6 +19,8 @@ const HomeComp = () => {
             .then(response => response.json())
             .then(data => setRecipes(data))
     }, [])
+
+    //console.log(recipes)
 
     if (recipes === undefined){
         return (
@@ -40,11 +43,13 @@ const HomeComp = () => {
                 <div className="d-flex flex-row flex-wrap gap-3">
                     {recipes.results.sort((a, b) => a.num_fav < b.num_fav ? 1: -1).slice(0, 6).map((recipe, i) => (
                         <div className="card card-custom infocard bg-white text-black" key={i}>
-                            <a href="recipe2.html">
+                            <Link to={{
+                                pathname: `/recipes/recipe/${recipe.id}`
+                            }}>
                             <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                             <div className="card-body">
                               <div className="card-title">{recipe.name}</div>
-                            </div></a>
+                            </div></Link>
                         </div>
                     ))}
                 </div>
