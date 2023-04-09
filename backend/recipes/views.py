@@ -24,7 +24,7 @@ class RecipesView(ListAPIView):
     pagination_class = FivePagination
 
     def get_queryset(self):
-        return Recipe.objects.all()
+        return Recipe.objects.all().order_by('-num_likes')
 
 
 def add_to_history(recipe, user):
