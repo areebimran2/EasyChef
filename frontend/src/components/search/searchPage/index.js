@@ -1,12 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import '../../../custom.css'
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
+import $ from 'jquery'
 import { Link } from "react-router-dom";
+import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 
 const SearchPage = () => {
     var [recipes, setRecipes] = useState();
     var [searchResult, setSearchResult] = useState("");
-    var [searchRecipes, setSearchRecipes] = useState([]);
+    var [cuisineSearch, setCuisineSearch] = useState("");
+    var [dietSearch, setDietSearch] = useState("");
+    var [timeGTE, setTimeGTE] = useState("0");
+    var [timeLTE, setTimeLTE] = useState("10000000");
 
     /*
     useEffect(() => {
@@ -22,42 +27,53 @@ const SearchPage = () => {
     }, []);
     */
     
-
-    
     useEffect(() => {
-        fetch('http://localhost:8000/recipes/search/',
+        fetch('http://localhost:8000/recipes/search?' + new URLSearchParams({
+            search: searchResult,
+            cuisine: cuisineSearch,
+            diet__contains: dietSearch,
+            cooking_time__gte: timeGTE,
+            cooking_time__lte: timeLTE,
+        }),
         {
             method: 'GET'
         })
             .then(response => response.json())
             .then(data => setRecipes(data))
-    }, [])
+    }, [searchResult, cuisineSearch, dietSearch, timeGTE, timeLTE])
     
     
     const onChange = (event) => {
         setSearchResult(event.target.value);
     }
 
-    //console.log(recipes);
+    const onSearch = (e) => {
 
-    const onSearch = (e, searchTerm) => {
-        
+        /*
         if (recipes !== undefined){
             const results = recipes.results.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) 
             || recipe.creator.toLowerCase().includes(searchTerm.toLowerCase()))
             
-            console.log(results);
+            //console.log(results);
             setSearchRecipes(results);
         }
+        */
         
-       e.preventDefault();
-       //console.log('search ', searchTerm);
+        e.preventDefault();
+        setSearchResult($("#searchBar").val());
+        setDietSearch($("#diet").val());
+        setCuisineSearch($("#cuisine").val());
+        setTimeGTE($("#cookingtime").val().split(",")[0]);
+        setTimeLTE($("#cookingtime").val().split(",")[1]);
         
     }
 
+    /*
     useEffect(() => {
-        console.log(searchRecipes)
-    }, [searchRecipes])
+        //console.log(timeGTE);
+        //console.log(timeLTE)
+    }, [timeGTE, timeLTE])
+    */
     
 
     //console.log(searchResult);
@@ -69,65 +85,62 @@ const SearchPage = () => {
                     <form className="form-horizontal">
                         <div className="mt-5 ms-4">
                             <h2><b>Diet Options</b></h2>
-                            <input className="form-control" type="text" list="dietOptions" id="diet" placeholder="Find a diet"/>
-                            <datalist id="dietOptions">
-                                <option>Vegan</option>
-                                <option>Vegetarian</option>
-                                <option>Gluten-Free</option>
-                                <option>Low-Carb</option>
-                                <option>Keto</option>
-                                <option>Low-Fat</option>
-                                <option>Reduced Sugar</option>
-                                <option>Lactose-Free</option>
-                            </datalist>
+                            <select className="form-select-sm" id="diet" onChange={(e) => setDietSearch(e.target.value)}>
+                                <option value="">Select a Cuisine</option>
+                                <option value="NONE">None</option>
+                                <option value="VEGAN">Vegan</option>
+                                <option value="VEG">Vegetarian</option>
+                                <option value="GLUTENF">Gluten-free</option>
+                                <option value="LCARB">Low carb</option>
+                                <option value="KT">Keto</option>
+                                <option value="LF">Low Fat</option>
+                            </select>
                         </div>
     
                         <div className="mt-3 ms-4">
                             <h2><b>Cuisine Options</b></h2>
-                            <input className="form-control" type="text" list="cuisineOptions" id="cuisine"
-                                placeholder="Pick a cuisine"/>
-                            <datalist id="cuisineOptions">
-                                <option>Chinese</option>
-                                <option>Creole</option>
-                                <option>Filipino</option>
-                                <option>French</option>
-                                <option>Indian</option>
-                                <option>Japanese</option>
-                                <option>Korean</option>
-                                <option>Thai</option>
-                                <option>Viet</option>
-                                <option>Western</option>
-                            </datalist>
+                            <select className="form-select-sm" id="cuisine" onChange={(e) => setCuisineSearch(e.target.value)}>
+                                <option value="">Select a Cuisine</option>
+                                <option value="NONE">None</option>
+                                <option value="CN">Chinese</option>
+                                <option value="CR">Creole</option>
+                                <option value="FR">French</option>
+                                <option value="IN">Indian</option>
+                                <option value="JP">Japanese</option>
+                                <option value="KO">Korean</option>
+                                <option value="ME">Middle-Eastern</option>
+                                <option value="WE">Western</option>
+                            </select>
                         </div>
     
                         <div className="mt-3 ms-4">
                             <h2><b>Cooking Time</b></h2>
-                            <select className="form-select-sm" defaultValue="default">
-                                <option value="default">Select a cooking time</option>
-                                <option value="less than 15">Less than 15 minutes</option>
-                                <option value="15-30">15-30 minutes</option>
-                                <option value="30-60">30-60 minutes</option>
-                                <option value="over 60">Over 60 minutes</option>
+                            <select className="form-select-sm" id="cookingtime">
+                                <option value="0,10000000">Select a cooking time</option>
+                                <option value="0,14">Less than 15 minutes</option>
+                                <option value="15,30">15-30 minutes</option>
+                                <option value="31,60">31-60 minutes</option>
+                                <option value="61,10000000">Over 60 minutes</option>
                             </select>
                         </div>
     
                             <div className="mt-3 ms-4">
                                 <h2><b>Search Recipe</b></h2>
-                                <input type="text" className="form-control" name="searchBar" id="searchBar" placeholder="Search..."/>
+                                <input type="text" className="form-control" name="searchBar" id="searchBar" placeholder="Search..." onChange={onChange}/>
                             </div>
     
                             <div className="text-center mt-5">
-                                <button className="btn btn-blue">Search</button>
+                                <button className="btn btn-blue" onClick={(e) => onSearch(e)}>Search</button>
                             </div>
     
     
-                        </form>
-                    </div>
+                    </form>
+                </div>
     
-                    <div className="d-flex flex-row flex-wrap justify-content-start gap-3">
-                        No Recipes have been created!
+                <div className="d-flex flex-row flex-wrap justify-content-start gap-3">
+                    No Recipes have been created!
                         
-                    </div>
+                </div>
             </>
         )
     }
@@ -138,55 +151,52 @@ const SearchPage = () => {
                     <form className="form-horizontal">
                         <div className="mt-5 ms-4">
                             <h2><b>Diet Options</b></h2>
-                            <input className="form-control" type="text" list="dietOptions" id="diet" placeholder="Find a diet"/>
-                            <datalist id="dietOptions">
-                                <option>Vegan</option>
-                                <option>Vegetarian</option>
-                                <option>Gluten-Free</option>
-                                <option>Low-Carb</option>
-                                <option>Keto</option>
-                                <option>Low-Fat</option>
-                                <option>Reduced Sugar</option>
-                                <option>Lactose-Free</option>
-                            </datalist>
+                            <select className="form-select-sm" id="diet">
+                                <option value="">Select a Cuisine</option>
+                                <option value="NONE">None</option>
+                                <option value="VEGAN">Vegan</option>
+                                <option value="VEG">Vegetarian</option>
+                                <option value="GLUTENF">Gluten-free</option>
+                                <option value="LCARB">Low carb</option>
+                                <option value="KT">Keto</option>
+                                <option value="LF">Low Fat</option>
+                            </select>
                         </div>
 
                         <div className="mt-3 ms-4">
                             <h2><b>Cuisine Options</b></h2>
-                            <input className="form-control" type="text" list="cuisineOptions" id="cuisine"
-                                placeholder="Pick a cuisine"/>
-                            <datalist id="cuisineOptions">
-                                <option>Chinese</option>
-                                <option>Creole</option>
-                                <option>Filipino</option>
-                                <option>French</option>
-                                <option>Indian</option>
-                                <option>Japanese</option>
-                                <option>Korean</option>
-                                <option>Thai</option>
-                                <option>Viet</option>
-                                <option>Western</option>
-                            </datalist>
+                            <select className="form-select-sm" id="cuisine">
+                                <option value="">Select a Cuisine</option>
+                                <option value="NONE">None</option>
+                                <option value="CN">Chinese</option>
+                                <option value="CR">Creole</option>
+                                <option value="FR">French</option>
+                                <option value="IN">Indian</option>
+                                <option value="JP">Japanese</option>
+                                <option value="KO">Korean</option>
+                                <option value="ME">Middle-Eastern</option>
+                                <option value="WE">Western</option>
+                            </select>
                         </div>
 
                         <div className="mt-3 ms-4">
                             <h2><b>Cooking Time</b></h2>
-                            <select className="form-select-sm" defaultValue="default">
-                                <option value="default">Select a cooking time</option>
-                                <option value="less than 15">Less than 15 minutes</option>
-                                <option value="15-30">15-30 minutes</option>
-                                <option value="30-60">30-60 minutes</option>
-                                <option value="over 60">Over 60 minutes</option>
+                            <select className="form-select-sm" id="cookingtime">
+                                <option value="0,10000000">Select a cooking time</option>
+                                <option value="0,14">Less than 15 minutes</option>
+                                <option value="15,30">15-30 minutes</option>
+                                <option value="31,60">31-60 minutes</option>
+                                <option value="61,10000000">Over 60 minutes</option>
                             </select>
                         </div>
 
                         <div className="mt-3 ms-4">
                             <h2><b>Search Recipe</b></h2>
-                            <input type="text" className="form-control" id="searchBar" defaultValue={searchResult} placeholder="Search..." onChange={onChange}/>
+                            <input type="text" className="form-control" id="searchBar" defaultValue={searchResult} placeholder="Search..."/>
                         </div>
 
                         <div className="text-center mt-5">
-                            <button className="btn btn-blue" onClick={(e) => onSearch(e, searchResult)}>Search</button>
+                            <button className="btn btn-blue" onClick={(e) => onSearch(e)}>Search</button>
                         </div>
 
 
@@ -195,7 +205,7 @@ const SearchPage = () => {
 
                 <div className="d-flex flex-row flex-wrap justify-content-start gap-3">
                     {
-                        searchRecipes
+                        recipes.results
                         .map((recipe, i) => {
                             return (
                                 <div className="card card-custom infocard bg-white text-black" key={i}>
@@ -205,6 +215,7 @@ const SearchPage = () => {
                                     <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                                     <div className="card-body">
                                         <div className="card-title">{recipe.name}</div>
+                                        <div className="card-creator">Created By: {recipe.creator}</div>
                                     </div></Link>
                                 </div>
                             )

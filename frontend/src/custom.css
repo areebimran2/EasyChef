@@ -247,6 +247,10 @@ ul.dropdown-menu[data-bs-popper]{
     padding-bottom: 3rem;
 }
 
+.form-select-sm{
+    min-width: 225px;
+}
+
 .extendheader {
     margin-left: 23.7rem;
 }
