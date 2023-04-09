@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
 # provides extra information for each Recipe in the history list
 class InteractedWith(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
-    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.SET_NULL,
+    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE,
                                null=True)
     last_interaction = models.DateTimeField(auto_now_add=True)
     liked = models.BooleanField(default=False)

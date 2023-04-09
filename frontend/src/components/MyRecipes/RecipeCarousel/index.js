@@ -1,8 +1,6 @@
-import React from "react";
-import $ from 'jquery'
-import notfound from './local-file-not-found.png'
+import Card from "../Card";
 
-const RecipeCarousel = ({ recipes, hasEnded, setPage, page, count, id }) => {
+const RecipeCarousel = ({ recipes, hasEnded, setPage, page, count, id, deleted, setDeleted }) => {
     const Pagination = () => {
         if (Math.ceil(page / 5) === 1 && (page < 5 || Math.ceil(count / 3) <= 5)) {
             return (
@@ -82,38 +80,7 @@ const RecipeCarousel = ({ recipes, hasEnded, setPage, page, count, id }) => {
                 <div class="carousel-item active">
                     <div class="d-flex flex-row flex-nowrap justify-content-start gap-3">
                         {recipes.map((recipe) => (
-                            <div class="card infocard bg-white text-black" key={recipe.id}>
-                                <img class="card-img" src={recipe.picture !== null ? recipe.picture : notfound} />
-                                <div class="card-body hidedetails">
-                                    <div class="card-title">{recipe.name}</div>
-                                    <div class="d-flex mb-2">
-                                        <i class="mt-auto mb-auto fa-solid fa-star"></i>
-                                        <i class="mt-auto mb-auto fa-solid fa-star"></i>
-                                        <i class="mt-auto mb-auto fa-solid fa-star"></i>
-                                        <i class="mt-auto mb-auto fa-solid fa-star"></i>
-                                        <i class="mt-auto mb-auto fa-regular fa-star me-1"></i>
-                                        <p class="mt-auto mb-auto">4.5</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <a href="recipe.html"><button type="button"
-                                                class="btn-sm btn-outline-brown px-3">View</button></a>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn-sm btn-outline-brown px-3 mx-2">Edit</button>
-                                            <button type="button" class="btn-sm btn-outline-brown">Delete</button>
-                                        </div>
-                                    </div>
-                                    <div class="card recipecard mt-2 p-3 bg-light-brown">
-                                        <ul class="list-unstyled mb-0 lh-lg">
-                                            <li><span class="fw-bold">Diet:</span> Vegan</li>
-                                            <li><span class="fw-bold">Cuisine:</span> Western</li>
-                                            <li><span class="fw-bold">Cooking time:</span> {recipe.cooking_time} minutes</li>
-                                            <li><span class="fw-bold">Servings: </span>{recipe.serving_size}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            <Card recipe={recipe} id={id} deleted={deleted} setDeleted={setDeleted}/>
                         ))}
                     </div>
                 </div>
