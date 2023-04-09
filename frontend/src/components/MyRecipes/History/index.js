@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import RecipeCarousel from "../RecipeCarousel";
 
-const History = ({ token, perPage }) => {
+const History = ({ token, perPage, setDeleted, deleted}) => {
     let navigate = useNavigate()
 
     const props = useSpring({
@@ -39,7 +39,7 @@ const History = ({ token, perPage }) => {
                 setHistory(json.results)
                 hsetHasEnded(json.next === null)
             })
-    }, [hpage])
+    }, [hpage, deleted])
 
     if (history.length !== 0) {
         return (

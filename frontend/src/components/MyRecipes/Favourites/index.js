@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import RecipeCarousel from "../RecipeCarousel";
 
-const Favourites = ({ token, perPage }) => {
+const Favourites = ({ token, perPage, setDeleted, deleted }) => {
     let navigate = useNavigate()
 
     const props = useSpring({
@@ -39,7 +39,7 @@ const Favourites = ({ token, perPage }) => {
                 setFavourites(json.results)
                 fsetHasEnded(json.next === null)
             })
-    }, [fpage])
+    }, [fpage, deleted])
 
     if (favourites.length !== 0) {
         return (
