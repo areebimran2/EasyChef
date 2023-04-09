@@ -86,7 +86,7 @@ const SearchPage = () => {
                         <div className="mt-5 ms-4">
                             <h2><b>Diet Options</b></h2>
                             <select className="form-select-sm" id="diet" onChange={(e) => setDietSearch(e.target.value)}>
-                                <option value="">Select a Cuisine</option>
+                                <option value="">Select a Diet</option>
                                 <option value="NONE">None</option>
                                 <option value="VEGAN">Vegan</option>
                                 <option value="VEG">Vegetarian</option>
@@ -116,7 +116,7 @@ const SearchPage = () => {
                         <div className="mt-3 ms-4">
                             <h2><b>Cooking Time</b></h2>
                             <select className="form-select-sm" id="cookingtime">
-                                <option value="0,10000000">Select a cooking time</option>
+                                <option value="0,10000000">Select a Cooking Time</option>
                                 <option value="0,14">Less than 15 minutes</option>
                                 <option value="15,30">15-30 minutes</option>
                                 <option value="31,60">31-60 minutes</option>
@@ -152,7 +152,7 @@ const SearchPage = () => {
                         <div className="mt-5 ms-4">
                             <h2><b>Diet Options</b></h2>
                             <select className="form-select-sm" id="diet">
-                                <option value="">Select a Cuisine</option>
+                                <option value="">Select a Diet</option>
                                 <option value="NONE">None</option>
                                 <option value="VEGAN">Vegan</option>
                                 <option value="VEG">Vegetarian</option>
@@ -182,7 +182,7 @@ const SearchPage = () => {
                         <div className="mt-3 ms-4">
                             <h2><b>Cooking Time</b></h2>
                             <select className="form-select-sm" id="cookingtime">
-                                <option value="0,10000000">Select a cooking time</option>
+                                <option value="0,10000000">Select a Cooking Time</option>
                                 <option value="0,14">Less than 15 minutes</option>
                                 <option value="15,30">15-30 minutes</option>
                                 <option value="31,60">31-60 minutes</option>
