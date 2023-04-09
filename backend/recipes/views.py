@@ -203,6 +203,12 @@ class AddCommentView(CreateAPIView):
     # Implement current logged in author as the user
     # Implement current recipe as the recipe
 
+class ViewRecipeComment(ListAPIView):
+    serializer_class = CommentSerializer
+    def get_queryset(self):
+        recipe_id = self.kwargs['id']
+        return Comment.objects.filter(recipe=recipe_id)
+
 
 class AddShoppingListView(UpdateAPIView):
     permission_classes = [IsAuthenticated]

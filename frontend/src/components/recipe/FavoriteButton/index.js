@@ -13,13 +13,15 @@ const FavouriteButton = () => {
     .then(response => response.json())
     .then(json => {
       setFav(json.num_fav)})
-  },[hasFav]
+  },[hasFav, id]
   )
 
   const token = localStorage.getItem('token')
   const handleFav = ()=>{
+    console.log("status fav", hasFav)
     hasFav = !hasFav
     if (hasFav){
+      console.log("fav add")
       fetch(`http://localhost:8000/recipes/recipe/${id}/add-favourite/`,{
         method: 'PATCH', 
         headers: {
@@ -29,16 +31,18 @@ const FavouriteButton = () => {
         }
       }).then(response => {
         if (!response.ok){
-          hasFav = false
           throw new Error(`HTTP error status: ${response.status}`)
         }
         return response.json()})
         .then(dat => {
-          if (dat.num_fav){
-            hasFav = true
-            setFav(dat.num_fav)
-            console.log("add fav",fav)
-          }
+          console.log("fav add", dat)
+          hasFav = false
+          setFav(dat.num_fav)
+          // if (dat.num_fav){
+          //   hasFav = true
+          //   setFav(dat.num_fav)
+          //   console.log("add fav",fav)
+          // }
           $('#fav-btn').addClass('clicked')
           $('#fav-btn').removeClass('not-clicked')
         })
@@ -46,6 +50,7 @@ const FavouriteButton = () => {
         
     }
     else{
+      console.log("fav remove")
       fetch(`http://localhost:8000/recipes/recipe/${id}/remove-favourite/`,{
         method: 'PATCH', 
         headers: {
@@ -54,16 +59,21 @@ const FavouriteButton = () => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
+        if (!response.ok){
+          throw new Error(`HTTP error status: ${response.status}`)
+        }
         return response.json()})
         .then(dat => {
-          if (dat.num_fav){
-            hasFav = false
-            setFav(dat.num_fav)
-            console.log("remove fav",fav)
-          }
-        })
-        $('#fav-btn').addClass('not-clicked')
-        $('#fav-btn').removeClass('clicked')
+          console.log("fav remove", dat)
+          setFav(dat.num_fav)
+          // if (dat.num_fav){
+          //   hasFav = false
+          //   setFav(dat.num_fav)
+          //   console.log("remove fav",fav)
+          // }
+          $('#fav-btn').addClass('not-clicked')
+          $('#fav-btn').removeClass('clicked')
+        }).catch(err => console.error(err))
       }
     
   }

@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import RecipeAPIContext from '../../contexts/recipeAPIcontext';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import IngredientsList from '../../components/recipe/ingredientsList';
 import DirectionsList from '../../components/recipe/DirectionsList';
 import UseBaseRecipeButton from '../../components/recipe/useBaseRecipeButton';
@@ -10,20 +10,30 @@ import FavouriteButton from '../../components/recipe/FavoriteButton';
 import LikeButton from '../../components/recipe/LikeButton';
 import Ratings from '../../components/recipe/Ratings';
 import RateButton from '../../components/recipe/Ratings/RateButton';
+import { Link } from 'react-router-dom';
 
 function Recipe() {
+  const nav = useNavigate()
   const {data, setData} = useContext(RecipeAPIContext)
   const {id} = useParams()
-
   useEffect( ()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/`)
     .then(response => response.json())
     .then(json => {
       console.log(json)
       setData(json)})
-  },[]
+  },[id]
   )
-
+  let hasBaseRecipe = data.base_recipe? true: false
+  console.log("has base recipe", hasBaseRecipe)
+  const handleDisabledView = (event) => {
+    if (!hasBaseRecipe) {
+      event.preventDefault(); // prevent the link from being clicked
+    }
+    else{
+      nav(`/recipe/${data.base_recipe}`)
+    }
+  }
 
   return (
     <>
@@ -46,7 +56,7 @@ function Recipe() {
               <RateButton/>
           </div>
           <div>
-              {/* <a href="#" class="disabled">View base recipe</a>> */}
+          <Link to={`/recipe/${data.base_recipe}`} className={hasBaseRecipe? '':'disabled-link'} onClick={handleDisabledView}>View Base Recipe</Link>
           </div>
       </div>
 

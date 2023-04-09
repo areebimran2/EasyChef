@@ -7,7 +7,9 @@ const RateButton = () => {
   const {id} = useParams()
   const handleClick = (e) =>{
     let num = $('#rate-input').val()
-    console.log("rating: ", num)
+    if (num < 1 || num > 5){
+      return
+    }
     fetch(`http://localhost:8000/recipes/recipe/${id}/rate/`,{
       method: 'PATCH', 
       headers: {

@@ -10,6 +10,8 @@ import Recipe from './pages/recipe';
 import AddDirection from './pages/addRecipe/addDirection';
 import RecipeAPIContext from './contexts/recipeAPIcontext';
 import { useRecipeAPIContext } from './contexts/recipeAPIcontext';
+import AddRecipeBase from './pages/UseBaseRecipe';
+import AddDirectionBase from './pages/UseBaseRecipe/addDirectionBase';
 function App() {
 
   const recipe = (
@@ -23,6 +25,8 @@ function App() {
           <Route path='/' element={<Layout/>}>
             <Route index element={<Home/>}/>
             <Route path="/recipes/add" element={<AddRecipe/>}/>
+            <Route path="/recipes/use-base-recipe" element={<AddRecipeBase/>}/>
+            <Route path="/recipe/:id/base-recipe-add-direction" element={<AddDirectionBase/>}/>
             <Route path='/recipe/:id/add-direction' element={<AddDirection/>}/>
             <Route path="/my-recipes" element={<MyRecipes/>}/>
             <Route path="/profile" element={<Profile/>}/>

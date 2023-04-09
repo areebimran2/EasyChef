@@ -5,7 +5,7 @@ import { useParams } from "react-router"
 import $ from 'jquery'
 const LikeButton = () => {
   const{id} = useParams()
-  let hasLiked = false
+  const [hasLiked, setHasLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
   useEffect( ()=>{
@@ -13,14 +13,15 @@ const LikeButton = () => {
     .then(response => response.json())
     .then(json => {
       setLikes(json.num_likes)})
-  },[hasLiked]
+  },[hasLiked, id]
   )
   // need userContext to see if user has liked?
 
   const token = localStorage.getItem('token')
   const handleLike = ()=>{
-    hasLiked = !hasLiked
+    setHasLiked(!hasLiked);
     if (hasLiked){
+      console.log("add like: ", hasLiked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/add-like/`,{
         method: 'PATCH', 
         headers: {
@@ -30,15 +31,12 @@ const LikeButton = () => {
         }
       }).then(response => {
         if (!response.ok){
-          hasLiked = false
           throw new Error(`HTTP error status: ${response.status}`)
         }
         return response.json()})
         .then(dat => {
-          if (dat.num_likes){
-            setLikes(dat.num_likes)
-            console.log(likes)
-          }
+          setHasLiked(true);
+          setLikes(dat.num_likes)
           $('#like-btn').addClass('clicked')
           $('#like-btn').removeClass('not-clicked')
         })
@@ -46,6 +44,7 @@ const LikeButton = () => {
         
     }
     else{
+      console.log("remove like: ", hasLiked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/remove-like/`,{
         method: 'PATCH', 
         headers: {
@@ -54,15 +53,19 @@ const LikeButton = () => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
+        if (!response.ok){
+          throw new Error(`HTTP error status: ${response.status}`)
+        }
         return response.json()})
-        .then(dat => {
-          if (dat.num_likes){
-            setLikes(dat.num_likes)
-            console.log(likes)
-          }
-        })
-        $('#like-btn').addClass('not-clicked')
-        $('#like-btn').removeClass('clicked')
+        .then(dat =>
+          {setHasLiked(false);
+          console.log("dat remove:", dat)
+          setLikes(dat.num_likes)
+          $('#like-btn').addClass('not-clicked')
+          $('#like-btn').removeClass('clicked')
+        }
+        ).catch(err => console.error(err))
+        
       }
     
   }

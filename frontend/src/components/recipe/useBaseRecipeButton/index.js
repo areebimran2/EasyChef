@@ -8,7 +8,7 @@ const UseBaseRecipeButton = () =>{
   const navigate = useNavigate()
 
   const handleClick = () =>{
-    navigate(`/recipes/add`)
+    navigate(`/recipes/use-base-recipe`)
   }
 
   return(
