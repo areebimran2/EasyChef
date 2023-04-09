@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import RecipeAPIContext from "../../../contexts/recipeAPIcontext"
-
+import './style.css'
 
 
 const DirectionsList = () => {
@@ -9,8 +9,11 @@ const DirectionsList = () => {
     <>
     <h2>Directions</h2>
     <ol>
-      {data.directions ? data.directions.map(d => <li key={d.id}>{d.description}</li>) : <></>}
-      {/* should add img after each direction */}
+      {data.directions ? data.directions.map(d => 
+      <li key={d.id}>{d.description}
+      <br/>
+      <img src={d.file} alt="" className="dir-img"/>
+      </li>) : <></>}
     </ol>
     </>
   )

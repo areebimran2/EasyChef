@@ -1,0 +1,15 @@
+.clicked{
+  color: white;
+  background-color: #6E3C1C;
+}
+
+.not-clicked{
+  background-color: white;
+  color: #6E3C1C;
+  border-color: #6E3C1C;
+}
+
+.not-clicked:hover, .clicked:hover{
+  color: white;
+  background-color: #A06026;
+}

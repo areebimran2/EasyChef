@@ -1,79 +1,83 @@
 import {React, useContext, useEffect, useState} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 import FormDiv from '../form input div';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import $, { error } from 'jquery'
+import axios from 'axios';
+
 const AddDirectionForm = () => {
   const navigate = useNavigate()
-  const {data} = useContext(RecipeAPIContext)
+  const {id} = useParams()
   const [elements, setElements] = useState([]);
+  
+  // handle use base recipe
   const handleCreate = (e) => {
     e.preventDefault()
     console.log("elem",elements)
-    data.id = 1
     if (elements !== []){
-      navigate(`/recipe/${data.id}`)
+      navigate(`/recipe/${id}`)
     }
     else{
       alert('Please add directions!')
     }
   }
 
+  // add direction post request
   const addDrection = (e) => {
     e.preventDefault()
-    const data = {
-      description: $('#description').val(),
-      file: $('#direction-file')[0].files[0] || null
-    }
-    if (!data.description){
+    const formData = new FormData();
+    let desc = $('#description').val()
+    // some validation; description cannot be null
+    if (desc === ''){
       $('#desc-error').html('Description cannot be blank!')
       return
     }
     else{
       $('#desc-error').html('')
     }
-    if (data.file){
-      const reader = new FileReader();
-      reader.readAsDataURL( $('#direction-file')[0].files[0]);
-      reader.onload = () => {
-        const base64data = reader.result.split(',')[1];
-        data.file = base64data;
-      };
-    }   
-    console.log("data img",data.file)
+    formData.append('description', desc)
+    formData.append('file', $('#direction-file')[0].files[0] || '');
     
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:8000/recipes/recipe/${data.id}/add-directions/`,
-      {
-          method: 'POST', 
-          headers: {
+
+    // POST request
+    axios.post(`http://localhost:8000/recipes/recipe/${id}/add-directions/`, formData, {
+        headers: {
           'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
+          'Content-Type': 'multipart/form-data'
+        }
       })
       .then(response => {
-        if (!response.ok){
+        console.log("response status=== ", response.status)
+        // if (response.status === 401){
+        //   // nagivate('login')
+        // }
+        if (response.status !== 201 && response.status !== 200){
+          alert(`An error occurred: ${response.status}`)
           throw new Error(`HTTP error status: ${response.status}`)
         }
-        return response.json()
+        return response.data;
       })
-      .then(data => {
-        console.log("data:", data)
-        let elem = showDirection(data.description, data.file)
+      .then(dat => {
+        console.log("response json:==== ", dat)
+      
+        let elem = showDirection(dat.description, dat.file)
         setElements([...elements, elem])
+        $('#description').val('')
       })
       .catch(error => {
         console.error(error)
-        alert('An error occurred')
-      })
+        $("#desc-error").html(error)
+      })  
   }
+
+  // display direction after successful post request
   const showDirection = (desc, pic) => {
-    console.log("desc + pic", desc, pic)
+    console.log("desc", desc)
+    console.log("pic", pic)
     return(
       <>
-      {desc} {pic !== null && <img src={pic} alt='direction pic' className='direction-img'/>}
+      {desc} <br/>{pic !== null && <img src={pic} alt='direction pic' className='direction-img'/>}
       </>
     )
   }
@@ -108,7 +112,5 @@ const AddDirectionForm = () => {
       </form>
     </>
   )
-
-
 }
 export default AddDirectionForm

@@ -10,6 +10,10 @@ import Recipe from './pages/recipe';
 import AddDirection from './pages/addRecipe/addDirection';
 import RecipeAPIContext from './contexts/recipeAPIcontext';
 import { useRecipeAPIContext } from './contexts/recipeAPIcontext';
+import AddRecipeBase from './pages/UseBaseRecipe';
+import AddDirectionBase from './pages/UseBaseRecipe/addDirectionBase';
+import EditRecipe from './pages/editRecipe';
+import EditDirection from './pages/editRecipe/editDirections';
 function App() {
 
   const recipe = (
@@ -23,7 +27,11 @@ function App() {
           <Route path='/' element={<Layout/>}>
             <Route index element={<Home/>}/>
             <Route path="/recipes/add" element={<AddRecipe/>}/>
-            <Route path='/recipe/add-direction' element={<AddDirection/>}/>
+            <Route path="/recipes/use-base-recipe" element={<AddRecipeBase/>}/>
+            <Route path="/recipe/:id/edit" element={<EditRecipe/>}/>
+            <Route path="/recipe/:id/base-recipe-add-direction" element={<AddDirectionBase/>}/>
+            <Route path='/recipe/:id/add-direction' element={<AddDirection/>}/>
+            <Route path='/recipe/:id/edit-direction' element={<EditDirection/>}/>
             <Route path="/my-recipes" element={<MyRecipes/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
