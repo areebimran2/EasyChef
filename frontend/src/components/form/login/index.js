@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react"
 import FormDiv from "../form input div"
 import $ from 'jquery'
 
 const LoginForm = () =>{
+  const setFalse = () => {
+    $('#login-error').html('')
+  }
 
   const handleLogin = (event) =>{
     event.preventDefault()
@@ -20,6 +24,10 @@ const LoginForm = () =>{
           })
       })
       .then(response => {
+        if (response.status === 401){ // unauthorize
+            $('#login-error').html('Username or password is invalid')
+            $('#login-error').css('color','red')
+        }
         console.log(response.status)
         return response.json()
       })
@@ -37,17 +45,19 @@ const LoginForm = () =>{
         <h2 className='text-center mb-4 mt-4'>Log in</h2>
         <div className="d-flex mb-3">
             <label className="form-label mb-auto mt-auto me-2">Username:</label>
-            <input className="form-control" type='text' id='username'/>
+            <input className="form-control" type='text' id='username' onChange={setFalse}/>
         </div>
        
         <FormDiv
           label='Password '
           type='password'
           id='pw'
+          onChange={setFalse}
         />
         <div className='d-flex justify-content-center mt-4'>
         <button className='btn btn-brown' onClick={handleLogin}>Log in</button>
         </div>
+        <div id="login-error" className="text-center mt-2"></div>
       </form>
     </>
   )

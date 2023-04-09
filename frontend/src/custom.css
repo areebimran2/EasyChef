@@ -297,3 +297,10 @@ a.header-link{
     text-decoration: underline;
     box-shadow: 0 0 5px 5px #efefef;
 }
+
+.direction-img{
+    width: 100px;
+}
+#login-error{
+    color: red;
+}
