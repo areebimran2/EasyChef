@@ -1,5 +1,6 @@
 import '../../custom.css'
 import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
+import { Link } from 'react-router-dom';
 import homeslide1 from '../../images/homeslide1.jpg'
 import homeslide2 from '../../images/homeslide2.jpg'
 import homeslide3 from '../../images/homeslide3.jpg'
@@ -33,7 +34,7 @@ function Home() {
                 <p>Browse through a variety of unique and tasty dishes from various cuisines found across the globe. Experience the many exciting 
                   recipes that Easy Chef has to offer through the support of our creators.
                 </p>
-                <a href="recipeSearch.html" className="btn btn-brown">Search recipes now</a>
+                <Link to="recipes/search"><button className="btn btn-brown">Search recipes now</button></Link>
                 </div>
             </div>
             <div className="carousel-item">

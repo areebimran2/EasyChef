@@ -49,6 +49,7 @@ const HomeComp = () => {
                             <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                             <div className="card-body">
                               <div className="card-title">{recipe.name}</div>
+                              <div className="card-favs">Number of favourites: {recipe.num_fav}</div>
                             </div></Link>
                         </div>
                     ))}
