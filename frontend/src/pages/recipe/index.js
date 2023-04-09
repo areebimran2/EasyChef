@@ -11,6 +11,8 @@ import LikeButton from '../../components/recipe/LikeButton';
 import Ratings from '../../components/recipe/Ratings';
 import RateButton from '../../components/recipe/Ratings/RateButton';
 import { Link } from 'react-router-dom';
+import EditRecipeButton from '../../components/recipe/editRecipeButton';
+import CommentForm from '../../components/form/comments';
 
 function Recipe() {
   const nav = useNavigate()
@@ -25,7 +27,6 @@ function Recipe() {
   },[id]
   )
   let hasBaseRecipe = data.base_recipe? true: false
-  console.log("has base recipe", hasBaseRecipe)
   const handleDisabledView = (event) => {
     if (!hasBaseRecipe) {
       event.preventDefault(); // prevent the link from being clicked
@@ -42,6 +43,7 @@ function Recipe() {
           <h1>{data.name}</h1>
           {/* component buttons */}
           <div>
+            <EditRecipeButton/>
             <UseBaseRecipeButton/>
           </div>
       </div>
@@ -75,7 +77,15 @@ function Recipe() {
           <DirectionsList/>
           
       </div>
-      {/* comments */}
+      <div className="card col-8 bg-light p-4 mt-5">
+        <h3>Comments</h3>
+        
+        <div className='card mb-4 p-2'>
+      
+        </div>
+        <CommentForm/>
+      </div>
+      
 
     </div>
     </>   

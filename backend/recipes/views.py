@@ -166,6 +166,16 @@ class EditDirection(UpdateAPIView, RetrieveAPIView):
         add_to_history(recipe, self.request.user)
         return direction
 
+class DeleteDirection(UpdateAPIView):
+    serializer_class = RecipeSerializer
+
+    def get_object(self):
+        print('recipe')
+        recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
+        print('direction', self.kwargs['num'])
+        direction = get_object_or_404(Direction, id=self.kwargs['num'])
+        direction.delete()
+        return recipe
 
 # <str:username>/created-recipes/
 # View all the created recipes by a certain creator (or the current logged-in user)

@@ -1,13 +1,12 @@
 import {React, useContext, useState, useEffect} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
-import FormDiv from '../form input div';
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
 import axios from 'axios';
 
-const RecipeBaseForm = () => {
+const EditRecipeForm = () => {
   let {data, setData} = useContext(RecipeAPIContext)
-  let bid = localStorage.getItem('base_id')
+  let bid = localStorage.getItem('edit_id')
 
   useEffect( ()=>{
     fetch(`http://localhost:8000/recipes/recipe/${bid}/`)
@@ -17,14 +16,10 @@ const RecipeBaseForm = () => {
       setData(json)})
   },[bid])
 
-  const handleChange =(event) =>{
-    let key = event.target.name
-    setData({ ...data, key : event.target.value });
-  }
-
   const navigate = useNavigate()
 
   const createRecipeSubmit = (event) =>{
+    console.log($('#recipe-pic')[0].files)
     event.preventDefault()
     const formData = new FormData();
     const form = {
@@ -57,7 +52,7 @@ const RecipeBaseForm = () => {
       $("#form-error").html("")
       const token = localStorage.getItem('token')
 
-        axios.post(`http://localhost:8000/recipes/recipe/${bid}/use-base-recipe/`, formData,
+        axios.patch(`http://localhost:8000/recipes/recipe/${bid}/edit/`, formData,
         {
             headers: {
             'Authorization': `Bearer ${token}`,
@@ -79,7 +74,7 @@ const RecipeBaseForm = () => {
           }
         })
         .then(dat =>{ 
-          navigate(`/recipe/${dat.id}/base-recipe-add-direction`)
+          navigate(`/recipe/${dat.id}/edit-direction`)
         })
         .catch(error => {
           console.error(error)
@@ -144,7 +139,7 @@ const RecipeBaseForm = () => {
     </div>
 
       <label className="form-label">Ingredients:</label>
-        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required defaultValue={data.ingredients_list} onChange={handleChange}></textarea>
+        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required defaultValue={data.ingredients_list} ></textarea>
       
         <div className='d-flex justify-content-end mt-5'>
             <button className="btn btn-brown ps-5 pe-5" onClick={createRecipeSubmit}>Next</button>
@@ -157,5 +152,4 @@ const RecipeBaseForm = () => {
     
 }
 
-
-export default RecipeBaseForm;
+export default EditRecipeForm;
