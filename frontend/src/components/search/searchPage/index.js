@@ -12,6 +12,10 @@ const SearchPage = () => {
     var [dietSearch, setDietSearch] = useState("");
     var [timeGTE, setTimeGTE] = useState("0");
     var [timeLTE, setTimeLTE] = useState("10000000");
+    const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
+    "GLUTENF": "Gluten-free", "LCARB": "Low Carb", "KT": "Keto", "LF": "Low-fat"}
+    const cuisineCode = {"NONE": "N/A", "CN": "Chinese", "CR": "Creole", 
+    "FR": "French", "IN": "Indian", "JP": "Japanese", "KO": "Korean", "ME": "Middle-Eastern", "WE": "Western"}
 
     /*
     useEffect(() => {
@@ -220,7 +224,7 @@ const SearchPage = () => {
                                     </div></Link>
                                 </div>
                                 */
-                                <div className="card card-custom infocard bg-white text-black" key={i}>
+                                <div className="card infocard bg-white text-black" key={i}>
                                     <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                                     <div className="card-body hidedetails">
                                         <div className="card-title">{recipe.name}</div>
@@ -235,8 +239,8 @@ const SearchPage = () => {
                                         </div>
                                         <div className="card recipecard mt-2 p-3 bg-light-brown">
                                             <ul className="list-unstyled mb-0 lh-lg">
-                                                <li><span className="fw-bold">Diet:</span> {recipe.diet}</li>
-                                                <li><span className="fw-bold">Cuisine:</span> {recipe.cuisine}</li>
+                                                <li><span className="fw-bold">Diet:</span> {dietCode[recipe.diet]}</li>
+                                                <li><span className="fw-bold">Cuisine:</span> {cuisineCode[recipe.cuisine]}</li>
                                                 <li><span className="fw-bold">Cooking time:</span> {recipe.cooking_time} minutes</li>
                                                 <li><span className="fw-bold">Servings: </span> {recipe.serving_size}</li>
                                             </ul>
