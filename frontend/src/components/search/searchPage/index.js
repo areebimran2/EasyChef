@@ -210,7 +210,7 @@ const SearchPage = () => {
                             return (
                                 <div className="card card-custom infocard bg-white text-black" key={i}>
                                     <Link to={{
-                                        pathname: `/recipes/recipe/${recipe.id}`
+                                        pathname: `/recipe/${recipe.id}`
                                     }}>
                                     <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                                     <div className="card-body">
