@@ -1,12 +1,20 @@
 import {React, useContext, useState, useEffect} from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
-import FormDiv from '../form input div';
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
 import axios from 'axios';
 
-const RecipeForm = () => {
+const EditRecipeForm = () => {
   let {data, setData} = useContext(RecipeAPIContext)
+  let bid = localStorage.getItem('edit_id')
+
+  useEffect( ()=>{
+    fetch(`http://localhost:8000/recipes/recipe/${bid}/`)
+    .then(response => response.json())
+    .then(json => {
+      console.log("recipe form",json)
+      setData(json)})
+  },[bid])
 
   const navigate = useNavigate()
 
@@ -23,7 +31,7 @@ const RecipeForm = () => {
       prep_time: parseInt($('#prep-time').val()) || 0,
       ingredients_list: $('#ingredients-list').val() || '',
       picture: $('#recipe-pic')[0].files[0] || ''
-    }  
+    }
     Object.keys(form).forEach(key => {
       console.log("formdata", key, form[key])
       formData.append(key, form[key]);
@@ -42,10 +50,9 @@ const RecipeForm = () => {
     }
     else{
       $("#form-error").html("")
-      console.log("form data---", formData)
       const token = localStorage.getItem('token')
 
-        axios.post('http://localhost:8000/recipes/add/', formData,
+        axios.patch(`http://localhost:8000/recipes/recipe/${bid}/edit/`, formData,
         {
             headers: {
             'Authorization': `Bearer ${token}`,
@@ -65,9 +72,9 @@ const RecipeForm = () => {
             console.log("successful submission")
             return response.data
           }
-          })
+        })
         .then(dat =>{ 
-          navigate(`/recipe/${dat.id}/add-direction`)
+          navigate(`/recipe/${dat.id}/edit-direction`)
         })
         .catch(error => {
           console.error(error)
@@ -81,16 +88,16 @@ const RecipeForm = () => {
     <form className="card bg-light-brown mt-3 p-5">
       
     <div className="d-flex mb-3">
-        <label for="recipe-name" className="form-label mb-auto mt-auto me-2">Recipe Name:</label>
-        <input type="text" className="form-control" id="recipe-name" placeholder="Enter recipe name"/>
+        <label htmlFor="recipe-name" className="form-label mb-auto mt-auto me-2">Recipe Name:</label>
+        <input type="text" className="form-control" id="recipe-name" placeholder="Enter recipe name" defaultValue={data.name}/>
     </div>
     <div className="d-flex mb-3">
-        <label for="recipe-pic" className="form-label mb-auto mt-auto me-2">Pictures:</label>
+        <label htmlFor="recipe-pic" className="form-label mb-auto mt-auto me-2">Pictures:</label>
         <input type="file" className="form-control" id="recipe-pic"/>
     </div>
       <div className="d-flex mb-4">
             <label className="form-label me-2">Type of Diet:</label>
-            <select className="form-select-sm" id='diet' name='diet' multiple required>
+            <select className="form-select-sm" id='diet' name='diet' multiple required value={data.diet}>
                 <option value="NONE">None</option>
                 <option value="VEGAN">Vegan</option>
                 <option value="VEG">Vegetarian</option>
@@ -103,7 +110,7 @@ const RecipeForm = () => {
 
         <div className="d-flex mb-4">
             <label className="me-2 form-label">Type of Cuisine: </label>
-            <select className="form-select-sm" id='cuisine' name='cuisine' required>
+            <select className="form-select-sm" id='cuisine' name='cuisine' required defaultValue={data.cuisine}>
                 <option value="NONE">None</option>
                 <option value="CN">Chinese</option>
                 <option value="CR">Creole</option>
@@ -117,22 +124,22 @@ const RecipeForm = () => {
         </div>
 
     <div className="d-flex mb-3">
-        <label for="prep-time" className="form-label mb-auto mt-auto me-2">Prep time:</label>
-        <input type="number" className="form-control" id="prep-time" placeholder='time in minutes'/>
+        <label htmlFor="prep-time" className="form-label mb-auto mt-auto me-2">Prep time:</label>
+        <input type="number" className="form-control" id="prep-time" placeholder='time in minutes' defaultValue={data.prep_time}/>
     </div>
 
     <div className="d-flex mb-3">
-        <label for="cooking-time" className="form-label mb-auto mt-auto me-2">Cooking time:</label>
-        <input type="number" className="form-control" id="cooking-time" placeholder='time in minutes'/>
+        <label htmlFor="cooking-time" className="form-label mb-auto mt-auto me-2">Cooking time:</label>
+        <input type="number" className="form-control" id="cooking-time" placeholder='time in minutes' defaultValue={data.cooking_time}/>
     </div>
 
     <div className="d-flex mb-3">
-        <label for="servings" className="form-label mb-auto mt-auto me-2">Serving size:</label>
-        <input type="number" className="form-control" id="servings" placeholder='per person'/>
+        <label htmlFor="servings" className="form-label mb-auto mt-auto me-2">Serving size:</label>
+        <input type="number" className="form-control" id="servings" placeholder='per person' defaultValue={data.serving_size}/>
     </div>
 
       <label className="form-label">Ingredients:</label>
-        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required></textarea>
+        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required defaultValue={data.ingredients_list} ></textarea>
       
         <div className='d-flex justify-content-end mt-5'>
             <button className="btn btn-brown ps-5 pe-5" onClick={createRecipeSubmit}>Next</button>
@@ -145,5 +152,4 @@ const RecipeForm = () => {
     
 }
 
-
-export default RecipeForm;
+export default EditRecipeForm;

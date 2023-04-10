@@ -5,7 +5,7 @@ import Input from '../input';
 
 const FormDiv = (props) => {
 
-        const { type, id, label, name, func } = props
+        const { type, id, label, name, func, value } = props
         return (
             <>
                 <div className="d-flex mb-3">
@@ -15,6 +15,7 @@ const FormDiv = (props) => {
                         id={id}
                         name={name}
                         onChange={func}
+                        defaultValue={value}
                     />
                 </div>
                 
