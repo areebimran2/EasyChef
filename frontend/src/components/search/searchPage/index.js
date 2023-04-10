@@ -1,9 +1,9 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../../../custom.css'
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import $ from 'jquery'
 import { Link } from "react-router-dom";
-import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
+//import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 
 const SearchPage = () => {
     var [recipes, setRecipes] = useState();
