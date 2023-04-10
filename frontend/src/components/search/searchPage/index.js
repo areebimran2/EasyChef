@@ -208,6 +208,7 @@ const SearchPage = () => {
                         recipes.results
                         .map((recipe, i) => {
                             return (
+                                /*
                                 <div className="card card-custom infocard bg-white text-black" key={i}>
                                     <Link to={{
                                         pathname: `/recipe/${recipe.id}`
@@ -217,6 +218,30 @@ const SearchPage = () => {
                                         <div className="card-title">{recipe.name}</div>
                                         <div className="card-creator">Created By: {recipe.creator}</div>
                                     </div></Link>
+                                </div>
+                                */
+                                <div className="card card-custom infocard bg-white text-black" key={i}>
+                                    <img className="card-img" src={recipe.picture} alt={recipe.name}/>
+                                    <div className="card-body hidedetails">
+                                        <div className="card-title">{recipe.name}</div>
+                                        <div className="card-creator">Created By: {recipe.creator}</div>
+                                        <div className="d-flex justify-content-between">
+                                            <div>
+                                                <Link to= {{
+                                                    pathname: `/recipe/${recipe.id}`
+                                                }}>
+                                                <button className="btn-sm btn-outline-brown px-3">View</button></Link>
+                                            </div>
+                                        </div>
+                                        <div className="card recipecard mt-2 p-3 bg-light-brown">
+                                            <ul className="list-unstyled mb-0 lh-lg">
+                                                <li><span className="fw-bold">Diet:</span> {recipe.diet}</li>
+                                                <li><span className="fw-bold">Cuisine:</span> {recipe.cuisine}</li>
+                                                <li><span className="fw-bold">Cooking time:</span> {recipe.cooking_time} minutes</li>
+                                                <li><span className="fw-bold">Servings: </span> {recipe.serving_size}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         })
