@@ -3,7 +3,7 @@ import React from 'react';
 
 const Input = (props) => {
     
-    const { type, id, name, func } = props;
+    const { type, id, name, func, value } = props;
     return (
         <>
             <input className="form-control"
@@ -12,6 +12,7 @@ const Input = (props) => {
                 onChange={func}
                 name={name}
                 multiple
+                defaultValue={value}
             />
         </>
     )

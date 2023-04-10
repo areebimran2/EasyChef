@@ -15,9 +15,10 @@ export const useRecipeAPIContext = () => {
         picture: null,
         num_fav: null,
         num_likes: null,
-        ave_ratings: null
+        ave_ratings: null,
+        base_recipe: null
+        
     });
-    
 
     return {
         data, setData
@@ -40,9 +41,12 @@ const RecipeAPIContext = createContext(
         picture: null,
         num_fav: null,
         num_likes: null,
-        ave_ratings: null
+        ave_ratings: null,
+        base_recipe: null
+        
     },
-    setData: () => {}
+    setData: () => {},
+    
 
     
     }

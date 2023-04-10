@@ -17,6 +17,7 @@ urlpatterns = [
     path('recipe/<int:id>/edit-serving-size/', EditServingSize.as_view()),
     path('recipe/<int:id>/add-directions/', AddDirection.as_view()),
     path('recipe/<int:id>/edit-directions/<int:num>/', EditDirection.as_view()),
+    path('recipe/<int:id>/delete-directions/<int:num>/', DeleteDirection.as_view()),
     path('recipe/<int:id>/add-comment/', AddCommentView.as_view()),
     path('recipe/<int:id>/shopping-list/add/', AddShoppingListView.as_view()),
     path('recipe/<int:id>/shopping-list/remove/', RemoveShoppingListView.as_view()),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('recipe/<int:id>/add-like/', AddLikeView.as_view()),
     path('recipe/<int:id>/remove-like/', RemoveLikeView.as_view()),
     path('recipe/<int:id>/rate/', RatingView.as_view()),
+    path('recipe/<int:id>/comments/', ViewRecipeComment.as_view())
 ]

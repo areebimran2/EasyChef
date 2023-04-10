@@ -33,11 +33,11 @@ class RecipeSerializer(serializers.ModelSerializer):
     creator = serializers.CharField()
     ingredients = IngredientSerializer(many=True)
     directions = DirectionSerializer(many=True)
-    base_recipe = serializers.CharField()
+    # base_recipe = serializers.CharField()
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time', 'prep_time', 'serving_size', 'directions', 'ingredients',
+        fields = ['id', 'name', 'cuisine', 'diet', 'cooking_time', 'prep_time', 'serving_size', 'directions', 'ingredients', 'ingredients_list',
                   'base_recipe', 'creator', 'num_fav', "num_likes", "ave_rating", "picture"]
 
 

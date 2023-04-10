@@ -4,6 +4,10 @@
 
 /*     
 color:#6E3C1C; #C86F34*/
+/* scrollbar */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+  }
 
 *{
     font-family: 'Poppins', sans-serif;
@@ -44,6 +48,9 @@ a:hover{
     color: #C86F34;
 }
 /* button brown */
+.btn:hover{
+    color: #A06026;
+}
 .btn-brown{
     background-color: #6E3C1C;
     color: white;
@@ -61,7 +68,10 @@ a:hover{
     color: white;
     background-color: #6E3C1C;
 }
-
+.disabled-link,.disabled-link:hover{
+    color: #6E3C1C99;
+    cursor: default;
+}
 /*My recipes, favorites, and recipe history carousel scrolling*/
 .carousel-control-prev, .carousel-control-next {
     background-color: #6E3C1C;
@@ -115,6 +125,8 @@ a:hover{
 
 .card.infocard .card-img, .card.listcard .card-img {
     max-height: 14rem;
+    height: 15vw;
+    object-fit: cover;
 }
 
 
@@ -247,6 +259,10 @@ ul.dropdown-menu[data-bs-popper]{
     z-index: 0;
     margin-right: 5rem;
     padding-bottom: 3rem;
+}
+
+.form-select-sm{
+    min-width: 225px;
 }
 
 .extendheader {

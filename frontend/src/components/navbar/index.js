@@ -29,7 +29,7 @@ class Navbar extends React.Component {
                     </li>
                     
                     <li className="nav-item">
-                        <a className="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown"><i className="fa-solid fa-circle-user"></i></a>
+                        <a className="nav-link dropdown-toggle position-relative" href="/#" role="button" data-bs-toggle="dropdown"><i className="fa-solid fa-circle-user"></i></a>
                         <ul className="dropdown-menu position-absolute ">
                           <li><Link to="/profile" className='dropdown-item'>Profile</Link></li>
                           <li><Link to="/shoppinglist" className='dropdown-item'>Shopping List</Link></li>
