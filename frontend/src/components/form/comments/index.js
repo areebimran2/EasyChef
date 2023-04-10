@@ -1,11 +1,26 @@
 import $ from 'jquery'
 import axios from 'axios'
 import { useParams } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import RecipeAPIContext from '../../../contexts/recipeAPIcontext'
 
 const CommentForm = () =>{
   const {id} = useParams()
   const token = localStorage.getItem('token')
+  const {comments, setComments} = useContext(RecipeAPIContext)
+
+  useEffect(()=>{
+    fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
+    .then(response => response.json())
+    .then(data=>{
+      setComments(data.results)
+    })
+  },[])
+
+  comments.map(elem => {
+    elem.date_added = elem.date_added.slice(0, 10)
+})
+  
 
   const handleSubmit = (e) =>{
     e.preventDefault() // need to remove
@@ -49,16 +64,31 @@ const CommentForm = () =>{
 
   return (
     <>
+    <div className="card col-8 bg-light p-4 mt-5">
+      <h3>Comments</h3>
+      
+      {comments ? comments.map((elem, index) => 
+      <div key={index} className='mb-4'>
+          <div className='card p-2'>
+          <p>{elem.content}</p>
+        </div>
+        <div className='text-end'><small><em>{elem.date_added}</em></small></div>
+      </div>
+        
+      ) : ''}
+      
       <form>
-          <textarea rows="3" id="comment-textarea" className="col-10 d-block rounded p-2" placeholder="Write comments here">
-          </textarea>
-          <div >
-              <label htmlFor="comment-upload-file" className="col-form-label-sm">Upload pictures: (optional)</label>
-              <input type="file" className="form-control form-control-sm form w-50" id="comment-upload-file"/>
-          </div>
-          
-          <button className="btn btn-brown btn-sm mt-2" onClick={handleSubmit}>Post comment</button>
+        <textarea rows="3" id="comment-textarea" className="col-10 d-block rounded p-2 mt-4" placeholder="Write comments here">
+        </textarea>
+        <div >
+            <label htmlFor="comment-upload-file" className="col-form-label-sm">Upload pictures: (optional)</label>
+            <input type="file" className="form-control form-control-sm form w-50" id="comment-upload-file"/>
+        </div>
+        
+        <button className="btn btn-brown btn-sm mt-2" onClick={handleSubmit}>Post comment</button>
       </form>
+    </div>
+      
     </>
   )
 }

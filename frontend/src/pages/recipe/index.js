@@ -77,15 +77,7 @@ function Recipe() {
           <DirectionsList/>
           
       </div>
-      <div className="card col-8 bg-light p-4 mt-5">
-        <h3>Comments</h3>
-        
-        <div className='card mb-4 p-2'>
-      
-        </div>
         <CommentForm/>
-      </div>
-      
 
     </div>
     </>   
