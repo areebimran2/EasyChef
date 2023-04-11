@@ -73,7 +73,8 @@ const SearchPage = () => {
                 setSearchRecipes(results);
             }
             */
-
+        
+        setPage(1);
         e.preventDefault();
         setSearchResult($("#searchBar").val());
         setDietSearch($("#diet").val());
