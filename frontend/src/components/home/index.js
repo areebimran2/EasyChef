@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const HomeComp = () => {
     var [recipes, setRecipes] = useState();
     const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
-    "GLUTENF": "Gluten-free", "LCARB": "Low Carb", "KT": "Keto", "LF": "Low-fat"}
+    "GLUTENF": "Gluten-free", "LCARB": "Low-carb", "KT": "Keto", "LF": "Low-fat"}
     const cuisineCode = {"NONE": "N/A", "CN": "Chinese", "CR": "Creole", 
     "FR": "French", "IN": "Indian", "JP": "Japanese", "KO": "Korean", "ME": "Middle-Eastern", "WE": "Western"}
 

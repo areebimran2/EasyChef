@@ -10,8 +10,11 @@ const SearchPage = () => {
     var [searchResult, setSearchResult] = useState("");
     var [cuisineSearch, setCuisineSearch] = useState("");
     var [dietSearch, setDietSearch] = useState("");
-    var [timeGTE, setTimeGTE] = useState("0");
-    var [timeLTE, setTimeLTE] = useState("10000000");
+    var [timeGTE, setTimeGTE] = useState(0);
+    var [timeLTE, setTimeLTE] = useState(10000000);
+    var [pageNumber, setPageNumber] = useState(1);
+    var [noNext, setNoNext] = useState(true);
+
     const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
     "GLUTENF": "Gluten-free", "LCARB": "Low Carb", "KT": "Keto", "LF": "Low-fat"}
     const cuisineCode = {"NONE": "N/A", "CN": "Chinese", "CR": "Creole", 
@@ -38,13 +41,17 @@ const SearchPage = () => {
             diet__contains: dietSearch,
             cooking_time__gte: timeGTE,
             cooking_time__lte: timeLTE,
+            p: pageNumber,
         }),
         {
             method: 'GET'
         })
             .then(response => response.json())
-            .then(data => setRecipes(data))
-    }, [searchResult, cuisineSearch, dietSearch, timeGTE, timeLTE])
+            .then(data => {
+                setRecipes(data);
+                setNoNext(data.next === null);
+            })
+    }, [searchResult, cuisineSearch, dietSearch, timeGTE, timeLTE, pageNumber])
     
     
     const onChange = (event) => {
@@ -69,7 +76,18 @@ const SearchPage = () => {
         setCuisineSearch($("#cuisine").val());
         setTimeGTE($("#cookingtime").val().split(",")[0]);
         setTimeLTE($("#cookingtime").val().split(",")[1]);
-        
+        setPageNumber(1);
+        recipes.next === null ? setNoNext(true) : setNoNext(false);
+    }
+
+    const onClickNext = (e) => {
+        e.preventDefault();
+        setPageNumber(pageNumber + 1);
+    }
+
+    const onClickPrev = (e) => {
+        e.preventDefault();
+        setPageNumber(pageNumber - 1);
     }
 
     /*
@@ -199,8 +217,15 @@ const SearchPage = () => {
                             <input type="text" className="form-control" id="searchBar" defaultValue={searchResult} placeholder="Search..."/>
                         </div>
 
-                        <div className="text-center mt-5">
+                        <div className="text-center mt-3">
                             <button className="btn btn-blue" onClick={(e) => onSearch(e)}>Search</button>
+                        </div>
+
+                        <div className="text-center mt-3">
+                            <button className="btn btn-blue me-2" disabled={pageNumber === 1} 
+                            onClick={(e) => onClickPrev(e)}>Previous Page</button>
+                            <button className="btn btn-blue ms-2" disabled={noNext} 
+                            onClick={(e) => onClickNext(e)}>Next Page</button>
                         </div>
 
 
