@@ -237,6 +237,10 @@ ul.dropdown-menu[data-bs-popper]{
     right: 0.5rem;
 }
 
+.btn.rounded-pill {
+    width: 40px;
+}
+
 .shoppingcarousel {
     top: calc(50% - 35px);
 }
@@ -314,4 +318,9 @@ a.header-link{
 }
 #login-error{
     color: red;
+}
+
+.list-not-found{
+    width: 976px;
+    height: 313.59px;
 }
