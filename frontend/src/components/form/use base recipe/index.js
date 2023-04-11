@@ -65,17 +65,14 @@ const RecipeBaseForm = () => {
             }
         })
         .then(response => {
-          console.log("response status=== ", response.status, response)
-          if (response.status === 401){
-            navigate('/profile')
-          }
-          else if (response.status !== 201 && response.status !==200){
-            alert(`An error occurred: ${response.status}`)
-            throw new Error(`HTTP error status: ${response.status}`)
-          }
-          else{
-            console.log("successful submission")
+          if (response.status === 201 || response.status === 200){
+            console.log("successful submission!")
             return response.data
+          }
+          else if (response.status === 401){
+            alert('You have been logged out.\n Please log in again')
+          }else{
+            throw new Error(`HTTP error status: ${response.status}`)
           }
         })
         .then(dat =>{ 

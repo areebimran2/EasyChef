@@ -132,7 +132,7 @@ const RecipeForm = () => {
     </div>
 
       <label className="form-label">Ingredients:</label>
-        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' required></textarea>
+        <textarea rows="8" className="form-control w-50" id="ingredients-list" name='ingredients_list' placeholder='[quantity] [cup/pound/tbsp/tsp] [ingredient name]' required></textarea>
       
         <div className='d-flex justify-content-end mt-5'>
             <button className="btn btn-brown ps-5 pe-5" onClick={createRecipeSubmit}>Next</button>

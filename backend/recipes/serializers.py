@@ -204,7 +204,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['heading', 'content', 'date_added']
+        fields = ['heading', 'content', 'date_added', 'file']
 
     def create(self, validated_data):
         recipe_id = self.context.get('view').kwargs.get('id')
@@ -215,12 +215,18 @@ class CommentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('A heading is required.')
         if not validated_data.get('content'):
             raise serializers.ValidationError('Comment body is required.')
+        
         comment = Comment.objects.create(
             recipe=recipe,
             author=author,
             heading=validated_data['heading'],
             content=validated_data['content'],
         )
+        if validated_data.get('file'):
+            print('img----------------******')
+            comment.file = validated_data['file']
+            comment.save()
+            
         add_to_history(recipe, self.context['request'].user)
         return comment
 
