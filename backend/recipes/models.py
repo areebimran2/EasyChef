@@ -85,6 +85,7 @@ class Comment(models.Model):
     heading = models.CharField(max_length=100)
     content = RichTextField(null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='recipe_pictures/', null=True, blank=True)
 
     #def __str__(self):
     #    return 'Comment by {} on {}'.format(self.author.username, self.date_added.strftime("%d-%m-%Y %H:%M:%S"))

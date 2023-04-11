@@ -44,7 +44,7 @@ const HomeComp = () => {
                     {recipes.results.sort((a, b) => a.num_fav < b.num_fav ? 1: -1).slice(0, 6).map((recipe, i) => (
                         <div className="card card-custom infocard bg-white text-black" key={i}>
                             <Link to={{
-                                pathname: `/recipes/recipe/${recipe.id}`
+                                pathname: `/recipe/${recipe.id}`
                             }}>
                             <img className="card-img" src={recipe.picture} alt={recipe.name}/>
                             <div className="card-body">

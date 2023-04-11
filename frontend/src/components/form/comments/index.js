@@ -13,20 +13,23 @@ const CommentForm = () =>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
     .then(response => response.json())
     .then(data=>{
+      console.log(data.results)
       setComments(data.results)
     })
   },[])
 
   comments.map(elem => {
     elem.date_added = elem.date_added.slice(0, 10)
+    if (elem.file){
+      elem['ext'] = elem.file && elem.file.split('.').pop();
+    }
 })
   
 
   const handleSubmit = (e) =>{
-    e.preventDefault() // need to remove
+    // e.preventDefault() // need to remove
     const formData = new FormData()
     let commenttext = $('#comment-textarea').val()
-    console.log($('#comment-upload-file')[0])
     let img = $('#comment-upload-file')[0].files[0] || ''
 
     if (commenttext === ''){
@@ -35,7 +38,7 @@ const CommentForm = () =>{
     }
     formData.append('heading', 'comment')
     formData.append('content', commenttext)
-    // formData.append('') // need to create image field in 
+    formData.append('file', img)
 
     axios.post(`http://localhost:8000/recipes/recipe/${id}/add-comment/`, formData, {
       headers : {
@@ -71,6 +74,11 @@ const CommentForm = () =>{
       <div key={index} className='mb-4'>
           <div className='card p-2'>
           <p>{elem.content}</p>
+          {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}
+          {elem.file}
+          {elem.file && elem.ext === 'mp4'? <video controls className='direction-img'>
+          <source src={elem.file} type={`video/mp4`} />
+        </video> : ''}
         </div>
         <div className='text-end'><small><em>{elem.date_added}</em></small></div>
       </div>
@@ -81,8 +89,8 @@ const CommentForm = () =>{
         <textarea rows="3" id="comment-textarea" className="col-10 d-block rounded p-2 mt-4" placeholder="Write comments here">
         </textarea>
         <div >
-            <label htmlFor="comment-upload-file" className="col-form-label-sm">Upload pictures: (optional)</label>
-            <input type="file" className="form-control form-control-sm form w-50" id="comment-upload-file"/>
+            <label htmlFor="comment-upload-file" className="col-form-label-sm">Upload pictures/videos: (optional)</label>
+            <input type="file" className="form-control form-control-sm form w-50" id="comment-upload-file" accept='png, jpg, jpeg, mp4'/>
         </div>
         
         <button className="btn btn-brown btn-sm mt-2" onClick={handleSubmit}>Post comment</button>

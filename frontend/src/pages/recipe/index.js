@@ -13,6 +13,7 @@ import RateButton from '../../components/recipe/Ratings/RateButton';
 import { Link } from 'react-router-dom';
 import EditRecipeButton from '../../components/recipe/editRecipeButton';
 import CommentForm from '../../components/form/comments';
+import AddShoplistButton from '../../components/recipe/addShoopinglistButton';
 
 function Recipe() {
   const nav = useNavigate()
@@ -43,6 +44,7 @@ function Recipe() {
           <h1>{data.name}</h1>
           {/* component buttons */}
           <div>
+            <AddShoplistButton/>
             <EditRecipeButton/>
             <UseBaseRecipeButton/>
           </div>

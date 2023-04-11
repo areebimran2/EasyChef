@@ -309,7 +309,8 @@ a.header-link{
 }
 
 .direction-img{
-    width: 100px;
+    width: 200px;
+    height: auto;
 }
 #login-error{
     color: red;
