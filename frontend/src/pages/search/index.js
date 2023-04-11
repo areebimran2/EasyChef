@@ -11,14 +11,9 @@ function Search(){
             </div>
 
             <div className="d-flex flex-row">
-                <SearchPage/>
-                
+                <SearchPage url={'http://localhost:8000/recipes/search'}/>
             </div>
-
-            
         </div>
-            
-
         </>
     );
 }
