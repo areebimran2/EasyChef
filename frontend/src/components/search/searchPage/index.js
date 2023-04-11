@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../../pagination";
 //import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 
-const SearchPage = () => {
+const SearchPage = ({ url, token }) => {
     const perPage = 9;
 
     let navigate = useNavigate();
@@ -39,7 +39,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         fetch(
-            `http://localhost:8000/recipes/search?p=${page}&page_size=${perPage}&` +
+            url + `?p=${page}&page_size=${perPage}&` +
             new URLSearchParams({
                 search: searchResult,
                 cuisine: cuisineSearch,
@@ -49,6 +49,9 @@ const SearchPage = () => {
             }),
             {
                 method: "GET",
+                headers: token === undefined ? {} : {
+                    'Authorization': `Bearer ${token}`,
+                },
             }
         )
             .then((response) => response.json())
@@ -57,6 +60,7 @@ const SearchPage = () => {
                 setHasEnded(data.next === null)
                 setCount(data.count)
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, searchResult, cuisineSearch, dietSearch, timeGTE, timeLTE]);
 
     const onChange = (event) => {
@@ -73,7 +77,7 @@ const SearchPage = () => {
                 setSearchRecipes(results);
             }
             */
-        
+
         setPage(1);
         e.preventDefault();
         setSearchResult($("#searchBar").val());

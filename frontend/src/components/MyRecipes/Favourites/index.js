@@ -47,7 +47,7 @@ const Favourites = ({ token, perPage, setDeleted, deleted }) => {
                 <div class="d-flex justify-content-between mt-5 mb-2">
                     <h1>My Favorites</h1>
                     <div>
-                        <button type="button" class="btn btn-outline-brown" onclick={() => navigate('/created')}>Extend View</button>
+                        <button type="button" class="btn btn-outline-brown" onClick={() => navigate('/my-recipes/favourites')}>Extend View</button>
                     </div>
                 </div>
                 <animated.div style={props}>
@@ -61,7 +61,7 @@ const Favourites = ({ token, perPage, setDeleted, deleted }) => {
                 <div class="d-flex justify-content-between mt-5 mb-2">
                     <h1>My Favorites</h1>
                     <div>
-                        <button type="button" class="btn btn-outline-brown" onclick={() => navigate('/created')}>Extend View</button>
+                        <button type="button" class="btn btn-outline-brown" onClick={() => navigate('/my-recipes/favourites')}>Extend View</button>
                     </div>
                 </div>
                 <div class="list-not-found row align-items-center justify-content-center">
