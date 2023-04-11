@@ -22,7 +22,11 @@ const AddShoplistButton = () => {
         }
       }).then(response => {
         if (!response.ok){
-          throw new Error(`HTTP error status: ${response.status}`)
+          if (response.status === 401){
+            alert('You have been logged out.\n Please log in again')
+          }else{
+            throw new Error(`HTTP error status: ${response.status}`)
+          }
         }
         return response.json()})
         .then(dat => {

@@ -5,7 +5,7 @@ import $ from 'jquery'
 
 const FavouriteButton = () => {
   const{id} = useParams()
-  let hasFav = false
+  const [hasFav, setHasFav] = useState(true)
   const [fav, setFav] = useState(0);
 
   useEffect( ()=>{
@@ -19,7 +19,7 @@ const FavouriteButton = () => {
   const token = localStorage.getItem('token')
   const handleFav = ()=>{
     console.log("status fav", hasFav)
-    hasFav = !hasFav
+    setHasFav(!hasFav)
     if (hasFav){
       console.log("fav add")
       fetch(`http://localhost:8000/recipes/recipe/${id}/add-favourite/`,{
@@ -30,13 +30,14 @@ const FavouriteButton = () => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (!response.ok){
+        if (response.status === 401){
+          alert('You have been logged out.\n Please log in again')
+        }else{
           throw new Error(`HTTP error status: ${response.status}`)
         }
         return response.json()})
         .then(dat => {
           console.log("fav add", dat)
-          hasFav = false
           setFav(dat.num_fav)
           // if (dat.num_fav){
           //   hasFav = true

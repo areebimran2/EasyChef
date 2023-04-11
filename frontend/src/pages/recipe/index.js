@@ -70,7 +70,7 @@ function Recipe() {
             <li><span className="fw-bold">Cuisine:</span> {data.cuisine}</li>
             <li><span className="fw-bold">Prep time:</span> {data.prep_time} minutes</li>
             <li><span className="fw-bold">Cooking time:</span> {data.cooking_time} minutes</li>
-            <li><span className="fw-bold">Servings: </span>{data.serving_size} edit serving size</li> 
+            <li><span className="fw-bold">Servings: </span>{data.serving_size}</li> 
             {/* add component for editing serving size */}
         </ul>
       </div>

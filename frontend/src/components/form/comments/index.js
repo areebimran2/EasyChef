@@ -47,15 +47,17 @@ const CommentForm = () =>{
       }
     })
     .then(response => {
-      console.log("response status=== ", response.status)
-      // if (response.status === 401){
-      //   // nagivate('login')
-      // }
-      if (response.status !== 201 && response.status !== 200){
+      if (response.status === 201 || response.status === 200){
+        return response.data
+      }
+      else if (response.status === 401){
+        alert('You have been logged out.\n Please log in again')
+      }
+      else{
         alert(`An error occurred: ${response.status}`)
         throw new Error(`HTTP error status: ${response.status}`)
       }
-      return response.data;
+      
     })
     .then(dat => {
       console.log("response json:==== ", dat)

@@ -14,6 +14,12 @@ const AddDirectionForm = () => {
   const handleCreate = (e) => {
     e.preventDefault()
     console.log("elem",elements)
+    let desc = $('#description').val()
+    // some validation; description cannot be null
+    if (desc === ''){
+      $('#desc-error').html('Description cannot be blank!')
+      return
+    }
     if (elements !== []){
       navigate(`/recipe/${id}`)
     }

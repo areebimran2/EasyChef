@@ -5,7 +5,7 @@ import { useParams } from "react-router"
 import $ from 'jquery'
 const LikeButton = () => {
   const{id} = useParams()
-  const [hasLiked, setHasLiked] = useState(false);
+  const [hasLiked, setHasLiked] = useState(true);
   const [likes, setLikes] = useState(0);
 
   useEffect( ()=>{
@@ -30,12 +30,13 @@ const LikeButton = () => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (!response.ok){
+        if (response.status === 401){
+          alert('You have been logged out.\n Please log in again')
+        }else{
           throw new Error(`HTTP error status: ${response.status}`)
         }
         return response.json()})
         .then(dat => {
-          setHasLiked(true);
           setLikes(dat.num_likes)
           $('#like-btn').addClass('clicked')
           $('#like-btn').removeClass('not-clicked')
@@ -57,8 +58,7 @@ const LikeButton = () => {
           throw new Error(`HTTP error status: ${response.status}`)
         }
         return response.json()})
-        .then(dat =>
-          {setHasLiked(false);
+        .then(dat =>{
           console.log("dat remove:", dat)
           setLikes(dat.num_likes)
           $('#like-btn').addClass('not-clicked')
