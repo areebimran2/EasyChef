@@ -1,14 +1,16 @@
 import React from "react";
 import notfound from './local-file-not-found.png'
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ id, recipe, deleted, setDeleted }) => {
     const token = localStorage.getItem('token')
+    let navigate = useNavigate()
 
     return (
         <div class="card infocard bg-white text-black" key={recipe.id}>
-            <img class="card-img" src={recipe.picture !== null ? recipe.picture : notfound} />
+            <img class="card-img" src={recipe.picture !== null ? recipe.picture : notfound} alt=""/>
             <div class="card-body hidedetails">
-                <div class="card-title">{recipe.name}</div>
+                <div class="card-title mt-3">{recipe.name}</div>
                 <div class="d-flex mb-2">
                     {[...Array(6).keys()]
                         .filter((item) => (item > 0))
@@ -19,8 +21,7 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                 </div>
                 <div class="d-flex justify-content-between">
                     <div>
-                        <a href="recipe.html"><button type="button"
-                            class="btn-sm btn-outline-brown px-3">View</button></a>
+                        <button type="button" class="btn-sm btn-outline-brown px-3 mb-0" onClick={() => {navigate(`/recipe/${recipe.id}`)}}>View</button>
                     </div>
                     {id === "mycreated" ? 
                     <div>
@@ -41,6 +42,7 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                         <li><span class="fw-bold">Diet:</span> Vegan</li>
                         <li><span class="fw-bold">Cuisine:</span> Western</li>
                         <li><span class="fw-bold">Cooking time:</span> {recipe.cooking_time} minutes</li>
+                        <li><span class="fw-bold">Prep time:</span> {recipe.prep_time} minutes</li>
                         <li><span class="fw-bold">Servings: </span>{recipe.serving_size}</li>
                     </ul>
                 </div>
