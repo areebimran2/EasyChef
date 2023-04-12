@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 const Card = ({ id, recipe, deleted, setDeleted }) => {
     const token = localStorage.getItem('token')
     let navigate = useNavigate()
+    const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
+    "GLUTENF": "Gluten-free", "LCARB": "Low-carb", "KT": "Keto", "LF": "Low-fat"}
+    const cuisineCode = {"NONE": "N/A", "CN": "Chinese", "CR": "Creole", 
+    "FR": "French", "IN": "Indian", "JP": "Japanese", "KO": "Korean", "ME": "Middle-Eastern", "WE": "Western"}
 
     return (
         <div class="card infocard bg-white text-black" key={recipe.id}>
@@ -39,8 +43,8 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                 </div>
                 <div class="card recipecard mt-2 p-3 bg-light-brown">
                     <ul class="list-unstyled mb-0 lh-lg">
-                        <li><span class="fw-bold">Diet:</span> Vegan</li>
-                        <li><span class="fw-bold">Cuisine:</span> Western</li>
+                        <li><span class="fw-bold">Diet:</span> {dietCode[recipe.diet]}</li>
+                        <li><span class="fw-bold">Cuisine:</span> {cuisineCode[recipe.cuisine]}</li>
                         <li><span class="fw-bold">Cooking time:</span> {recipe.cooking_time} minutes</li>
                         <li><span class="fw-bold">Prep time:</span> {recipe.prep_time} minutes</li>
                         <li><span class="fw-bold">Servings: </span>{recipe.serving_size}</li>
