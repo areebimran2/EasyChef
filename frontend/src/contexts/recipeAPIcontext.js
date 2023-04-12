@@ -21,9 +21,10 @@ export const useRecipeAPIContext = () => {
     });
 
     const [comments, setComments] = useState([])
+    const [rated, setRated] = useState([])
 
     return {
-        data, setData, comments, setComments
+        data, setData, comments, setComments, rated, setRated
     }
 }
   
@@ -49,7 +50,9 @@ const RecipeAPIContext = createContext(
     },
     setData: () => {},
     comments: null,
-    setComments: () => {}
+    setComments: () => {},
+    rated: false,
+    setRated: () => {}
     
 
     

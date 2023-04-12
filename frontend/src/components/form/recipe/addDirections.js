@@ -13,13 +13,6 @@ const AddDirectionForm = () => {
   // handle use base recipe
   const handleCreate = (e) => {
     e.preventDefault()
-    console.log("elem",elements)
-    let desc = $('#description').val()
-    // some validation; description cannot be null
-    if (desc === ''){
-      $('#desc-error').html('Description cannot be blank!')
-      return
-    }
     if (elements !== []){
       navigate(`/recipe/${id}`)
     }
@@ -55,9 +48,6 @@ const AddDirectionForm = () => {
       })
       .then(response => {
         console.log("response status=== ", response.status)
-        // if (response.status === 401){
-        //   // nagivate('login')
-        // }
         if (response.status !== 201 && response.status !== 200){
           alert(`An error occurred: ${response.status}`)
           throw new Error(`HTTP error status: ${response.status}`)
@@ -79,8 +69,6 @@ const AddDirectionForm = () => {
 
   // display direction after successful post request
   const showDirection = (desc, pic) => {
-    console.log("desc", desc)
-    console.log("pic", pic)
     return(
       <>
       {desc} <br/>{pic !== null && <img src={pic} alt='direction pic' className='direction-img'/>}

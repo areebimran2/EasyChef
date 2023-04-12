@@ -33,6 +33,7 @@ const DeleteDirectionButton = (props) => {
       })
       .catch(error => {
         console.error(error)
+        alert(error)
       })
   }
 

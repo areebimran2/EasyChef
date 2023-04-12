@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router";
+import RecipeAPIContext from "../../../contexts/recipeAPIcontext";
 
 const Ratings = () =>{
   const [rating, setRating] = useState(0);
   const {id} = useParams()
+  const {rated} = useContext(RecipeAPIContext)
 
   useEffect( ()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/`)
     .then(response => response.json())
     .then(json => {
       setRating(json.ave_rating)})
-  },[]
+  },[rated]
   )
 
   return (

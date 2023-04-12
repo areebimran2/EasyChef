@@ -1,11 +1,15 @@
 import { useParams } from "react-router"
-import {React} from 'react'
+import {React, useContext} from 'react'
 import $ from 'jquery'
+import RecipeAPIContext from "../../../contexts/recipeAPIcontext"
 
 const RateButton = () => {
   const token = localStorage.getItem('token')
   const {id} = useParams()
+  const {rated, setRated} = useContext(RecipeAPIContext)
+
   const handleClick = (e) =>{
+    e.preventDefault()
     let num = $('#rate-input').val()
     if (num < 1 || num > 5){
       return
@@ -23,6 +27,7 @@ const RateButton = () => {
       if (!response.ok){
         throw new Error(`HTTP error status: ${response.status}`)
       }
+      setRated(!rated)
       console.log("rating success!", response.status)
       return response.json()})
     .catch(err => console.error(err))
@@ -31,7 +36,7 @@ const RateButton = () => {
   return (
     <>
       <form className="bg-light-50">
-        <input type="number" id="rate-input" className="ms-5 me-2 rounded p-1" style={{width: "70px"}} placeholder-shown="rate from 1-5"/>
+        <input type="number" id="rate-input" className="ms-5 me-2 rounded p-1" style={{width: "100px"}} placeholder-shown="rate from 1-5"/>
         <button onClick={handleClick} className="btn btn-brown">Rate</button>
       </form>
     </>

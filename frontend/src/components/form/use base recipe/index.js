@@ -38,7 +38,6 @@ const RecipeBaseForm = () => {
       picture: $('#recipe-pic')[0].files[0] || ''
     }
     Object.keys(form).forEach(key => {
-      console.log("formdata", key, form[key])
       formData.append(key, form[key]);
     });
 
@@ -79,8 +78,18 @@ const RecipeBaseForm = () => {
           navigate(`/recipe/${dat.id}/base-recipe-add-direction`)
         })
         .catch(error => {
-          console.error(error)
-          $("#form-error").html(error)
+          if (error.response && error.response.status === 401) {
+            console.log("Unauthorized");
+            alert('You have been logged out.\n Please log in again')
+          } 
+          else if(error.response && error.response.status === 400){
+            $("#form-error").html('missing fields!');
+          }
+          else {
+           
+            console.error(error);
+            $("#form-error").html(error.message);
+          }
         })
       }
   }

@@ -61,24 +61,26 @@ const EditRecipeForm = () => {
         })
         .then(response => {
           console.log("response status=== ", response.status, response)
-          if (response.status === 401){
-            navigate('/profile')
-          }
-          else if (response.status !== 201 && response.status !==200){
-            alert(`An error occurred: ${response.status}`)
-            throw new Error(`HTTP error status: ${response.status}`)
-          }
-          else{
-            console.log("successful submission")
-            return response.data
-          }
+          console.log("successful submission")
+          return response.data
+          
         })
         .then(dat =>{ 
           navigate(`/recipe/${dat.id}/edit-direction`)
         })
         .catch(error => {
-          console.error(error)
-          $("#form-error").html(error)
+          if (error.response && error.response.status === 401) {
+            console.log("Unauthorized");
+            alert('You have been logged out.\n Please log in again')
+          } 
+          else if(error.response && error.response.status === 400){
+            $("#form-error").html('missing fields!');
+          }
+          else {
+           
+            console.error(error);
+            $("#form-error").html(error.message);
+          }
         })
       }
   }

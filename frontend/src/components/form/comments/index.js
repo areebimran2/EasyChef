@@ -8,15 +8,15 @@ const CommentForm = () =>{
   const {id} = useParams()
   const token = localStorage.getItem('token')
   const {comments, setComments} = useContext(RecipeAPIContext)
+  const [commented, hasCommented ] = useState(false)
 
   useEffect(()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
     .then(response => response.json())
     .then(data=>{
-      console.log(data.results)
       setComments(data.results)
     })
-  },[])
+  },[commented])
 
   comments.map(elem => {
     elem.date_added = elem.date_added.slice(0, 10)
@@ -27,13 +27,14 @@ const CommentForm = () =>{
   
 
   const handleSubmit = (e) =>{
-    // e.preventDefault() // need to remove
+    e.preventDefault() // need to remove
     const formData = new FormData()
     let commenttext = $('#comment-textarea').val()
     let img = $('#comment-upload-file')[0].files[0] || ''
 
     if (commenttext === ''){
       alert('comment cannot be empty')
+      e.preventDefault()
       return
     }
     formData.append('heading', 'comment')
@@ -47,6 +48,7 @@ const CommentForm = () =>{
       }
     })
     .then(response => {
+      hasCommented(!commented)
       if (response.status === 201 || response.status === 200){
         return response.data
       }
@@ -63,8 +65,14 @@ const CommentForm = () =>{
       console.log("response json:==== ", dat)
     })
     .catch(error => {
-      console.error(error)
-    })  
+      if (error.response && error.response.status === 401) {
+        console.log("Unauthorized");
+        alert('You have been logged out.\n Please log in again')
+      } 
+      else {
+        console.error(error);
+      }
+    })
   }
 
   return (

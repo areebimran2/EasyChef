@@ -28,7 +28,7 @@ const Favourites = ({ token, perPage, setDeleted, deleted }) => {
             .then(response => {
                 if (!response.ok) {
                     if (response.status === 401) {
-                        navigate('/profile')
+                        navigate('/login')
                     }
                 } else {
                     return response.json()
