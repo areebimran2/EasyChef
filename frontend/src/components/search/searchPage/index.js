@@ -4,7 +4,7 @@ import "../../../../node_modules/bootstrap/dist/js/bootstrap.min.js";
 import notfound from "../../MyRecipes/Card/local-file-not-found.png";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
-import { getCuisine, getDiet } from "../../MyRecipes/Card"
+import { getCuisine, getDiet } from "../../MyRecipes/Card";
 import Pagination from "../../pagination";
 //import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 
@@ -25,22 +25,23 @@ const SearchPage = ({ url, token }) => {
     const [count, setCount] = useState(0);
 
     /*
-      useEffect(() => {
-          const fetchData = async () => {
-              const response = await fetch('http://localhost:8000/recipes/search/');
-              const data = await response.json();
-  
-              setRecipes(data);
-              
-          }
-  
-          fetchData();
-      }, []);
-      */
+        useEffect(() => {
+            const fetchData = async () => {
+                const response = await fetch('http://localhost:8000/recipes/search/');
+                const data = await response.json();
+    
+                setRecipes(data);
+                
+            }
+    
+            fetchData();
+        }, []);
+        */
 
     useEffect(() => {
         fetch(
-            url + `?p=${page}&page_size=${perPage}&` +
+            url +
+            `?p=${page}&page_size=${perPage}&` +
             new URLSearchParams({
                 search: searchResult,
                 cuisine: cuisineSearch,
@@ -50,16 +51,26 @@ const SearchPage = ({ url, token }) => {
             }),
             {
                 method: "GET",
-                headers: token === undefined ? {} : {
-                    'Authorization': `Bearer ${token}`,
-                },
+                headers:
+                    token === undefined
+                        ? {}
+                        : {
+                            Authorization: `Bearer ${token}`,
+                        },
             }
         )
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        navigate("/profile");
+                    }
+                }
+                return response.json();
+            })
             .then((data) => {
-                setRecipes(data.results)
-                setHasEnded(data.next === null)
-                setCount(data.count)
+                setRecipes(data.results);
+                setHasEnded(data.next === null);
+                setCount(data.count);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, searchResult, cuisineSearch, dietSearch, timeGTE, timeLTE]);
@@ -70,14 +81,14 @@ const SearchPage = ({ url, token }) => {
 
     const onSearch = (e) => {
         /*
-            if (recipes !== undefined){
-                const results = recipes.results.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-                || recipe.creator.toLowerCase().includes(searchTerm.toLowerCase()))
-                
-                //console.log(results);
-                setSearchRecipes(results);
-            }
-            */
+                if (recipes !== undefined){
+                    const results = recipes.results.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+                    || recipe.creator.toLowerCase().includes(searchTerm.toLowerCase()))
+                    
+                    //console.log(results);
+                    setSearchRecipes(results);
+                }
+                */
 
         setPage(1);
         e.preventDefault();
@@ -89,11 +100,11 @@ const SearchPage = ({ url, token }) => {
     };
 
     /*
-      useEffect(() => {
-          //console.log(timeGTE);
-          //console.log(timeLTE)
-      }, [timeGTE, timeLTE])
-      */
+        useEffect(() => {
+            //console.log(timeGTE);
+            //console.log(timeLTE)
+        }, [timeGTE, timeLTE])
+        */
 
     //console.log(searchResult);
 
@@ -298,14 +309,35 @@ const SearchPage = ({ url, token }) => {
                                 <div class="card recipecard mt-2 p-3 bg-light-brown">
                                     <ul class="list-unstyled mb-0 lh-lg">
                                         <li>
-                                            <span class="fw-bold">Diet:</span> {getDiet(recipe.diet).length > 2 ? <span>{getDiet(recipe.diet).slice(0, 2).map((item, index) => (
-                                                index > 0 ? <span>, {item}</span> : <span>{item}</span>
-                                            ))}, ...</span> : getDiet(recipe.diet).slice(0, 2).map((item, index) => (
-                                                index > 0 ? <span>, {item}</span> : <span>{item}</span>
-                                            ))}
+                                            <span class="fw-bold">Diet:</span>{" "}
+                                            {getDiet(recipe.diet).length > 2 ? (
+                                                <span>
+                                                    {getDiet(recipe.diet)
+                                                        .slice(0, 2)
+                                                        .map((item, index) =>
+                                                            index > 0 ? (
+                                                                <span>, {item}</span>
+                                                            ) : (
+                                                                <span>{item}</span>
+                                                            )
+                                                        )}
+                                                    , ...
+                                                </span>
+                                            ) : (
+                                                getDiet(recipe.diet)
+                                                    .slice(0, 2)
+                                                    .map((item, index) =>
+                                                        index > 0 ? (
+                                                            <span>, {item}</span>
+                                                        ) : (
+                                                            <span>{item}</span>
+                                                        )
+                                                    )
+                                            )}
                                         </li>
                                         <li>
-                                            <span class="fw-bold">Cuisine:</span> {getCuisine(recipe.cuisine)}
+                                            <span class="fw-bold">Cuisine:</span>{" "}
+                                            {getCuisine(recipe.cuisine)}
                                         </li>
                                         <li>
                                             <span class="fw-bold">Cooking time:</span>{" "}
@@ -326,34 +358,75 @@ const SearchPage = ({ url, token }) => {
                     ))}
                 </div>
                 <div class="d-flex justify-content-center mt-3 gap-2">
-                    <button disabled={page === 1} onClick={() => setPage(page - 1)} class="btn btn btn-outline-brown mx-3" type="button">
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                        class="btn btn btn-outline-brown mx-3"
+                        type="button"
+                    >
                         <span>PREV</span>
                     </button>
-                    <button disabled={page === 1} onClick={() => setPage(1)} class="btn rounded-pill btn-outline-brown" type="button">
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(1)}
+                        class="btn rounded-pill btn-outline-brown"
+                        type="button"
+                    >
                         <span>1</span>
                     </button>
-                    <Pagination count={count} page={page} setPage={setPage} perPage={perPage} />
-                    {Math.ceil(count / perPage) <= 5 ?
-                        Math.ceil(count / perPage) !== 1 ?
-                            <button disabled={page === Math.ceil(count / perPage)} onClick={() => setPage(Math.ceil(count / perPage))} class="btn rounded-pill btn-outline-brown" type="button">
+                    <Pagination
+                        count={count}
+                        page={page}
+                        setPage={setPage}
+                        perPage={perPage}
+                    />
+                    {Math.ceil(count / perPage) <= 5 ? (
+                        Math.ceil(count / perPage) !== 1 ? (
+                            <button
+                                disabled={page === Math.ceil(count / perPage)}
+                                onClick={() => setPage(Math.ceil(count / perPage))}
+                                class="btn rounded-pill btn-outline-brown"
+                                type="button"
+                            >
                                 <span>{Math.ceil(count / perPage)}</span>
                             </button>
-                            :
-                            undefined
-                        :
-                        ((Math.ceil(count / perPage) + 1) % 3 === 0 ? page >= Math.ceil(count / perPage) - 3 : (Math.ceil(count / perPage) - 1) % 3 === 0 ? page >= Math.ceil(count / perPage) - 2 : page >= Math.ceil(count / perPage) - 1) ?
-                            <>
-                                <button disabled={page === Math.ceil(count / perPage)} onClick={() => setPage(Math.ceil(count / perPage))} class="btn rounded-pill btn-outline-brown" type="button">
-                                    <span>{Math.ceil(count / perPage)}</span>
-                                </button>
-                            </> :
-                            <>
-                                <span>. . .</span>
-                                <button disabled={page === Math.ceil(count / perPage)} onClick={() => setPage(Math.ceil(count / perPage))} class="btn rounded-pill btn-outline-brown" type="button">
-                                    <span>{Math.ceil(count / perPage)}</span>
-                                </button>
-                            </>}
-                    <button disabled={hasEnded} onClick={() => setPage(page + 1)} class="btn btn-outline-brown mx-3" type="button">
+                        ) : undefined
+                    ) : (
+                        (Math.ceil(count / perPage) + 1) % 3 === 0
+                            ? page >= Math.ceil(count / perPage) - 3
+                            : (Math.ceil(count / perPage) - 1) % 3 === 0
+                                ? page >= Math.ceil(count / perPage) - 2
+                                : page >= Math.ceil(count / perPage) - 1
+                    ) ? (
+                        <>
+                            <button
+                                disabled={page === Math.ceil(count / perPage)}
+                                onClick={() => setPage(Math.ceil(count / perPage))}
+                                class="btn rounded-pill btn-outline-brown"
+                                type="button"
+                            >
+                                <span>{Math.ceil(count / perPage)}</span>
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <span>. . .</span>
+                            <button
+                                disabled={page === Math.ceil(count / perPage)}
+                                onClick={() => setPage(Math.ceil(count / perPage))}
+                                class="btn rounded-pill btn-outline-brown"
+                                type="button"
+                            >
+                                <span>{Math.ceil(count / perPage)}</span>
+                            </button>
+                        </>
+                    )}
+                    <button
+                        disabled={hasEnded}
+                        onClick={() => setPage(page + 1)}
+                        class="btn btn-outline-brown mx-3"
+                        type="button"
+                    >
                         <span>NEXT</span>
                     </button>
                 </div>

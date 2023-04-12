@@ -30,8 +30,9 @@ const LoginForm = () =>{
         if (response.status === 401 || response.status === 400){ // unauthorize
             $('#login-error').html('Username or password is invalid')
             $('#login-error').css('color','red')
+        } else {
+          setLoggedIn(true)
         }
-        setLoggedIn(true)
         console.log(response.status)
         return response.json()
       })
