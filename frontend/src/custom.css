@@ -81,14 +81,21 @@ a:hover{
     border-radius: 50%
 }
 
+.card.homecard {
+    width: 313.59px;
+    height: 380px;
+    overflow: hidden;
+}
+
+
 .card.infocard {
-    width: 19.6rem;
-    max-height: 19.6rem;
+    width: 313.59px;
+    height: 345px;
     overflow: hidden;
 }
 
 .card.listcard {
-    width: 19.6rem;
+    width: 313.59px;
 }
 
 .carousel-item .card.recipecard {
@@ -97,21 +104,26 @@ a:hover{
 
 .hidedetails.card-body {
     position: relative;
-    bottom: 0;
+    bottom: -224px;
     width: 100%;
     transition: 0.5s;
 }
 
-.card.infocard .btn-sm {
+.card.infocard .btn-sm, .card.homecard .btn-sm {
     opacity: 0;
 }
 
 .card.infocard:hover .card-body{
-    bottom: 65%;
+    bottom: -3%;
     background-color: white;
 }
 
-.card.infocard:hover .btn-sm {
+.card.homecard:hover .card-body{
+    bottom: -2%;
+    background-color: white;
+}
+
+.card.infocard:hover .btn-sm, .card.homecard:hover .btn-sm {
     opacity: 1;
 }
 
@@ -123,12 +135,11 @@ a:hover{
     right: 2%;
 }
 
-.card.infocard .card-img, .card.listcard .card-img {
-    max-height: 14rem;
-    height: 15vw;
+.card.infocard .card-img, .card.listcard .card-img, .card.homecard .card-img {
+    height: 224px;
+    position: absolute;
     object-fit: cover;
 }
-
 
 /* NAVIGATION BAR */
 .logo-img{
@@ -237,6 +248,10 @@ ul.dropdown-menu[data-bs-popper]{
     right: 0.5rem;
 }
 
+.btn.rounded-pill {
+    width: 40px;
+}
+
 .shoppingcarousel {
     top: calc(50% - 35px);
 }
@@ -309,8 +324,14 @@ a.header-link{
 }
 
 .direction-img{
-    width: 100px;
+    width: 200px;
+    height: auto;
 }
 #login-error{
     color: red;
+}
+
+.list-not-found{
+    width: 976px;
+    height: 313.59px;
 }

@@ -13,6 +13,7 @@ import RateButton from '../../components/recipe/Ratings/RateButton';
 import { Link } from 'react-router-dom';
 import EditRecipeButton from '../../components/recipe/editRecipeButton';
 import CommentForm from '../../components/form/comments';
+import AddShoplistButton from '../../components/recipe/addShoopinglistButton';
 
 function Recipe() {
   const nav = useNavigate()
@@ -43,6 +44,7 @@ function Recipe() {
           <h1>{data.name}</h1>
           {/* component buttons */}
           <div>
+            <AddShoplistButton/>
             <EditRecipeButton/>
             <UseBaseRecipeButton/>
           </div>
@@ -68,7 +70,7 @@ function Recipe() {
             <li><span className="fw-bold">Cuisine:</span> {data.cuisine}</li>
             <li><span className="fw-bold">Prep time:</span> {data.prep_time} minutes</li>
             <li><span className="fw-bold">Cooking time:</span> {data.cooking_time} minutes</li>
-            <li><span className="fw-bold">Servings: </span>{data.serving_size} edit serving size</li> 
+            <li><span className="fw-bold">Servings: </span>{data.serving_size}</li> 
             {/* add component for editing serving size */}
         </ul>
       </div>
@@ -77,15 +79,7 @@ function Recipe() {
           <DirectionsList/>
           
       </div>
-      <div className="card col-8 bg-light p-4 mt-5">
-        <h3>Comments</h3>
-        
-        <div className='card mb-4 p-2'>
-      
-        </div>
         <CommentForm/>
-      </div>
-      
 
     </div>
     </>   

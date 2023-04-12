@@ -81,7 +81,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
 
         if validated_data.get('prep_time'):
             recipe.prep_time = validated_data['prep_time']
-        
+
         if validated_data.get('picture'):
             recipe.picture = validated_data['picture']
 
@@ -121,7 +121,7 @@ class EditRecipeSerializer(serializers.ModelSerializer):
 
         if validated_data.get('prep_time'):
             instance.prep_time = validated_data['prep_time']
-        
+
         if validated_data.get('picture'):
             instance.picture = validated_data['picture']
 
@@ -204,7 +204,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['heading', 'content', 'date_added']
+        fields = ['heading', 'content', 'date_added', 'file']
 
     def create(self, validated_data):
         recipe_id = self.context.get('view').kwargs.get('id')
@@ -215,12 +215,18 @@ class CommentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('A heading is required.')
         if not validated_data.get('content'):
             raise serializers.ValidationError('Comment body is required.')
+        
         comment = Comment.objects.create(
             recipe=recipe,
             author=author,
             heading=validated_data['heading'],
             content=validated_data['content'],
         )
+        if validated_data.get('file'):
+            print('img----------------******')
+            comment.file = validated_data['file']
+            comment.save()
+            
         add_to_history(recipe, self.context['request'].user)
         return comment
 
@@ -314,6 +320,8 @@ class AddFavouritesSerializer(serializers.ModelSerializer):
         instance.num_fav += 1
         instance.save()
         self.context['request'].user.favourite_list.add(instance)
+        add_to_history(instance, self.context['request'].user)
+
         return instance
 
 
@@ -330,6 +338,7 @@ class DeleteFavouritesSerializer(serializers.ModelSerializer):
         instance.num_fav -= 1
         instance.save()
         self.context['request'].user.favourite_list.remove(instance)
+        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -350,6 +359,7 @@ class AddLikeSerializer(serializers.ModelSerializer):
         instance.num_likes += 1
         instance.save()
         found.save()
+        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -369,6 +379,7 @@ class DeleteLikeSerializer(serializers.ModelSerializer):
         instance.num_likes -= 1
         instance.save()
         found.save()
+        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -389,17 +400,17 @@ class RatingSerializer(serializers.ModelSerializer):
         found = InteractedWith.objects.get(user=self.context['request'].user,
                                            recipe=instance)
 
-        size = InteractedWith.objects.filter(~Q(rating=-1), recipe=instance).count()
-        if found and found.rating != -1 and size > 1:
-            instance.ave_rating = ((instance.ave_rating * size) - found.rating) / (size - 1)
-
+        instance.ave_rating = 0
         found.rating = validated_data['ave_rating']
         found.save()
+        recipes = InteractedWith.objects.filter(~Q(rating=-1), recipe=instance)
 
-        if size != 0:
-            instance.ave_rating = instance.ave_rating + ((validated_data['ave_rating'] - instance.ave_rating) / size)
-        else:
-            instance.ave_rating = validated_data['ave_rating']
+        for recipe in recipes:
+            instance.ave_rating += recipe.rating
+
+        instance.ave_rating = round(instance.ave_rating / recipes.count())
         instance.save()
+
+        add_to_history(instance, self.context['request'].user)
 
         return instance

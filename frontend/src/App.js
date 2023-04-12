@@ -16,6 +16,9 @@ import AddRecipeBase from './pages/UseBaseRecipe';
 import AddDirectionBase from './pages/UseBaseRecipe/addDirectionBase';
 import EditRecipe from './pages/editRecipe';
 import EditDirection from './pages/editRecipe/editDirections';
+import ExtendCreated from './pages/myRecipes/extendCreated';
+import ExtendHistory from './pages/myRecipes/extendHistory';
+import ExtendFavourites from './pages/myRecipes/extendFavourites';
 function App() {
 
   const recipe = (
@@ -35,6 +38,9 @@ function App() {
             <Route path='/recipe/:id/add-direction' element={<AddDirection/>}/>
             <Route path='/recipe/:id/edit-direction' element={<EditDirection/>}/>
             <Route path="/my-recipes" element={<MyRecipes/>}/>
+            <Route path="/my-recipes/created" element={<ExtendCreated/>}/>
+            <Route path="/my-recipes/history" element={<ExtendHistory/>}/>
+            <Route path="/my-recipes/favourites" element={<ExtendFavourites/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
             <Route path='/recipes/search' element={<Search/>}/>
