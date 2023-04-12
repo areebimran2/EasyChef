@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom';
 //    }
 //}
 
-const HomeComp = () => {
+const HomeComp = ({ url }) => {
     let navigate = useNavigate()
+    const perPage = 6;
 
     var [recipes, setRecipes] = useState();
     const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
@@ -19,7 +20,7 @@ const HomeComp = () => {
     "FR": "French", "IN": "Indian", "JP": "Japanese", "KO": "Korean", "ME": "Middle-Eastern", "WE": "Western"}
 
     useEffect(() => {
-        fetch('http://localhost:8000/recipes/all/',
+        fetch(url + `?page_size=${perPage}`,
             {
                 method: 'GET'
             })

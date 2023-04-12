@@ -57,7 +57,7 @@ function Home() {
             </button>
           </div>
         </div>
-          <HomeComponent/>
+          <HomeComponent url={'http://localhost:8000/recipes/all'}/>
       </>   
     );
   }
