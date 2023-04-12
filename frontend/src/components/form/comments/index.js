@@ -13,7 +13,6 @@ const CommentForm = () =>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
     .then(response => response.json())
     .then(data=>{
-      console.log(data.results)
       setComments(data.results)
     })
   },[])
@@ -34,6 +33,7 @@ const CommentForm = () =>{
 
     if (commenttext === ''){
       alert('comment cannot be empty')
+      e.preventDefault()
       return
     }
     formData.append('heading', 'comment')
@@ -63,8 +63,14 @@ const CommentForm = () =>{
       console.log("response json:==== ", dat)
     })
     .catch(error => {
-      console.error(error)
-    })  
+      if (error.response && error.response.status === 401) {
+        console.log("Unauthorized");
+        alert('You have been logged out.\n Please log in again')
+      } 
+      else {
+        console.error(error);
+      }
+    })
   }
 
   return (

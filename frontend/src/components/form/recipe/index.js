@@ -16,8 +16,8 @@ const RecipeForm = () => {
     const formData = new FormData();
     const form = {
       name: $('#recipe-name').val(),
-      diet: $('#diet').val() || 'NONE',
-      cuisine: $('#cuisine').val() || 'NONE',
+      diet: $('#diet').val() || '',
+      cuisine: $('#cuisine').val() || '',
       serving_size: parseInt($('#servings').val()) || 1,
       cooking_time: parseInt($('#cooking-time').val()) || 0,
       prep_time: parseInt($('#prep-time').val()) || 0,
@@ -25,13 +25,12 @@ const RecipeForm = () => {
       picture: $('#recipe-pic')[0].files[0] || ''
     }  
     Object.keys(form).forEach(key => {
-      console.log("formdata", key, form[key])
       formData.append(key, form[key]);
     });
 
     let hasError = false
     Object.entries(form).forEach(([key, value]) => {
-      if ((!value || value === '') && key !== 'picture'){
+      if ((!value || value === '')){
         console.log("missing",value, key)
         hasError = true
       }
@@ -42,7 +41,6 @@ const RecipeForm = () => {
     }
     else{
       $("#form-error").html("")
-      console.log("form data---", formData)
       const token = localStorage.getItem('token')
 
         axios.post('http://localhost:8000/recipes/add/', formData,
@@ -53,25 +51,25 @@ const RecipeForm = () => {
             }
         })
         .then(response => {
-          console.log("response status=== ", response.status, response)
-          if (response.status === 401){
-            navigate('/login')
-          }
-          else if (response.status !== 201 && response.status !==200){
-            alert(`An error occurred: ${response.status}`)
-            throw new Error(`HTTP error status: ${response.status}`)
-          }
-          else{
             console.log("successful submission")
             return response.data
-          }
           })
         .then(dat =>{ 
           navigate(`/recipe/${dat.id}/add-direction`)
         })
         .catch(error => {
-          console.error(error)
-          $("#form-error").html(error)
+          if (error.response && error.response.status === 401) {
+            console.log("Unauthorized");
+            alert('You have been logged out.\n Please log in again')
+          } 
+          else if(error.response && error.response.status === 400){
+            $("#form-error").html('missing fields!');
+          }
+          else {
+           
+            console.error(error);
+            $("#form-error").html(error.message);
+          }
         })
       }
   }

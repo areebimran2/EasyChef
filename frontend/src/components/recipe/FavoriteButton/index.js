@@ -30,7 +30,11 @@ const FavouriteButton = () => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (response.status === 401){
+        if (response.status === 201 || response.status === 200){
+          console.log("successful request")
+          return response.json()
+        }
+        else if (response.status === 401){
           alert('You have been logged out.\n Please log in again')
         }else{
           throw new Error(`HTTP error status: ${response.status}`)
