@@ -8,6 +8,7 @@ const CommentForm = () =>{
   const {id} = useParams()
   const token = localStorage.getItem('token')
   const {comments, setComments} = useContext(RecipeAPIContext)
+  const [commented, hasCommented ] = useState(false)
 
   useEffect(()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
@@ -15,7 +16,7 @@ const CommentForm = () =>{
     .then(data=>{
       setComments(data.results)
     })
-  },[])
+  },[commented])
 
   comments.map(elem => {
     elem.date_added = elem.date_added.slice(0, 10)
@@ -26,7 +27,7 @@ const CommentForm = () =>{
   
 
   const handleSubmit = (e) =>{
-    // e.preventDefault() // need to remove
+    e.preventDefault() // need to remove
     const formData = new FormData()
     let commenttext = $('#comment-textarea').val()
     let img = $('#comment-upload-file')[0].files[0] || ''
@@ -47,6 +48,7 @@ const CommentForm = () =>{
       }
     })
     .then(response => {
+      hasCommented(!commented)
       if (response.status === 201 || response.status === 200){
         return response.data
       }
