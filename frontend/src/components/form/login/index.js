@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import FormDiv from "../form input div"
 import $ from 'jquery'
-import { useOutletContext } from "react-router-dom"
+import { useNavigate, useOutletContext } from "react-router-dom"
 
 const LoginForm = () =>{
+  let navigate = useNavigate()
   const [setLoggedIn] = useOutletContext()
 
   const setFalse = () => {
@@ -33,12 +34,14 @@ const LoginForm = () =>{
         } else {
           setLoggedIn(true)
         }
-        console.log(response.status)
         return response.json()
       })
       .then(data => {
         console.log('data: ', data)
         localStorage.setItem('token', data.access)
+        if (data.access !== null) {
+          navigate('/profile')
+        }
       })
       // re direct to profile page and fetch profile data
   }

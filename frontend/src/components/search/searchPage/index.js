@@ -62,7 +62,7 @@ const SearchPage = ({ url, token }) => {
             .then((response) => {
                 if (!response.ok) {
                     if (response.status === 401) {
-                        navigate("/profile");
+                        navigate("/login");
                     }
                 }
                 return response.json();

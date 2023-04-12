@@ -2,7 +2,6 @@ import './custom.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddRecipe from './pages/addRecipe';
 import MyRecipes from './pages/myRecipes';
-import Profile from './pages/profile';
 import ShoppingList from './pages/shoppinglist';
 import Layout from './pages/layout';
 import Home from './pages/home';
@@ -19,6 +18,8 @@ import EditDirection from './pages/editRecipe/editDirections';
 import ExtendCreated from './pages/myRecipes/extendCreated';
 import ExtendHistory from './pages/myRecipes/extendHistory';
 import ExtendFavourites from './pages/myRecipes/extendFavourites';
+import UserLogin from './pages/profile';
+import ProfileViewPage from './pages/profile/view';
 function App() {
 
   const recipe = (
@@ -41,7 +42,8 @@ function App() {
             <Route path="/my-recipes/created" element={<ExtendCreated/>}/>
             <Route path="/my-recipes/history" element={<ExtendHistory/>}/>
             <Route path="/my-recipes/favourites" element={<ExtendFavourites/>}/>
-            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/login" element={<UserLogin/>}/>
+            <Route path='/profile' element={<ProfileViewPage/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
             <Route path='/recipes/search' element={<Search/>}/>
             <Route path='/recipe/:id' element={recipe}/>

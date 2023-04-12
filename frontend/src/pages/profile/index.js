@@ -2,7 +2,7 @@ import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import Login from './login';
 
-function Profile() {
+function UserLogin() {
     return (
       <>
       <Login/>
@@ -10,5 +10,5 @@ function Profile() {
     );
   }
   
-  export default Profile;
+  export default UserLogin;
   

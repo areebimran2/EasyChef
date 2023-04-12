@@ -55,7 +55,7 @@ const RecipeForm = () => {
         .then(response => {
           console.log("response status=== ", response.status, response)
           if (response.status === 401){
-            navigate('/profile')
+            navigate('/login')
           }
           else if (response.status !== 201 && response.status !==200){
             alert(`An error occurred: ${response.status}`)

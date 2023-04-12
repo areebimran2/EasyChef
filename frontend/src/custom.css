@@ -335,3 +335,9 @@ a.header-link{
     width: 976px;
     height: 313.59px;
 }
+
+#profilePic {
+    border-radius: 50%;
+    height: 240px;
+    width: 240px;
+}
