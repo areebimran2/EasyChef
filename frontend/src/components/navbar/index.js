@@ -7,7 +7,12 @@ import { Link } from "react-router-dom";
 import logo from './logo-easy-chef.jpg'; 
 
 class Navbar extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render (){
+    const { setLoggedIn, loggedin } = this.props
     return (
       <nav className="navbar navbar-expand-sm justify-content-between shadow-sm fixed-top bg-white">
         <div className="container">
@@ -33,7 +38,7 @@ class Navbar extends React.Component {
                         <ul className="dropdown-menu position-absolute ">
                           <li><Link to="/profile" className='dropdown-item'>Profile</Link></li>
                           <li><Link to="/shoppinglist" className='dropdown-item'>Shopping List</Link></li>
-                          <li><Link to="/logout" className='dropdown-item'>Log out</Link></li>
+                          {loggedin ? <li onClick={() => setLoggedIn(false)}><Link to="/" className='dropdown-item'>Log out</Link></li> : <li><Link to="/profile" className='dropdown-item'>Log in</Link></li>}
                         </ul>
                     </li>
                 </ul>                
@@ -42,7 +47,7 @@ class Navbar extends React.Component {
     </nav>
     )
       
+    }
   }
-}
 
 export default Navbar;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../custom.css';
 import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import notfound from '../MyRecipes/Card/local-file-not-found.png';
+import { getCuisine, getDiet } from "../MyRecipes/Card"
 import { useNavigate } from 'react-router-dom';
 
 //class Home extends React.Component{

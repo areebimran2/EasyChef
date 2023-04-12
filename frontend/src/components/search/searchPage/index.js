@@ -4,6 +4,7 @@ import "../../../../node_modules/bootstrap/dist/js/bootstrap.min.js";
 import notfound from "../../MyRecipes/Card/local-file-not-found.png";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
+import { getCuisine, getDiet } from "../../MyRecipes/Card"
 import Pagination from "../../pagination";
 //import RecipeAPIContext from '../../../contexts/recipeAPIcontext';
 
@@ -297,10 +298,14 @@ const SearchPage = ({ url, token }) => {
                                 <div class="card recipecard mt-2 p-3 bg-light-brown">
                                     <ul class="list-unstyled mb-0 lh-lg">
                                         <li>
-                                            <span class="fw-bold">Diet:</span> Vegan
+                                            <span class="fw-bold">Diet:</span> {getDiet(recipe.diet).length > 2 ? <span>{getDiet(recipe.diet).slice(0, 2).map((item, index) => (
+                                                index > 0 ? <span>, {item}</span> : <span>{item}</span>
+                                            ))}, ...</span> : getDiet(recipe.diet).slice(0, 2).map((item, index) => (
+                                                index > 0 ? <span>, {item}</span> : <span>{item}</span>
+                                            ))}
                                         </li>
                                         <li>
-                                            <span class="fw-bold">Cuisine:</span> Western
+                                            <span class="fw-bold">Cuisine:</span> {getCuisine(recipe.cuisine)}
                                         </li>
                                         <li>
                                             <span class="fw-bold">Cooking time:</span>{" "}

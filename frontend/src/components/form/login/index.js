@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import FormDiv from "../form input div"
 import $ from 'jquery'
+import { useOutletContext } from "react-router-dom"
 
 const LoginForm = () =>{
+  const [setLoggedIn] = useOutletContext()
+
   const setFalse = () => {
     $('#login-error').html('')
   }
@@ -24,17 +27,17 @@ const LoginForm = () =>{
           })
       })
       .then(response => {
-        if (response.status === 401){ // unauthorize
+        if (response.status === 401 || response.status === 400){ // unauthorize
             $('#login-error').html('Username or password is invalid')
             $('#login-error').css('color','red')
         }
+        setLoggedIn(true)
         console.log(response.status)
         return response.json()
       })
       .then(data => {
         console.log('data: ', data)
         localStorage.setItem('token', data.access)
-        
       })
       // re direct to profile page and fetch profile data
   }

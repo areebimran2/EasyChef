@@ -78,6 +78,7 @@ class UserRecipeHistoryView(ListAPIView):
                         'diet': ['exact', 'contains'],
                         'cooking_time': ['gt', 'lt', 'gte', 'lte', 'range']}
     ordering_fields = ('ave_rating', 'num_fav')
+    ordering = ('num_fav')
 
     def get_queryset(self):
         return self.request.user.history_list.all().order_by(
