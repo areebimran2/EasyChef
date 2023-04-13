@@ -18,7 +18,6 @@ const FavouriteButton = () => {
 
   const token = localStorage.getItem('token')
   const handleFav = ()=>{
-    console.log("status fav", hasFav)
     setHasFav(!hasFav)
     if (hasFav){
       console.log("fav add")

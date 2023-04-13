@@ -36,7 +36,7 @@ const RateButton = () => {
   return (
     <>
       <form className="bg-light-50">
-        <input type="number" id="rate-input" className="ms-5 me-2 rounded p-1" style={{width: "100px"}} placeholder-shown="rate from 1-5"/>
+        <input type="number" id="rate-input" className="ms-5 me-2 rounded p-1" style={{width: "150px"}} placeholder="rate: 1-5"/>
         <button onClick={handleClick} className="btn btn-brown">Rate</button>
       </form>
     </>

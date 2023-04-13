@@ -11,8 +11,6 @@ const Layout = () => {
     } 
   }, [loggedin]);
 
-  console.log(loggedin);
-
   return (
     <>
       <Navbar setLoggedIn={setLoggedIn} loggedin={loggedin} />
