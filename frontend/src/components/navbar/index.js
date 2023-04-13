@@ -34,7 +34,7 @@ class Navbar extends React.Component {
                 <ul className="dropdown-menu position-absolute ">
                   <li><Link to="/profile" className='dropdown-item'>Profile</Link></li>
                   <li><Link to="/shoppinglist" className='dropdown-item'>Shopping List</Link></li>
-                  {loggedin ? <li onClick={() => { setLoggedIn(false); localStorage.removeItem('token') }}><Link to="/" className='dropdown-item'>Log out</Link></li> : <li><Link to="/login" className='dropdown-item'>Log in</Link></li>}
+                  {loggedin ? <li onClick={() => { setLoggedIn(false); localStorage.removeItem('token') }}><Link to="/login" className='dropdown-item'>Log out</Link></li> : <li><Link to="/login" className='dropdown-item'>Log in</Link></li>}
                 </ul>
               </li>
             </ul>

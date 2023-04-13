@@ -91,7 +91,11 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                     </div>
                     {id === "mycreated" ? (
                         <div>
-                            <button type="button" class="btn-sm btn-outline-brown px-3 mx-2">
+                            <button type="button" class="btn-sm btn-outline-brown px-3 mx-2"
+                            onClick={() => {
+                                navigate(`/recipe/${recipe.id}/edit`);
+                            }}
+                            >
                                 Edit
                             </button>
                             <button

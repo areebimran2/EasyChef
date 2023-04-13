@@ -6,7 +6,7 @@ function Login() {
   return (
     <>
     
-    <div className="container-1000 ms-auto me-auto mt-8 justify-content-center d-flex">
+    <div className="container-1000 ms-auto me-auto mt-8 justify-content-center d-flex" style={{"margin-bottom": "220px"}}>
       <UserAPIContext.Provider value={useUserAPIContext()}>
         <LoginForm/>
       </UserAPIContext.Provider>
