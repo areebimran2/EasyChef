@@ -16,7 +16,7 @@ const ShoppingList = ({ url }) => {
     const [count, setCount] = useState(0)
 
     var [ingredients, setIngredients] = useState([]);
-    var [recipes, setRecipes] = useState();
+    var [recipes, setRecipes] = useState([]);
     
     const dietCode = {"NONE": "N/A", "VEGAN": "Vegan", "VEG": "Vegetarian", 
     "GLUTENF": "Gluten-free", "LCARB": "Low-carb", "KT": "Keto", "LF": "Low-fat"}
@@ -48,7 +48,9 @@ const ShoppingList = ({ url }) => {
                     return response.json()
                 }
             })
-            .then((data) => setIngredients(data))
+            .then((data) => {if (data.list_ingredients !== undefined) {
+                setIngredients(data.list_ingredients)
+            }})
     }, [url, token])
 
     useEffect(() => {
@@ -69,7 +71,7 @@ const ShoppingList = ({ url }) => {
                 }
             })
             .then((data) => {
-                setRecipes(data)
+                setRecipes(data.results)
                 setCount(data.count)
                 setHasEnded(data.next === null)
             })
@@ -78,7 +80,7 @@ const ShoppingList = ({ url }) => {
     console.log(ingredients);
     console.log(recipes);
 
-    if (recipes === undefined) {
+    if (recipes.length === 0) {
         return (
             <>
                     <div className="d-flex flex-row flex-wrap gap-3">
@@ -139,13 +141,13 @@ const ShoppingList = ({ url }) => {
         */
         <>
             <animated.div style={props}>
-                <RecipeCarousel recipes={recipes.results} hasEnded={hasEnded} setPage={setPage} page={page} count={count} id={"shoppinglist"}/>
+                <RecipeCarousel recipes={recipes} hasEnded={hasEnded} setPage={setPage} page={page} count={count} id={"shoppinglist"}/>
             </animated.div>
             <div className="mt-5">
                     <h1>To Buy:</h1>
                     <div className = "mt-3 d-flex d-row">
                         <ul>
-                        {ingredients.list_ingredients.map((ingredient, i) => (
+                        {ingredients.map((ingredient, i) => (
                             <li className="me-5 fw-bold" key={i}>
                                 {ingredient.quantity} {ingredient.units} {ingredient.name}
                             </li>

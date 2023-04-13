@@ -20,6 +20,8 @@ import ExtendHistory from './pages/myRecipes/extendHistory';
 import ExtendFavourites from './pages/myRecipes/extendFavourites';
 import UserLogin from './pages/profile';
 import ProfileViewPage from './pages/profile/view';
+import ProfileEditPage from './pages/profile/edit';
+import Register from './pages/profile/register';
 function App() {
 
   const recipe = (
@@ -43,7 +45,9 @@ function App() {
             <Route path="/my-recipes/history" element={<ExtendHistory/>}/>
             <Route path="/my-recipes/favourites" element={<ExtendFavourites/>}/>
             <Route path="/login" element={<UserLogin/>}/>
+            <Route path="/register" element={<Register/>}/>
             <Route path='/profile' element={<ProfileViewPage/>}/>
+            <Route path='/profile/edit' element={<ProfileEditPage/>}/>
             <Route path="/shoppinglist" element={<ShoppingList/>}/>
             <Route path='/recipes/search' element={<Search/>}/>
             <Route path='/recipe/:id' element={recipe}/>

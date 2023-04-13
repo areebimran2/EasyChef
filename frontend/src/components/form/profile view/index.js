@@ -32,7 +32,7 @@ const ProfileView = () => {
                 $("#profilePic").attr("src", json.avatar !== null ? json.avatar : notfound)
             })
     }, [])
-    
+
     return (
         <div class="container-800 ms-auto me-auto">
                 <h1>View My Profile</h1>
@@ -75,7 +75,7 @@ const ProfileView = () => {
                         </div>
                     </div>
                     <div class="cancel-save d-flex justify-content-center mt-5 mb-5">
-                        <button class="btn btn-blue">Edit Profile</button>
+                        <button class="btn btn-blue" onClick={() => navigate('/profile/edit')}>Edit Profile</button>
                     </div>
                 </form>    
             </div>

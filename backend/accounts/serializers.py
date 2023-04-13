@@ -81,7 +81,7 @@ class CustomUserEditSerializer(CustomUserSerializer):
     def validate_password(self, data):
         if self.initial_data.get('password2') is None:
             raise serializers.ValidationError(
-                '\'password2\' field is missing (confirmation required for password change)')
+                'Confirmation required for password change')
         if data:
             return super(CustomUserEditSerializer, self).validate_password(data)
         return data
@@ -89,7 +89,7 @@ class CustomUserEditSerializer(CustomUserSerializer):
     def validate_password2(self, data):
         if self.initial_data.get('password') is None:
             raise serializers.ValidationError(
-                'original \'password\' field is missing')
+                'Original password field must be filled in')
         return super(CustomUserEditSerializer, self).validate_password2(data)
 
     def update(self, instance, validated_data):

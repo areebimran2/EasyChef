@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import FormDiv from "../form input div"
 import $ from 'jquery'
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { Link, useNavigate, useOutletContext } from "react-router-dom"
 
 const LoginForm = () =>{
   let navigate = useNavigate()
@@ -9,6 +9,10 @@ const LoginForm = () =>{
 
   const setFalse = () => {
     $('#login-error').html('')
+  }
+
+  if (localStorage.getItem('token') !== null) {
+    navigate('/profile')
   }
 
   const handleLogin = (event) =>{
@@ -39,8 +43,8 @@ const LoginForm = () =>{
       .then(data => {
         console.log('data: ', data)
         localStorage.setItem('token', data.access)
-        if (data.access !== null) {
-          navigate('/profile')
+        if (data.access !== undefined) {
+          navigate('/profile');
         }
       })
       // re direct to profile page and fetch profile data
@@ -65,6 +69,7 @@ const LoginForm = () =>{
         <button className='btn btn-brown' onClick={handleLogin}>Log in</button>
         </div>
         <div id="login-error" className="text-center mt-2"></div>
+        <Link to="/register" className='d-flex justify-content-center mt-4'>CREATE ACCOUNT</Link>
       </form>
     </>
   )
