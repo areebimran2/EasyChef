@@ -1,4 +1,4 @@
-cd backend; 
+cd backend;
 python3 manage.py runserver &
-cd ../frontend 
+cd ../frontend;
 npm start
