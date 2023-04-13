@@ -13,7 +13,6 @@ const RecipeBaseForm = () => {
     fetch(`http://localhost:8000/recipes/recipe/${bid}/`)
     .then(response => response.json())
     .then(json => {
-      console.log("recipe form",json)
       setData(json)})
   },[bid])
 

@@ -198,7 +198,7 @@ const EditDirectionForm = () => {
   
         <div className='d-flex justify-content-end'>
         {/* <button className='btn btn-outline-brown me-3'>Cancel</button> */}
-        <button className='btn btn-brown' onClick={handleCreate}>Create Recipe</button>
+        <button className='btn btn-brown' onClick={handleCreate}>Edit Recipe</button>
         </div>
       </form>
     </>

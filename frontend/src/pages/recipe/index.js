@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import EditRecipeButton from '../../components/recipe/editRecipeButton';
 import CommentForm from '../../components/form/comments';
 import AddShoplistButton from '../../components/recipe/addShoopinglistButton';
+import ChangeServingButton from '../../components/recipe/changeServingSize';
 
 function Recipe() {
   const nav = useNavigate()
@@ -23,7 +24,7 @@ function Recipe() {
     fetch(`http://localhost:8000/recipes/recipe/${id}/`)
     .then(response => response.json())
     .then(json => {
-      console.log(json)
+      console.log("ok")
       setData(json)})
   },[id]
   )
@@ -70,8 +71,7 @@ function Recipe() {
             <li><span className="fw-bold">Cuisine:</span> {data.cuisine}</li>
             <li><span className="fw-bold">Prep time:</span> {data.prep_time} minutes</li>
             <li><span className="fw-bold">Cooking time:</span> {data.cooking_time} minutes</li>
-            <li><span className="fw-bold">Servings: </span>{data.serving_size}</li> 
-            {/* add component for editing serving size */}
+            <li><div className='d-flex flex-row h-[3.23rem]'><span className="fw-bold">Servings: </span><ChangeServingButton/></div></li> 
         </ul>
       </div>
       <div className="col-8">
