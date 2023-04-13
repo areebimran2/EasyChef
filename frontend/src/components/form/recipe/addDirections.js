@@ -60,6 +60,7 @@ const AddDirectionForm = () => {
         let elem = showDirection(dat.description, dat.file)
         setElements([...elements, elem])
         $('#description').val('')
+        $('#direction-file').val('')
       })
       .catch(error => {
         console.error(error)
