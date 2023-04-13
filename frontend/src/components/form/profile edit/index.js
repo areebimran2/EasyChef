@@ -64,6 +64,8 @@ const ProfileEdit = () => {
             .then(response => {
                 if (response.status === 401) { // unauthorize
                     navigate('/login')
+                } else if (response.status === 200) {
+                    navigate('/profile')
                 }
                 return response.json()
             })
