@@ -93,9 +93,9 @@ Easy Chef is a web application designed for sharing and discovering recipes. It 
 
 The following individuals worked together to develop EasyChef as the final project for the 2023 Winter offering of CSC309 at the University of Toronto Mississauga.
 
-* <a href="https://github.com/areebimran2">Areeb Imran</a> (areebimran2/imranar3)
-* <a href="https://github.com/xujet123">Jet Xu</a> (xujet123)
-* <a href="https://github.com/CorinneLS">Corinne Lee Slew</a> (CorinneLS)
+* <a href="https://github.com/areebimran2">Areeb Imran</a> (imranar3)
+* <a href="https://github.com/xujet123">Jet Xu</a>
+* <a href="https://github.com/CorinneLS">Corinne Lee Slew</a>
 
 Any other contributor to this project was either an instructor or TA. 
 
