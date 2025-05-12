@@ -19,7 +19,7 @@
 
 <h3 align="center">EasyChef</h3>
   <p align="center">
-    A recipe sharing full-stack application
+    A recipe-sharing full-stack application
   </p>
 </div>
 
@@ -30,7 +30,7 @@
 
 ![Product Name Screen Shot][product-screenshot]
 
-Easy Chef is a web application designed for sharing and discovering recipes. It allows you to explore various recipes from around the world, catering to different diets and ingredients. You can also share your own creations with others on the platform and interact with them by liking, favoriting, rating, and commenting on their recipes. You can even filter recipe searches to match your preferences. Plus, Easy Chef helps you manage your shopping list, making meal planning even easier!
+Easy Chef is a web application designed for sharing and discovering recipes. It allows you to explore various recipes from around the world, catering to different diets and ingredients. You can also share your own creations with others on the platform and interact with them by liking, favouriting, rating, and commenting on their recipes. You can even filter recipe searches to match your preferences. Plus, Easy Chef helps you manage your shopping list, making meal planning even easier!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -59,12 +59,12 @@ Easy Chef is a web application designed for sharing and discovering recipes. It 
   ```sh
   python3 -m pip install virtualenv
   ```
-* Access to some interface for running shell script.
+* Access to some interface for running a shell script.
 
-### Installation
+### Installation/Setup
 
 1. Execute the `startup.sh` bash script in the home directory of the project. This will:
-    - create and activate a python virtual environment
+    - create and activate a Python virtual environment
     - install the packages in `requirements.txt`
     - run the Django database migrations
     - run `npm install`
@@ -79,11 +79,11 @@ Easy Chef is a web application designed for sharing and discovering recipes. It 
 
 * Users can only view or search existing recipes if they're not logged in.
 * Once logged in, users have access to the following:
-    - Creating new recipes. They can either start from scratch or use an existing recipe as the base.
-    - Liking, favoriting, rating, and commenting on recipes.
-    - Adding recipes to their shopping list for a comrepensive list of ingredients to be purchased.
-    - Viewing their own recipes, favorited recipes, and recipes they have recently interacted with.
-    - Updating their personal profile.
+    - Creating new recipes. They can start from scratch or use an existing recipe as the base.
+    - Liking, favouriting, rating, and commenting on recipes.
+    - Adding recipes to their shopping list for a comprehensive list of ingredients to be purchased.
+    - Viewing their favourite recipes and recipes they have recently interacted with.
+    - Updating their profile.
  
 
 
@@ -97,7 +97,7 @@ The following individuals worked together to develop EasyChef as the final proje
 * Jet Xu (xujet123)
 * Corinne Lee Slew (CorinneLS)
 
-Any other contributer to this project was either an instructor or TA. 
+Any other contributor to this project was either an instructor or TA. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
