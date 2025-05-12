@@ -101,7 +101,7 @@ Any other contributer to this project was either an instructor or TA.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Top contributors:
+### Contributors:
 
 <a href="https://github.com/areebimran2/EasyChef/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=areebimran2/EasyChef" alt="contrib.rocks image" />
