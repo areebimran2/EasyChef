@@ -30,7 +30,7 @@
 
 ![Product Name Screen Shot][product-screenshot]
 
-Easy Chef is a web application designed for sharing and discovering recipes. It allows you to explore various recipes from around the world, catering to different diets and ingredients. You can also share your own creations with others on the platform and interact with them by liking, favouriting, rating, and commenting on their recipes. You can even filter recipe searches to match your preferences. Plus, Easy Chef helps you manage your shopping list, making meal planning even easier!
+Easy Chef is a web application designed for sharing and discovering recipes. It allows you to explore various recipes from around the world, catering to different diets and ingredients. You can also share your creations with others on the platform and interact with them by liking, favouriting, rating, and commenting on their recipes. As an added feature of convenience, narrow your recipe search by using filters that match your preferences. Plus, Easy Chef helps you manage your shopping list, making meal planning even easier!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -68,7 +68,7 @@ Easy Chef is a web application designed for sharing and discovering recipes. It 
     - install the packages in `requirements.txt`
     - run the Django database migrations
     - run `npm install`
-2. Execute the `run.sh` script to start up the Django server in the background and the React server in the foreground.
+2. Execute the `run.sh` script to start up the Django server and the React server.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
