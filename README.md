@@ -19,7 +19,7 @@
 
 <h3 align="center">EasyChef</h3>
   <p align="center">
-    A recipe-sharing full-stack application
+    A recipe-sharing web application
   </p>
 </div>
 
