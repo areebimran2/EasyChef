@@ -28,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Product Name Screen Shot][product-screenshot]
 
 Easy Chef is a web application designed for sharing and discovering recipes. It allows you to explore various recipes from around the world, catering to different diets and ingredients. You can also share your own creations with others on the platform and interact with them by liking, favoriting, rating, and commenting on their recipes. You can even filter recipe searches to match your preferences. Plus, Easy Chef helps you manage your shopping list, making meal planning even easier!
 
