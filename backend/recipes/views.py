@@ -49,6 +49,7 @@ class RecipeView(RetrieveAPIView):
 
     def get_object(self):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
+        print(self.request.user)
         if self.request.user.is_authenticated:
             add_to_history(recipe, self.request.user)
         return recipe
@@ -295,3 +296,14 @@ class RatingView(UpdateAPIView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         add_to_history(recipe, self.request.user)
         return recipe
+
+class RecipeInteractionView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = RecipeInteractionSerializer
+
+    def get_object(self):
+        user = self.request.user
+        valid_user = get_object_or_404(CustomUser, id=user.id)
+        recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
+        instance = get_object_or_404(InteractedWith, user=valid_user, recipe=recipe)
+        return instance

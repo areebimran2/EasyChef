@@ -77,12 +77,10 @@ class UserRecipeHistoryView(ListAPIView):
     filterset_fields = {'cuisine': ['exact', 'contains'],
                         'diet': ['exact', 'contains'],
                         'cooking_time': ['gt', 'lt', 'gte', 'lte', 'range']}
-    ordering_fields = ('ave_rating', 'num_fav')
-    ordering = ('num_fav')
+    ordering_fields = ('ave_rating', 'num_fav',  'interactedwith__last_interaction')
 
     def get_queryset(self):
-        return self.request.user.history_list.all().order_by(
-            '-interactedwith__last_interaction')
+        return self.request.user.history_list.all().order_by('-interactedwith__last_interaction')
 
 
 class MyRecipesView(RetrieveAPIView):

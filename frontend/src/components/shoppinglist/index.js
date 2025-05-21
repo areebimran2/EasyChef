@@ -141,7 +141,7 @@ const ShoppingList = ({ url }) => {
         */
         <>
             <animated.div style={props}>
-                <RecipeCarousel recipes={recipes} hasEnded={hasEnded} setPage={setPage} page={page} count={count} id={"shoppinglist"}/>
+                <RecipeCarousel recipes={recipes} hasEnded={hasEnded} setPage={setPage} page={page} count={count} id={"shoppinglist"} deleted={deleted} setDeleted={setDeleted}/>
             </animated.div>
             <div className="mt-5">
                     <h1>To Buy:</h1>

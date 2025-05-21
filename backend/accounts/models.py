@@ -31,3 +31,7 @@ class InteractedWith(models.Model):
     last_interaction = models.DateTimeField(auto_now_add=True)
     liked = models.BooleanField(default=False)
     rating = models.IntegerField(default=-1)
+
+    in_favourites = models.BooleanField(default=False)
+    in_shopping_list = models.BooleanField(default=False)
+

@@ -243,8 +243,10 @@ class ShoppingListSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'details': 'This recipe is already in the shopping list.'})
         self.context['request'].user.shopping_list.add(instance)
 
-
         add_to_history(instance, self.context['request'].user)
+        found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+        found.in_shopping_list = True
+        found.save()
 
         shoppinglist = None
         try:
@@ -287,6 +289,12 @@ class RemoveShopListSerializer(serializers.ModelSerializer):
         if instance not in self.context['request'].user.shopping_list.all():
             raise serializers.ValidationError({'detail': 'This recipe has not been added to shopping list.'})
         self.context['request'].user.shopping_list.remove(instance)
+
+        add_to_history(instance, self.context['request'].user)
+        found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+        found.in_shopping_list = False
+        found.save()
+
         shoppinglist = ShoppingList.objects.get(user=self.context['request'].user)
         for ingredient in instance.ingredients.all():
             existing_ing = shoppinglist.list_ingredients.all().get(name=ingredient.name)
@@ -313,14 +321,17 @@ class AddFavouritesSerializer(serializers.ModelSerializer):
         fields = ['num_fav']
 
     def update(self, instance, validated_data):
-        if instance in self.context['request'].user.favourite_list.all():
-            raise serializers.ValidationError({'detail': 'This recipe has '
-                                                         'already been '
-                                                         'favourited'})
+        add_to_history(instance, self.context['request'].user)
+        found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+
+        if found and found.in_favourites:
+            raise serializers.ValidationError({'detail': 'This recipe has already been added to favourites.'})
+
+        found.in_favourites = True
         instance.num_fav += 1
         instance.save()
+        found.save()
         self.context['request'].user.favourite_list.add(instance)
-        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -332,13 +343,17 @@ class DeleteFavouritesSerializer(serializers.ModelSerializer):
         fields = ['num_fav']
 
     def update(self, instance, validated_data):
-        if instance not in self.context['request'].user.favourite_list.all():
-            raise serializers.ValidationError(
-                {'detail': 'This recipe has not been favourited'})
+        add_to_history(instance, self.context['request'].user)
+        found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+
+        if not found or not found.in_favourites:
+            raise serializers.ValidationError({'detail': 'This recipe has not been added to favourites.'})
+
+        found.in_favourites = False
         instance.num_fav -= 1
         instance.save()
+        found.save()
         self.context['request'].user.favourite_list.remove(instance)
-        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -350,16 +365,16 @@ class AddLikeSerializer(serializers.ModelSerializer):
         fields = ['num_likes']
 
     def update(self, instance, validated_data):
+        add_to_history(instance, self.context['request'].user)
         found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+
         if found and found.liked:
-            raise serializers.ValidationError({'detail': 'This recipe has '
-                                                         'already been '
-                                                         'liked'})
+            raise serializers.ValidationError({'detail': 'This recipe has already been liked.'})
+
         found.liked = True
         instance.num_likes += 1
         instance.save()
         found.save()
-        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -370,16 +385,16 @@ class DeleteLikeSerializer(serializers.ModelSerializer):
         fields = ['num_likes']
 
     def update(self, instance, validated_data):
+        add_to_history(instance, self.context['request'].user)
         found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
+
         if not found or not found.liked:
-            raise serializers.ValidationError({'detail': 'This recipe has '
-                                                         'not been '
-                                                         'liked'})
+            raise serializers.ValidationError({'detail': 'This recipe has not been liked.'})
+
         found.liked = False
         instance.num_likes -= 1
         instance.save()
         found.save()
-        add_to_history(instance, self.context['request'].user)
 
         return instance
 
@@ -393,12 +408,12 @@ class RatingSerializer(serializers.ModelSerializer):
 
     def validate_ave_rating(self, data):
         if data < 1 or data > 5:
-            raise serializers.ValidationError('Rating must be an integer between 1 and 5 (inclusive)')
+            raise serializers.ValidationError('Rating must be an integer between 1 and 5 (inclusive).')
         return data
 
     def update(self, instance, validated_data):
-        found = InteractedWith.objects.get(user=self.context['request'].user,
-                                           recipe=instance)
+        add_to_history(instance, self.context['request'].user)
+        found = InteractedWith.objects.get(user=self.context['request'].user, recipe=instance)
 
         instance.ave_rating = 0
         found.rating = validated_data['ave_rating']
@@ -411,6 +426,9 @@ class RatingSerializer(serializers.ModelSerializer):
         instance.ave_rating = round(instance.ave_rating / recipes.count())
         instance.save()
 
-        add_to_history(instance, self.context['request'].user)
-
         return instance
+
+class RecipeInteractionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InteractedWith
+        fields = ['last_interaction', 'liked', 'rating', 'in_favourites', 'in_shopping_list']

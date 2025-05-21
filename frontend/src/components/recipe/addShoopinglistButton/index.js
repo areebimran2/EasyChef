@@ -4,15 +4,19 @@ import './style.css'
 import { useParams } from "react-router"
 import $ from 'jquery'
 import './style.css'
-const AddShoplistButton = () => {
+const AddShoplistButton = ({ inShoppingList }) => {
   const{id} = useParams()
-  const [hasClicked, setHasClicked] = useState(false);
+  const [hasClicked, setHasClicked] = useState(inShoppingList);
 
   const token = localStorage.getItem('token')
-  const handleLike = ()=>{
-    setHasClicked(!hasClicked);
-    if (hasClicked){
-      console.log("add to shoppinglist: ", hasClicked)
+
+  useEffect( () => {
+    setHasClicked(inShoppingList)
+  }, [inShoppingList])
+
+  const handleShoppingList = ()=>{
+    if (!hasClicked){
+      console.log("add to shoppinglist: ", !hasClicked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/shopping-list/add/`,{
         method: 'PATCH', 
         headers: {
@@ -38,7 +42,7 @@ const AddShoplistButton = () => {
         
     }
     else{
-      console.log("remove from list: ", hasClicked)
+      console.log("remove from list: ", !hasClicked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/shopping-list/remove/`,{
         method: 'PATCH', 
         headers: {
@@ -57,14 +61,18 @@ const AddShoplistButton = () => {
           $('#add-btn').removeClass('clicked')
         }
         ).catch(err => console.error(err))
-        
       }
-    
+    setHasClicked(!hasClicked);
   }
-  return(
+
+  return (
+    hasClicked ? (
     <>
-    <button type="button" id="add-btn" className={'not-clicked btn me-2'} onClick={handleLike}><i className="fa-solid fa-cart-shopping"></i> Add</button>
-    </>
+    <button type="button" id="add-btn" className={'clicked btn me-2'} onClick={handleShoppingList}><i className="fa-solid fa-cart-shopping"></i> Remove</button>
+    </>) : (
+    <>
+    <button type="button" id="add-btn" className={'not-clicked btn me-2'} onClick={handleShoppingList}><i className="fa-solid fa-cart-shopping"></i> Add</button>
+    </>)
   )
 }
 

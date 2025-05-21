@@ -3,10 +3,12 @@ import './style.css'
 import { useParams } from "react-router"
 import $ from 'jquery'
 
-const FavouriteButton = () => {
+const FavouriteButton = ({ isFavourite }) => {
   const{id} = useParams()
-  const [hasFav, setHasFav] = useState(true)
+  const [hasFav, setHasFav] = useState(isFavourite)
   const [fav, setFav] = useState(0);
+
+  const token = localStorage.getItem('token')
 
   useEffect( ()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/`)
@@ -16,10 +18,12 @@ const FavouriteButton = () => {
   },[hasFav, id]
   )
 
-  const token = localStorage.getItem('token')
+  useEffect( () => {
+    setHasFav(isFavourite)
+  }, [isFavourite])
+
   const handleFav = ()=>{
-    setHasFav(!hasFav)
-    if (hasFav){
+    if (!hasFav){
       console.log("fav add")
       fetch(`http://localhost:8000/recipes/recipe/${id}/add-favourite/`,{
         method: 'PATCH', 
@@ -79,12 +83,19 @@ const FavouriteButton = () => {
           $('#fav-btn').removeClass('clicked')
         }).catch(err => console.error(err))
       }
-    
+    setHasFav(!hasFav)
   }
-  return(
+
+  console.log(isFavourite)
+
+  return (
+    hasFav ? (
+    <>
+    <button type="button" id="fav-btn" className={'clicked btn ms-2'} onClick={handleFav}>Unfavourite<i className="fa-regular fa-heart ms-1 me-1"></i>{fav}</button>
+    </>) : (
     <>
     <button type="button" id="fav-btn" className={'not-clicked btn ms-2'} onClick={handleFav}>Favourite<i className="fa-regular fa-heart ms-1 me-1"></i>{fav}</button>
-    </>
+    </>)
   )
 }
 

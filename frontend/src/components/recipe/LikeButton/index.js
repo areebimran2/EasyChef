@@ -3,10 +3,12 @@ import RecipeAPIContext from "../../../contexts/recipeAPIcontext"
 import './style.css'
 import { useParams } from "react-router"
 import $ from 'jquery'
-const LikeButton = () => {
+const LikeButton = ({ isLiked }) => {
   const{id} = useParams()
-  const [hasLiked, setHasLiked] = useState(true);
+  const [hasLiked, setHasLiked] = useState(isLiked);
   const [likes, setLikes] = useState(0);
+
+  const token = localStorage.getItem('token')
 
   useEffect( ()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/`)
@@ -15,13 +17,15 @@ const LikeButton = () => {
       setLikes(json.num_likes)})
   },[hasLiked, id]
   )
-  // need userContext to see if user has liked?
 
-  const token = localStorage.getItem('token')
+  // need userContext to see if user has liked?
+  useEffect( () => {
+    setHasLiked(isLiked)
+  }, [isLiked])
+
   const handleLike = ()=>{
-    setHasLiked(!hasLiked);
-    if (hasLiked){
-      console.log("add like: ", hasLiked)
+    if (!hasLiked){
+      console.log("add like: ", !hasLiked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/add-like/`,{
         method: 'PATCH', 
         headers: {
@@ -49,7 +53,7 @@ const LikeButton = () => {
         
     }
     else{
-      console.log("remove like: ", hasLiked)
+      console.log("remove like: ", !hasLiked)
       fetch(`http://localhost:8000/recipes/recipe/${id}/remove-like/`,{
         method: 'PATCH', 
         headers: {
@@ -69,14 +73,18 @@ const LikeButton = () => {
           $('#like-btn').removeClass('clicked')
         }
         ).catch(err => console.error(err))
-        
       }
-    
+    setHasLiked(!hasLiked);
   }
-  return(
+
+  return (
+    hasLiked ? (
+    <>
+    <button type="button" id="like-btn" className={'clicked btn'} onClick={handleLike}>Unlike<i className="fa-regular fa-thumbs-up ms-1 me-1"></i>{likes}</button>
+    </>) : (
     <>
     <button type="button" id="like-btn" className={'not-clicked btn'} onClick={handleLike}>Like<i className="fa-regular fa-thumbs-up ms-1 me-1"></i>{likes}</button>
-    </>
+    </>)
   )
 }
 

@@ -57,41 +57,18 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
     let navigate = useNavigate();
 
     return (
-        <div class="card infocard bg-white text-black" key={recipe.id}>
+        <div class="card homecard bg-white text-black" key={recipe.id}>
             <img
                 class="card-img"
                 src={recipe.picture !== null ? recipe.picture : notfound}
                 alt=""
             />
             <div class="card-body hidedetails">
-                <div class="card-title mt-3">{recipe.name}</div>
-                <div class="d-flex mb-2">
-                    {[...Array(6).keys()]
-                        .filter((item) => item > 0)
-                        .map((index, item) =>
-                            item < recipe.ave_rating ? (
-                                <i key={index} class="mt-auto mb-auto fa-solid fa-star"></i>
-                            ) : (
-                                <i key={index} class="mt-auto mb-auto fa-regular fa-star"></i>
-                            )
-                        )}
-                    <p class="mx-1 mt-auto mb-auto">{recipe.ave_rating}</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <button
-                            type="button"
-                            class="btn-sm btn-outline-brown px-3 mb-0"
-                            onClick={() => {
-                                navigate(`/recipe/${recipe.id}`);
-                            }}
-                        >
-                            View
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="card-title mt-3">{recipe.name}</span>
                     {id === "mycreated" ? (
                         <div>
-                            <button type="button" class="btn-sm btn-outline-brown px-3 mx-2"
+                            <button type="button" class="btn-outline-brown px-3 mx-2 mt-2"
                             onClick={() => {
                                 navigate(`/recipe/${recipe.id}/edit`);
                             }}
@@ -112,12 +89,58 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                                     });
                                 }}
                                 type="button"
-                                class="btn-sm btn-outline-brown"
+                                class="btn-outline-brown"
                             >
                                 Delete
                             </button>
                         </div>
+                    ) : id === "shoppinglist" ? (
+                        <button
+                                onClick={() => {
+                                    fetch(
+                                        `http://localhost:8000/recipes/recipe/${recipe.id}/shopping-list/remove/`,
+                                        {
+                                            method: "PATCH",
+                                            headers: {
+                                                Authorization: `Bearer ${token}`,
+                                            },
+                                        }
+                                    ).then(() => {
+                                        setDeleted(!deleted);
+                                    });
+                                }}
+                                type="button"
+                                class="btn-outline-brown px-3 mx-2 mt-2"
+                            >
+                                Remove
+                        </button>
                     ) : undefined}
+                </div>
+                <div class="d-flex">
+                    {[...Array(6).keys()]
+                        .filter((item) => item > 0)
+                        .map((index, item) =>
+                            item < recipe.ave_rating ? (
+                                <i key={index} class="mt-auto mb-auto fa-solid fa-star"></i>
+                            ) : (
+                                <i key={index} class="mt-auto mb-auto fa-regular fa-star"></i>
+                            )
+                        )}
+                    <p class="mx-1 mb-auto">{recipe.ave_rating}</p>
+                </div>
+                <div className="mt-2 mb-2">Number of Favourites: {recipe.num_fav}</div>
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <button
+                            type="button"
+                            class="btn-sm btn-outline-brown px-3 mb-0"
+                            onClick={() => {
+                                navigate(`/recipe/${recipe.id}`);
+                            }}
+                        >
+                            View
+                        </button>
+                    </div>
                 </div>
                 <div class="card recipecard mt-2 p-3 bg-light-brown">
                     <ul class="list-unstyled mb-0 lh-lg">

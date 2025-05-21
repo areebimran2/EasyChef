@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../custom.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import RecipeAPIContext from '../../contexts/recipeAPIcontext';
@@ -18,16 +18,40 @@ import ChangeServingButton from '../../components/recipe/changeServingSize';
 
 function Recipe() {
   const nav = useNavigate()
+  const token = localStorage.getItem('token')
   const {data, setData} = useContext(RecipeAPIContext)
   const {id} = useParams()
-  useEffect( ()=>{
-    fetch(`http://localhost:8000/recipes/recipe/${id}/`)
+
+  const [inFavourite, setInFavourite] = useState(false)
+  const [inLiked, setInLiked] = useState(false)
+  const [inShoppingList, setInShoppingList] = useState(false)
+
+  useEffect( () => {
+    fetch(`http://localhost:8000/recipes/recipe/${id}/`, {
+      method: 'GET',
+      headers: token === null ? {} : {'Authorization': `Bearer ${token}`}
+    })
     .then(response => response.json())
     .then(json => {
       console.log("ok")
       setData(json)})
   },[id]
   )
+
+  useEffect( () => {
+    fetch(`http://localhost:8000/recipes/recipe/${id}/interaction-status/`, {
+      method: 'GET',
+      headers: token === null ? {} : {'Authorization': `Bearer ${token}`}
+    })
+    .then(response => response.json())
+    .then(json => {
+      setInLiked(json.liked)
+      setInFavourite(json.in_favourites)
+      setInShoppingList(json.in_shopping_list)
+    })
+  }, [])
+
+
   let hasBaseRecipe = data.base_recipe? true: false
   const handleDisabledView = (event) => {
     if (!hasBaseRecipe) {
@@ -45,7 +69,7 @@ function Recipe() {
           <h1>{data.name}</h1>
           {/* component buttons */}
           <div>
-            <AddShoplistButton/>
+            <AddShoplistButton inShoppingList={inShoppingList}/>
             <EditRecipeButton/>
             <UseBaseRecipeButton/>
           </div>
@@ -56,8 +80,8 @@ function Recipe() {
       {/* component button */}
       <div className="d-flex justify-content-between mb-4">
           <div className='d-flex'>
-              <LikeButton/>
-              <FavouriteButton/>
+              <LikeButton isLiked={inLiked}/>
+              <FavouriteButton isFavourite={inFavourite}/>
               <RateButton/>
           </div>
           <div>
