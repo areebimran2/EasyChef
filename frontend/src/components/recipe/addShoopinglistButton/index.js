@@ -25,21 +25,24 @@ const AddShoplistButton = ({ inShoppingList }) => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (!response.ok){
-          if (response.status === 401){
-            alert('You have been logged out.\n Please log in again')
-          }else{
-            throw new Error(`HTTP error status: ${response.status}`)
-          }
-        }
-        return response.json()})
+        if (!response.ok) {
+          throw new Error(response.status)
+        } else {
+          return response.json()
+        }})
         .then(dat => {
+          setHasClicked(!hasClicked);
           console.log("success add", dat)
           $('#add-btn').addClass('clicked')
           $('#add-btn').removeClass('not-clicked')
         })
-        .catch(error => console.error(error))
-        
+        .catch(error => {
+          if (error.message === "401") {
+            alert('You have been logged out.\n Please log in again')
+          } else {
+            console.error(`HTTP error status: ${error.message}`)
+          }
+        })
     }
     else{
       console.log("remove from list: ", !hasClicked)
@@ -51,18 +54,25 @@ const AddShoplistButton = ({ inShoppingList }) => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (!response.ok){
-          throw new Error(`HTTP error status: ${response.status}`)
-        }
-        return response.json()})
+        if (!response.ok) {
+          throw new Error(response.status)
+        } else {
+          return response.json()
+        }})
         .then(dat =>{
+          setHasClicked(!hasClicked);
           console.log("dat remove:", dat)
           $('#add-btn').addClass('not-clicked')
           $('#add-btn').removeClass('clicked')
         }
-        ).catch(err => console.error(err))
+        ).catch(error => {
+          if (error.message === "401") {
+            alert('You have been logged out.\n Please log in again')
+          } else {
+            console.error(`HTTP error status: ${error.message}`)
+          }
+        })
       }
-    setHasClicked(!hasClicked);
   }
 
   return (

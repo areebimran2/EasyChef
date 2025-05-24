@@ -37,13 +37,12 @@ const FavouriteButton = ({ isFavourite }) => {
           console.log("successful request")
           return response.json()
         }
-        else if (response.status === 401){
-          alert('You have been logged out.\n Please log in again')
-        }else{
-          throw new Error(`HTTP error status: ${response.status}`)
+        else if (!response.ok){
+          throw new Error(response.status)
         }
         return response.json()})
         .then(dat => {
+          setHasFav(!hasFav)
           console.log("fav add", dat)
           setFav(dat.num_fav)
           // if (dat.num_fav){
@@ -54,7 +53,13 @@ const FavouriteButton = ({ isFavourite }) => {
           $('#fav-btn').addClass('clicked')
           $('#fav-btn').removeClass('not-clicked')
         })
-        .catch(error => console.error(error))
+        .catch(error => {
+          if (error.message === "401") {
+            alert('You have been logged out.\n Please log in again')
+          } else {
+            console.error(`HTTP error status: ${error.message}`)
+          }
+        })
         
     }
     else{
@@ -67,11 +72,13 @@ const FavouriteButton = ({ isFavourite }) => {
         'Content-Type': 'application/json'
         }
       }).then(response => {
-        if (!response.ok){
-          throw new Error(`HTTP error status: ${response.status}`)
-        }
-        return response.json()})
+        if (!response.ok) {
+          throw new Error(response.status)
+        } else {
+          return response.json()
+        }})
         .then(dat => {
+          setHasFav(!hasFav)
           console.log("fav remove", dat)
           setFav(dat.num_fav)
           // if (dat.num_fav){
@@ -81,9 +88,14 @@ const FavouriteButton = ({ isFavourite }) => {
           // }
           $('#fav-btn').addClass('not-clicked')
           $('#fav-btn').removeClass('clicked')
-        }).catch(err => console.error(err))
+        }).catch(error => {
+          if (error.message === "401") {
+            alert('You have been logged out.\n Please log in again')
+          } else {
+            console.error(`HTTP error status: ${error.message}`)
+          }
+        })
       }
-    setHasFav(!hasFav)
   }
 
   console.log(isFavourite)
