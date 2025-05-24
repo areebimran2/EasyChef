@@ -27,9 +27,7 @@ const History = ({ token, perPage, setDeleted, deleted}) => {
         })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        navigate('/login')
-                    }
+                    throw new Error(response.status)
                 } else {
                     return response.json()
                 }
@@ -38,6 +36,11 @@ const History = ({ token, perPage, setDeleted, deleted}) => {
                 hsetCount(json.count)
                 setHistory(json.results)
                 hsetHasEnded(json.next === null)
+            })
+            .catch(error => {
+                if (error.message === "401") {
+                    navigate('/login')
+                }
             })
     }, [hpage, deleted])
 

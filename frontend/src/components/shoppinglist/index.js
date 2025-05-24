@@ -41,9 +41,7 @@ const ShoppingList = ({ url }) => {
             })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        navigate('/profile')
-                    }
+                    throw new Error(response.status)
                 } else {
                     return response.json()
                 }
@@ -51,6 +49,11 @@ const ShoppingList = ({ url }) => {
             .then((data) => {if (data.list_ingredients !== undefined) {
                 setIngredients(data.list_ingredients)
             }})
+            .catch(error => {
+                if (error.message === "401") {
+                    navigate('/profile')
+                }
+            })
     }, [url, token])
 
     useEffect(() => {
@@ -63,9 +66,7 @@ const ShoppingList = ({ url }) => {
             })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        navigate('/profile')
-                    }
+                    throw new Error(response.status)
                 } else {
                     return response.json()
                 }
@@ -74,6 +75,11 @@ const ShoppingList = ({ url }) => {
                 setRecipes(data.results)
                 setCount(data.count)
                 setHasEnded(data.next === null)
+            })
+            .catch(error => {
+                if (error.message === "401") {
+                    navigate('/profile')
+                }
             })
     }, [token, page, deleted])
 

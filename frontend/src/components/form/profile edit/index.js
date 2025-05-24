@@ -24,9 +24,7 @@ const ProfileEdit = () => {
         })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        navigate('/login')
-                    }
+                    throw new Error(response.status)
                 } else {
                     return response.json()
                 }
@@ -38,6 +36,11 @@ const ProfileEdit = () => {
                 $('#email').val(json.email)
                 $('#phone').val(json.phone_number)
                 $("#profilePic").attr("src", json.avatar !== null ? json.avatar : notfound)
+            })
+            .catch(error => {
+                if (error.message === "401") {
+                    navigate('/login')
+                }
             })
     }, [])
 
