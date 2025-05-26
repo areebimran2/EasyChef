@@ -201,7 +201,7 @@ class CommentUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'avatar']
+        fields = ['id', 'username', 'avatar']
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
@@ -210,7 +210,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['author', 'heading', 'content', 'date_added', 'file']
+        fields = ['id', 'author', 'heading', 'content', 'date_added', 'file']
 
     def get_author(self, obj):
         value = obj.author
@@ -240,6 +240,11 @@ class CommentSerializer(serializers.ModelSerializer):
             
         add_to_history(recipe, self.context['request'].user)
         return comment
+
+class DeleteCommentSerializer(serializers.Serializer):
+    class Meta:
+        model = Comment
+
 
 
 class ShoppingListSerializer(serializers.ModelSerializer):

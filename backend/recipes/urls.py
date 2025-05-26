@@ -6,14 +6,14 @@ from recipes.views import *
 
 urlpatterns = [
     # Miscellaneous
-    path('all/', RecipesView.as_view()),
-    path('add/', AddRecipe.as_view()),
     path('search/', SearchRecipesView.as_view()),
     path('<str:username>/created-recipes/', CreatedRecipesView.as_view()),
     path('recipe/<int:id>/interaction-status/', RecipeInteractionView.as_view()),
     path('recipe/<int:id>/verify/', VerifyRecipeOwnerView.as_view()),
 
     # Recipe operations
+    path('all/', RecipesView.as_view()),
+    path('add/', AddRecipe.as_view()),
     path('recipe/<int:id>/', RecipeView.as_view()),
     path('recipe/<int:id>/edit/', RecipeEdit.as_view()),
     path('recipe/<int:id>/delete/', RecipeDelete.as_view()),
@@ -32,7 +32,7 @@ urlpatterns = [
     path('recipe/<int:id>/add-comment/', AddCommentView.as_view()),
 
     #TODO
-    path('recipe/<int:id>/remove-comment/', AddCommentView.as_view()),
+    path('comment/<int:cid>/delete/', DeleteCommentView.as_view()),
 
     #TODO
     path('recipe/<int:id>/edit-comment/', AddCommentView.as_view()),

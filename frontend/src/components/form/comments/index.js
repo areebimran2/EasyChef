@@ -5,11 +5,30 @@ import { useState, useEffect, useContext } from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext'
 import notfound from "../../MyRecipes/Card/local-file-not-found.png";
 
-const CommentForm = () =>{
+const CommentForm = () => {
   const {id} = useParams()
   const token = localStorage.getItem('token')
   const {comments, setComments} = useContext(RecipeAPIContext)
   const [commented, hasCommented ] = useState(false)
+  const [deleted, setDeleted] = useState(false)
+  const [userId, setUserId] = useState(-1)
+
+  useEffect( () => {
+    fetch(`http://localhost:8000/accounts/id/`, {
+      method: 'GET',
+      headers: token === null ? {} : {'Authorization': `Bearer ${token}`}
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.status)
+      } else {
+        return response.json()
+      }})
+    .then(json => {
+      setUserId(json.id)
+    })
+    .catch(error => console.error(`HTTP error status: ${error.message}`))
+  }, [])
 
   useEffect(()=>{
     fetch(`http://localhost:8000/recipes/recipe/${id}/comments/`)
@@ -17,14 +36,13 @@ const CommentForm = () =>{
     .then(data=>{
       setComments(data.results)
     })
-  },[commented])
+  },[commented, deleted])
 
   comments.map(elem => {
     elem.date_added = elem.date_added.slice(0, 10)
     if (elem.file){
       elem['ext'] = elem.file && elem.file.split('.').pop();
-    }
-})
+    }})
   
 
   const handleSubmit = (e) =>{
@@ -84,11 +102,34 @@ const CommentForm = () =>{
       {comments ? comments.map((elem, index) => 
       <div key={index} className='mb-4'>
           <div className='d-flex mt-2'>
-            <div class="flex-shrink-0">
+            <div class="flex-shrink-0 mt-2">
               <img id="commentAvatar" src={elem.author.avatar !== null ? elem.author.avatar : notfound} alt="Avatar"/>
             </div>
             <div className='flex-grow-1 ms-2 d-flex flex-column'>
-              <span className='fw-bold p-1'>{elem.author.username}</span>
+              <div className='d-flex justify-content-between'>
+                <span className='fw-bold p-1 mt-2'>{elem.author.username}</span>
+                {userId === elem.author.id ? 
+                  <div>
+                    <button type="button" id="edit-comment-btn" className={'not-clicked btn mb-1 mx-2'}>
+                      <i className="fa-solid fa-pen-to-square"></i> Edit
+                    </button>
+                    <button type="button" id="del-comment-btn" className={'not-clicked btn mb-1'}
+                    onClick={() => {
+                      fetch(`http://localhost:8000/recipes/comment/${elem.id}/delete/`, {
+                        method: "DELETE",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                          },
+                        })
+                        .then(() => {
+                          setDeleted(!deleted);
+                        });
+                      }}>
+                      <i className="fa-solid fa-trash"></i> Delete
+                    </button>
+                  </div> : <></>
+                }
+              </div>
               <div className='card p-2'>
               <p>{elem.content}</p>
               {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}

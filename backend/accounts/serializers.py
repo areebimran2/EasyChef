@@ -54,6 +54,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
         return user
 
+class UserIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id']
 
 class CustomUserEditSerializer(CustomUserSerializer):
     password = serializers.CharField(write_only=True, required=False,

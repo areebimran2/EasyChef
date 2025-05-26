@@ -3,9 +3,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from accounts.views import MyRecipesView, ProfileEditView, ProfileView, \
     RegisterView, UserCreatedRecipesView, UserFavouriteRecipesView, \
-    UserRecipeHistoryView, ShoppingListView
+    UserRecipeHistoryView, ShoppingListView, UserIdView
 
 urlpatterns = [
+    #Miscellaneous
+    path('id/', UserIdView.as_view()),
+
     # Registration handling
     path('register/', RegisterView.as_view()),
     path('login/', TokenObtainPairView.as_view()),

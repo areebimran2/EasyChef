@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from accounts.models import CustomUser
 from accounts.serializers import CustomUserEditSerializer, CustomUserSerializer, \
-    MyRecipeSerializer
+    MyRecipeSerializer, UserIdSerializer
 from recipes.models import Recipe
 from recipes.paginations import FivePagination
 from recipes.serializers import RecipeSerializer
@@ -19,6 +19,13 @@ from recipes.serializers import RecipeSerializer
 # Create your views here.
 class RegisterView(CreateAPIView):
     serializer_class = CustomUserSerializer
+
+class UserIdView(RetrieveAPIView):
+    serializer_class = UserIdSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 
 class ProfileEditView(RetrieveAPIView, UpdateAPIView):
