@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useParams } from 'react-router'
 import { useState, useEffect, useContext } from 'react'
 import RecipeAPIContext from '../../../contexts/recipeAPIcontext'
+import notfound from "../../MyRecipes/Card/local-file-not-found.png";
 
 const CommentForm = () =>{
   const {id} = useParams()
@@ -82,12 +83,20 @@ const CommentForm = () =>{
       
       {comments ? comments.map((elem, index) => 
       <div key={index} className='mb-4'>
-          <div className='card p-2'>
-          <p>{elem.content}</p>
-          {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}
-          {elem.file && elem.ext === 'mp4'? <video controls className='direction-img'>
-          <source src={elem.file} type={`video/mp4`} />
-        </video> : ''}
+          <div className='d-flex mt-2'>
+            <div class="flex-shrink-0">
+              <img id="commentAvatar" src={elem.author.avatar !== null ? elem.author.avatar : notfound} alt="Avatar"/>
+            </div>
+            <div className='flex-grow-1 ms-2 d-flex flex-column'>
+              <span className='fw-bold p-1'>{elem.author.username}</span>
+              <div className='card p-2'>
+              <p>{elem.content}</p>
+              {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}
+              {elem.file && elem.ext === 'mp4'? <video controls className='direction-img'>
+              <source src={elem.file} type={`video/mp4`} />
+            </video> : ''}
+            </div>
+          </div>
         </div>
         <div className='text-end'><small><em>{elem.date_added}</em></small></div>
       </div>

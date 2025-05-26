@@ -196,15 +196,26 @@ class EditServingSizeSerializer(serializers.ModelSerializer):
             instance.save()
         return instance
 
+class CommentUserSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(default='')
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'avatar']
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = None
+    author = serializers.SerializerMethodField()
 
     # recipe = None
 
     class Meta:
         model = Comment
         fields = ['author', 'heading', 'content', 'date_added', 'file']
+
+    def get_author(self, obj):
+        value = obj.author
+        serializer = CommentUserSerializer(value, context={'request': self.context['request']})
+        return serializer.data
 
     def create(self, validated_data):
         recipe_id = self.context.get('view').kwargs.get('id')

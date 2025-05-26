@@ -341,3 +341,9 @@ a.header-link{
     height: 240px;
     width: 240px;
 }
+
+#commentAvatar {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
