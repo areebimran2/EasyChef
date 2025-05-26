@@ -73,8 +73,8 @@ const EditRecipeForm = () => {
             console.log("Unauthorized");
             alert('You have been logged out.\n Please log in again')
           } 
-          else if(error.response && error.response.status === 400){
-            $("#form-error").html('missing fields!');
+          else if(error.response){
+            $("#form-error").html(error.response.data.detail);
           }
           else {
            

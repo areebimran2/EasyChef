@@ -2,6 +2,7 @@ import datetime
 
 from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import SearchFilter, OrderingFilter
 # Create your views here.
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, \
@@ -49,7 +50,6 @@ class RecipeView(RetrieveAPIView):
 
     def get_object(self):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
-        print(self.request.user)
         if self.request.user.is_authenticated:
             add_to_history(recipe, self.request.user)
         return recipe
@@ -65,7 +65,7 @@ class RecipeEdit(UpdateAPIView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         user_id = self.request.user.id
         if user_id != recipe.creator.id:
-            raise serializers.ValidationError('current user is not the creator of this recipe')
+            raise PermissionDenied('current user is not the creator of this recipe')
         add_to_history(recipe, self.request.user)
         return recipe
 
@@ -81,7 +81,7 @@ class RecipeDelete(ListAPIView):
         user_id = self.request.user.id
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         if user_id != recipe.creator.id:
-            raise serializers.ValidationError('current user is not the creator of this recipe')
+            raise PermissionDenied('current user is not the creator of this recipe')
         recipe.directions.all().delete()  # directions are unique to each recipe so can delete them
         recipe.ingredients.all().delete()
         recipe.delete()
@@ -145,7 +145,7 @@ class AddDirection(CreateAPIView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         user_id = self.request.user.id
         if user_id != recipe.creator.id:
-            raise serializers.ValidationError('current user is not the creator of this recipe')
+            raise PermissionDenied('current user is not the creator of this recipe')
         serializer.save()
         recipe.directions.add(serializer.data['id'])
         add_to_history(recipe, self.request.user)
@@ -162,10 +162,11 @@ class EditDirection(UpdateAPIView, RetrieveAPIView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         user_id = self.request.user.id
         if user_id != recipe.creator.id:
-            raise serializers.ValidationError('current user is not the creator of this recipe')
+            raise PermissionDenied('current user is not the creator of this recipe')
         direction = get_object_or_404(Direction, id=self.kwargs['num'])
         add_to_history(recipe, self.request.user)
         return direction
+
 
 class DeleteDirection(UpdateAPIView):
     serializer_class = RecipeSerializer
@@ -177,6 +178,7 @@ class DeleteDirection(UpdateAPIView):
         direction = get_object_or_404(Direction, id=self.kwargs['num'])
         direction.delete()
         return recipe
+
 
 # <str:username>/created-recipes/
 # View all the created recipes by a certain creator (or the current logged-in user)
@@ -214,8 +216,10 @@ class AddCommentView(CreateAPIView):
     # Implement current logged in author as the user
     # Implement current recipe as the recipe
 
+
 class ViewRecipeComment(ListAPIView):
     serializer_class = CommentSerializer
+
     def get_queryset(self):
         recipe_id = self.kwargs['id']
         return Comment.objects.filter(recipe=recipe_id)
@@ -297,6 +301,7 @@ class RatingView(UpdateAPIView):
         add_to_history(recipe, self.request.user)
         return recipe
 
+
 class RecipeInteractionView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = RecipeInteractionSerializer
@@ -307,3 +312,11 @@ class RecipeInteractionView(RetrieveAPIView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
         instance = get_object_or_404(InteractedWith, user=valid_user, recipe=recipe)
         return instance
+
+
+class VerifyRecipeOwnerView(RetrieveAPIView):
+    serializer_class = VerifyRecipeOwnerSerializer
+
+    def get_object(self):
+        recipe = get_object_or_404(Recipe, id=self.kwargs['id'])
+        return recipe

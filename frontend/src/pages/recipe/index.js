@@ -26,6 +26,8 @@ function Recipe() {
   const [inLiked, setInLiked] = useState(false)
   const [inShoppingList, setInShoppingList] = useState(false)
 
+  const [isOwner, setIsOwner] = useState(false)
+
   useEffect( () => {
     fetch(`http://localhost:8000/recipes/recipe/${id}/`, {
       method: 'GET',
@@ -51,6 +53,19 @@ function Recipe() {
     })
   }, [])
 
+  useEffect( () => {
+    fetch(`http://localhost:8000/recipes/recipe/${id}/verify/`, {
+      method: 'GET',
+      headers: token === null ? {} : {'Authorization': `Bearer ${token}`}
+    })
+    .then(response => response.json())
+    .then(json => {
+      setIsOwner(json.is_owner)
+    })
+  }, [])
+
+
+
 
   let hasBaseRecipe = data.base_recipe? true: false
   const handleDisabledView = (event) => {
@@ -70,7 +85,9 @@ function Recipe() {
           {/* component buttons */}
           <div>
             <AddShoplistButton inShoppingList={inShoppingList}/>
-            <EditRecipeButton/>
+            {isOwner ? (
+              <EditRecipeButton/>
+            ) : <></>}
             <UseBaseRecipeButton/>
           </div>
       </div>

@@ -204,7 +204,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['heading', 'content', 'date_added', 'file']
+        fields = ['author', 'heading', 'content', 'date_added', 'file']
 
     def create(self, validated_data):
         recipe_id = self.context.get('view').kwargs.get('id')
@@ -432,3 +432,20 @@ class RecipeInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = InteractedWith
         fields = ['last_interaction', 'liked', 'rating', 'in_favourites', 'in_shopping_list']
+
+class VerifyRecipeOwnerSerializer(serializers.ModelSerializer):
+    is_owner = serializers.BooleanField(default=False)
+
+    class Meta:
+        model = Recipe
+        fields = ['is_owner']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        if self.context['request'].user == instance.creator:
+            data['is_owner'] = True
+        else:
+            data['is_owner'] = False
+
+        return data

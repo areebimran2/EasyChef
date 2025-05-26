@@ -85,7 +85,6 @@ const CommentForm = () =>{
           <div className='card p-2'>
           <p>{elem.content}</p>
           {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}
-          {elem.file}
           {elem.file && elem.ext === 'mp4'? <video controls className='direction-img'>
           <source src={elem.file} type={`video/mp4`} />
         </video> : ''}

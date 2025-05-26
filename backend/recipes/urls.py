@@ -28,5 +28,6 @@ urlpatterns = [
     path('recipe/<int:id>/remove-like/', RemoveLikeView.as_view()),
     path('recipe/<int:id>/rate/', RatingView.as_view()),
     path('recipe/<int:id>/comments/', ViewRecipeComment.as_view()),
-    path('recipe/<int:id>/interaction-status/', RecipeInteractionView.as_view())
+    path('recipe/<int:id>/interaction-status/', RecipeInteractionView.as_view()),
+    path('recipe/<int:id>/verify/', VerifyRecipeOwnerView.as_view())
 ]
