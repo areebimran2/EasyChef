@@ -30,12 +30,10 @@ urlpatterns = [
 
     # Recipe comment operations
     path('recipe/<int:id>/add-comment/', AddCommentView.as_view()),
-
-    #TODO
     path('comment/<int:cid>/delete/', DeleteCommentView.as_view()),
 
     #TODO
-    path('recipe/<int:id>/edit-comment/', AddCommentView.as_view()),
+    path('comment/<int:cid>/edit/', EditCommentView.as_view()),
 
     path('recipe/<int:id>/comments/', ViewRecipeComment.as_view()),
 

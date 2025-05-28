@@ -216,6 +216,16 @@ class AddCommentView(CreateAPIView):
     # Implement current logged in author as the user
     # Implement current recipe as the recipe
 
+class EditCommentView(UpdateAPIView):
+    serializer_class = CommentEditSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        comment = get_object_or_404(Comment, id=self.kwargs['cid'])
+        if self.request.user.id != comment.author.id:
+            raise PermissionDenied('current user is not the creator of this comment')
+        return comment
+
 class DeleteCommentView(DestroyAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]

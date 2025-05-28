@@ -241,6 +241,28 @@ class CommentSerializer(serializers.ModelSerializer):
         add_to_history(recipe, self.context['request'].user)
         return comment
 
+
+class CommentEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'heading', 'content', 'file']
+
+    def update(self, instance, validated_data):
+        if validated_data.get('heading'):
+            instance.heading = validated_data['heading']
+
+        if validated_data.get('content') == '':
+            raise serializers.ValidationError('Comment body cannot be empty.')
+        elif validated_data.get('content'):
+            instance.content = validated_data['content']
+
+        if validated_data.get('file'):
+            instance.file = validated_data['file']
+
+        instance.save()
+        return instance
+
+
 class DeleteCommentSerializer(serializers.Serializer):
     class Meta:
         model = Comment
