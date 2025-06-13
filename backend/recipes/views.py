@@ -1,5 +1,3 @@
-import datetime
-
 from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.exceptions import PermissionDenied
@@ -31,7 +29,7 @@ class RecipesView(ListAPIView):
 def add_to_history(recipe, user):
     if recipe in user.history_list.all():
         found = InteractedWith.objects.get(user=user, recipe=recipe)
-        found.last_interaction = datetime.datetime.now()
+        found.last_interaction = timezone.now()
         found.save()
     else:
         user.history_list.add(recipe)
@@ -234,6 +232,7 @@ class DeleteCommentView(DestroyAPIView):
         comment = get_object_or_404(Comment, id=self.kwargs['cid'])
         if self.request.user.id != comment.author.id:
             raise PermissionDenied('current user is not the creator of this comment')
+        add_to_history(comment.recipe, self.request.user)
         return comment
 
 

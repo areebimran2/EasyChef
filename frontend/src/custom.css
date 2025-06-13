@@ -252,6 +252,11 @@ ul.dropdown-menu[data-bs-popper]{
     width: 40px;
 }
 
+.btn.rounded-pill.align-img {
+    top: -15px;
+    left: 180px;
+}
+
 .shoppingcarousel {
     top: calc(50% - 35px);
 }

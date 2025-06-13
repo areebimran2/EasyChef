@@ -1,6 +1,5 @@
-import datetime
-
 from django.db.models import Q
+from django.utils import timezone
 from rest_framework import serializers, fields
 from recipes.models import Recipe, RecipeIngredient, Direction, Comment, ShoppingList
 from accounts.models import CustomUser, InteractedWith
@@ -10,7 +9,7 @@ from django.shortcuts import get_object_or_404
 def add_to_history(recipe, user):
     if recipe in user.history_list.all():
         found = InteractedWith.objects.get(user=user, recipe=recipe)
-        found.last_interaction = datetime.datetime.now()
+        found.last_interaction = timezone.now()
         found.save()
     else:
         user.history_list.add(recipe)
@@ -243,9 +242,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class CommentEditSerializer(serializers.ModelSerializer):
+    delete_img = serializers.BooleanField(default=False)
+
     class Meta:
         model = Comment
-        fields = ['id', 'heading', 'content', 'file']
+        fields = ['id', 'heading', 'content', 'file', 'delete_img']
 
     def update(self, instance, validated_data):
         if validated_data.get('heading'):
@@ -259,7 +260,14 @@ class CommentEditSerializer(serializers.ModelSerializer):
         if validated_data.get('file'):
             instance.file = validated_data['file']
 
+        if validated_data.get('delete_img') is True and instance.file is not None:
+            instance.file.delete(save=False)
+
+        instance.date_added = timezone.now()
         instance.save()
+
+        add_to_history(instance.recipe, self.context['request'].user)
+
         return instance
 
 

@@ -63,6 +63,7 @@ const CommentForm = () => {
 
     $(`#confirm-edit-btn-${cid}`).removeClass('d-none')
     $(`#edit-media-upload-${cid}`).removeClass('d-none')
+    $(`#delete-upload-btn-${cid}`).removeClass('d-none')
 
     $(`#comment-box-${cid}`).removeAttr('readOnly')
   }
@@ -73,8 +74,13 @@ const CommentForm = () => {
 
     $(`#confirm-edit-btn-${cid}`).addClass('d-none')
     $(`#edit-media-upload-${cid}`).addClass('d-none')
+    $(`#delete-upload-btn-${cid}`).addClass('d-none')
 
     $(`#comment-box-${cid}`).attr('readOnly')
+  }
+
+  const handleUploadDelete = (cid) => {
+    $(`#upload-${cid}`).addClass('d-none')
   }
 
   const handleEditSubmit = (e, cid) =>{
@@ -91,7 +97,13 @@ const CommentForm = () => {
 
     formData.append('heading', 'comment')
     formData.append('content', editedtext)
+
+    if ($(`#upload-${cid}`).hasClass('d-none')) {
+      formData.append('delete_img', true)
+    }
+
     formData.append('file', img)
+    
 
     axios.patch(`http://localhost:8000/recipes/comment/${cid}/edit/`, formData, {
       headers : {
@@ -216,11 +228,21 @@ const CommentForm = () => {
                 </div>
                 <div className='card p-2'>
                   <textarea id={`comment-box-${elem.id}`} class='no-resize border-0 p-2' readOnly>{elem.content}</textarea>
-                  {elem.file && elem.ext !== 'mp4'? <img src={elem.file} alt='' className='direction-img'/> : ''}
-                  {elem.file && elem.ext === 'mp4'? <video controls className='direction-img'> <source src={elem.file} type={`video/mp4`} /></video> : ''}
+                  {elem.file ?
+                    <div id={`upload-${elem.id}`} className='position-relative d-inline-block mt-3'>
+                      {elem.ext !== 'mp4'?
+                        <img src={elem.file} alt='' className='direction-img'/>
+                      : ''}
+                      {elem.ext === 'mp4'? 
+                        <video controls className='direction-img'> <source src={elem.file} type={`video/mp4`} /></video>
+                      : ''}
+                      <button type='button' id={`delete-upload-btn-${elem.id}`} className='d-none not-clicked btn rounded-pill align-img position-absolute' onClick={() => handleUploadDelete(elem.id)}><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                  : ''}
                 </div>
                 <div className='text-end'><small><em>{elem.date_added}</em></small></div>
                 <div id={`edit-media-upload-${elem.id}`} className='d-none'>
+                    <p className='text-danger mb-2'>Note: this will replace the existing upload in the comment</p>
                     <label htmlFor={`edit-upload-file-${elem.id}`} className="col-form-label-sm">Upload pictures/videos: (optional)</label>
                     <input type="file" className="form-control form-control-sm form w-50" id={`edit-upload-file-${elem.id}`} accept='png, jpg, jpeg, mp4'/>
                 </div>
