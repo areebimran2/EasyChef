@@ -64,9 +64,6 @@ function Recipe() {
     })
   }, [])
 
-
-
-
   let hasBaseRecipe = data.base_recipe? true: false
   const handleDisabledView = (event) => {
     if (!hasBaseRecipe) {
