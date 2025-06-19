@@ -2,7 +2,7 @@ import $ from 'jquery'
 import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 
-const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDeleted}) => {
+const CommentEditForm = ({token, elem, userId, perPage, comments, setPage, setChangedPage}) => {
   // Taken from https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
   useEffect ( () => {
     $("textarea").each(function () {
@@ -40,6 +40,23 @@ const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDe
     $(`#upload-${cid}`).addClass('d-none')
   }
 
+  const handleStateEdit = (cid) => {
+    const commentindex = comments.findIndex((elem) => elem.id === cid)
+    const targetpage = Math.floor(commentindex / perPage) + 1
+    setChangedPage({ page: targetpage })
+  }
+
+  const handleStateDelete = (cid) => {
+    const commentindex = comments.findIndex((elem) => elem.id === cid)
+    const targetpage = Math.floor(commentindex / perPage) + 1
+
+    if (commentindex % perPage === 0) {
+      setPage(targetpage - 1)
+    } else {
+      setChangedPage({ page: targetpage })
+    }
+  }
+
   const handleEditSubmit = (e, cid) =>{
     e.preventDefault() // need to remove
     const formData = new FormData()
@@ -69,8 +86,7 @@ const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDe
       }
     })
     .then(response => {
-      hasEdited(!edited)
-      if (response.status === 200 || response.status === 204){
+      if (response.status === 200 || response.status === 204) {
         return response.data
       }
       else if (response.status === 401){
@@ -82,6 +98,7 @@ const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDe
       }
     })
     .then(dat => {
+      handleStateEdit(cid)
       console.log("response json:==== ", dat)
     })
     .catch(error => {
@@ -112,7 +129,7 @@ const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDe
                     },
                     })
                     .then(() => {
-                    setDeleted(!deleted);
+                      handleStateDelete(elem.id)
                     });
                 }}>
                 <i className="fa-solid fa-trash"></i> Delete
@@ -124,7 +141,7 @@ const CommentEditForm = ({token, elem, userId, edited, hasEdited, deleted, setDe
             }
         </div>
         <div className='card p-2'>
-            <textarea id={`comment-box-${elem.id}`} class='no-resize border-0 p-2' readOnly>{elem.content}</textarea>
+            <textarea id={`comment-box-${elem.id}`} className='no-resize border-0 p-2' value={elem.content} readOnly></textarea>
             {elem.file ?
             <div id={`upload-${elem.id}`} className='position-relative d-inline-block mt-3'>
                 {elem.ext !== 'mp4'?
