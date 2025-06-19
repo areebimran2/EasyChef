@@ -10,3 +10,4 @@ django-phonenumber-field==7.0.2
 django-phonenumbers==1.0.1
 django-multiselectfield==0.1.12
 django-cors-headers==3.14.0
+django-cleanup==9.0.0

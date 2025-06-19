@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'recipes',
     'accounts',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 PHONENUMBER_DB_FORMAT = 'NATIONAL'
