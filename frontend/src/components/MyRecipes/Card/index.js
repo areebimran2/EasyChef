@@ -64,11 +64,33 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                 alt=""
             />
             <div class="card-body hidedetails">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="card-title mt-3">{recipe.name}</span>
+                <div class="card-title mt-3">{recipe.name}</div>
+                <div class="d-flex">
+                    {[...Array(6).keys()]
+                        .filter((item) => item > 0)
+                        .map((index, item) =>
+                            item < recipe.ave_rating ? (
+                                <i key={index} class="mt-auto mb-auto fa-solid fa-star"></i>
+                            ) : (
+                                <i key={index} class="mt-auto mb-auto fa-regular fa-star"></i>
+                            )
+                        )}
+                    <p class="mx-1 mb-auto">{recipe.ave_rating}</p>
+                </div>
+                <div className="mt-2 mb-2">Number of Favourites: {recipe.num_fav}</div>
+                <div class="d-flex justify-content-around">
+                    <button
+                        type="button"
+                        class="btn-sm btn-outline-brown px-3 mb-0"
+                        onClick={() => {
+                            navigate(`/recipe/${recipe.id}`);
+                        }}
+                    >
+                        View
+                    </button>
                     {id === "mycreated" ? (
                         <div>
-                            <button type="button" class="btn-outline-brown px-3 mx-2 mt-2"
+                            <button type="button" class="btn-sm btn-outline-brown px-3 mb-0"
                             onClick={() => {
                                 navigate(`/recipe/${recipe.id}/edit`);
                             }}
@@ -89,7 +111,7 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                                     });
                                 }}
                                 type="button"
-                                class="btn-outline-brown"
+                                class="btn-sm btn-outline-brown px-3 mb-0 ms-1"
                             >
                                 Delete
                             </button>
@@ -110,37 +132,11 @@ const Card = ({ id, recipe, deleted, setDeleted }) => {
                                     });
                                 }}
                                 type="button"
-                                class="btn-outline-brown px-3 mx-2 mt-2"
+                                class="btn-sm btn-outline-brown px-3 mb-0"
                             >
                                 Remove
                         </button>
                     ) : undefined}
-                </div>
-                <div class="d-flex">
-                    {[...Array(6).keys()]
-                        .filter((item) => item > 0)
-                        .map((index, item) =>
-                            item < recipe.ave_rating ? (
-                                <i key={index} class="mt-auto mb-auto fa-solid fa-star"></i>
-                            ) : (
-                                <i key={index} class="mt-auto mb-auto fa-regular fa-star"></i>
-                            )
-                        )}
-                    <p class="mx-1 mb-auto">{recipe.ave_rating}</p>
-                </div>
-                <div className="mt-2 mb-2">Number of Favourites: {recipe.num_fav}</div>
-                <div class="d-flex justify-content-around">
-                    <div>
-                        <button
-                            type="button"
-                            class="btn-sm btn-outline-brown px-3 mb-0"
-                            onClick={() => {
-                                navigate(`/recipe/${recipe.id}`);
-                            }}
-                        >
-                            View
-                        </button>
-                    </div>
                 </div>
                 <div class="card recipecard mt-2 p-3 bg-light-brown">
                     <ul class="list-unstyled mb-0 lh-lg">
